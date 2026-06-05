@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deejar Auto Spares | Management Console</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .dashboard-box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid var(--dark-color);
+        }
+
+        .invoice-preview {
+            background: #fdfdfd;
+            border: 1px dashed #bbb;
+            padding: 30px;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #333;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .table-invoice {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table-invoice th,
+        .table-invoice td {
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .text-right {
+            text-align: right !important;
+        }
+
+        .btn-print {
+            background: #2b2d42;
+            color: white;
+            width: auto;
+            padding: 10px 20px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <!-- Dark Specialized Admin Header -->
+    <header style="background: var(--dark-color); color: white;">
+        <div class="logo">
+            <h1 style="color: white;">Deejar Console</h1>
+        </div>
+        <nav><span style="font-weight: 600;"><i class="fa-solid fa-user-shield"></i> Authorized Operations: Admin
+                Panel</span></nav>
+    </header>
+
+    <!-- Main Dashboard Container -->
+    <main class="container">
+        <h2>Business Operations Dashboard</h2>
+        <p class="section-subtitle" style="text-align: left; margin-bottom: 20px;">Manage product inventories, log
+            incoming requests, and issue corporate compliant invoices.</p>
+
+        <div class="admin-grid">
+
+            <!-- Column 1: Add New Stock Box -->
+            <div class="dashboard-box">
+                <h3><i class="fa-solid fa-boxes-stack"></i> Add New Stock Item</h3>
+                <form id="stock-form" onsubmit="addNewStock(event)">
+                    <label>Spare Part Title</label>
+                    <input type="text" id="stock-name" placeholder="e.g., Toyota 1NZ-FE Water Pump (GMB Brand)"
+                        required>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px;">
+                        <div>
+                            <label style="font-size: 13px; color: #666;">Vehicle Make</label>
+                            <select id="stock-make">
+                                <option value="toyota">Toyota</option>
+                                <option value="nissan">Nissan</option>
+                                <option value="mazda">Mazda</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size: 13px; color: #666;">Category</label>
+                            <select id="stock-cat">
+                                <option value="transmission">Transmission</option>
+                                <option value="suspension">Suspension</option>
+                                <option value="braking">Braking</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                        <div>
+                            <label style="font-size: 13px; color: #666;">Unit Price (Ksh)</label>
+                            <input type="number" id="stock-price" value="7500">
+                        </div>
+                        <div>
+                            <label style="font-size: 13px; color: #666;">Initial Stock Qty</label>
+                            <input type="number" id="stock-qty" value="10">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary"
+                        style="margin-top:15px; background-color: var(--primary-color);">Publish to Website
+                        Catalog</button>
+                </form>
+            </div>
+
+            <!-- Column 2: Invoice Generator Tools -->
+            <div class="dashboard-box">
+                <h3><i class="fa-solid fa-file-invoice-dollar"></i> Quick KRA PIN Invoice Builder</h3>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top: 15px;">
+                    <input type="text" id="inv-client" placeholder="Client / Company Name">
+                    <input type="text" id="inv-pin" placeholder="Client KRA PIN (Optional)">
+                    <input type="text" id="inv-item" placeholder="Item Purchased">
+                    <input type="number" id="inv-cost" placeholder="Total Cost (Ksh)">
+                </div>
+                <button class="btn-secondary" style="margin-top: 15px;" onclick="generateInvoice()">Generate Formal
+                    Invoice</button>
+
+                <!-- Hidden Printed Form Sheets -->
+                <div class="invoice-preview" id="invoice-sheet" style="display:none;">
+                    <div class="invoice-header">
+                        <div>
+                            <h4>DEEJAR AUTO SPARES LTD</h4>
+                            <p style="font-size:12px; line-height:1.4;">Kirinyaga Road, Nairobi<br>PIN: P051XXXXXXZ</p>
+                        </div>
+                        <div class="text-right">
+                            <h4 style="color:var(--primary-color);">TAX INVOICE</h4>
+                            <p style="font-size:12px;" id="inv-date-num"></p>
+                        </div>
+                    </div>
+                    <p style="font-size:13px;"><strong>Customer:</strong> <span id="lbl-customer">---</span></p>
+                    <p style="font-size:13px;"><strong>Customer PIN:</strong> <span id="lbl-pin">---</span></p>
+
+                    <table class="table-invoice">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th class="text-right">Total (Excl. VAT)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="lbl-desc">---</td>
+                                <td class="text-right" id="lbl-sub">Ksh 0.00</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right"><strong>VAT (16%)</strong></td>
+                                <td class="text-right" id="lbl-vat">Ksh 0.00</td>
+                            </tr>
+                            <tr style="background:#eee; font-weight:bold;">
+                                <td>Grand Total (Incl. VAT)</td>
+                                <td class="text-right" id="lbl-grand">Ksh 0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn-print" onclick="window.print()"><i class="fa-solid fa-print"></i> Print
+                        Invoice</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function addNewStock(e) {
+            e.preventDefault();
+            const partName = document.getElementById("stock-name").value;
+            alert(`"${partName}" successfully published to online catalog layout!`);
+        }
+
+        function generateInvoice() {
+            const client = document.getElementById("inv-client").value || "Walk-in Customer";
+            const pin = document.getElementById("inv-pin").value || "N/A";
+            const item = document.getElementById("inv-item").value || "Assorted Components";
+            const cost = parseFloat(document.getElementById("inv-cost").value) || 0;
+
+            const subtotal = cost / 1.16;
+            const vatAmount = cost - subtotal;
+
+            document.getElementById("lbl-customer").innerText = client;
+            document.getElementById("lbl-pin").innerText = pin;
+            document.getElementById("lbl-desc").innerText = item;
+            document.getElementById("lbl-sub").innerText = "Ksh " + subtotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
+            document.getElementById("lbl-vat").innerText = "Ksh " + vatAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+            document.getElementById("lbl-grand").innerText = "Ksh " + cost.toLocaleString(undefined, { minimumFractionDigits: 2 });
+
+            const randInvoiceNum = Math.floor(1000 + Math.random() * 9000);
+            document.getElementById("inv-date-num").innerHTML = `Date: ${new Date().toLocaleDateString('en-KE')}<br>Inv No: #DJA-${randInvoiceNum}`;
+            document.getElementById("invoice-sheet").style.display = "block";
+        }
+    </script>
+</body>
+
+</html>
