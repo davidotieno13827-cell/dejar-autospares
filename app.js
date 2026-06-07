@@ -1,6 +1,7 @@
 // Open the Quick Order Modal smoothly
 function openQuickOrder(itemName, itemPrice) {
     const modal = document.getElementById("quick-order-modal");
+    const phoneInput = document.getElementById("checkout-phone");
     if (!modal) {
         alert(`Ordering: ${itemName} for Ksh ${itemPrice}`);
         return;
@@ -8,10 +9,16 @@ function openQuickOrder(itemName, itemPrice) {
 
     document.getElementById("modal-item-name").innerText = itemName;
     document.getElementById("modal-item-price").innerText = itemPrice.toLocaleString();
+    if (phoneInput) {
+        phoneInput.value = "";
+    }
 
     modal.style.display = "flex";
     setTimeout(() => {
         modal.classList.add("active");
+        if (phoneInput) {
+            phoneInput.focus();
+        }
     }, 10);
 }
 
@@ -29,7 +36,8 @@ function closeQuickOrder() {
 async function processPayment(event) {
     if (event) event.preventDefault();
 
-    const phoneInput = document.getElementById("checkout-phone").value.trim();
+    const phoneInput = document.getElementById("checkout-phone");
+    const phoneValue = phoneInput?.value.trim() || "";
     const amountInput = parseInt(document.getElementById("modal-item-price").innerText.replace(/[^0-9]/g, ''), 10);
 
     if (!amountInput || amountInput <= 0) {
@@ -37,7 +45,7 @@ async function processPayment(event) {
         return;
     }
 
-    let formattedPhone = phoneInput;
+    let formattedPhone = phoneValue;
     if (formattedPhone.startsWith("0")) {
         formattedPhone = "254" + formattedPhone.slice(1);
     } else if (formattedPhone.startsWith("+254")) {
@@ -50,12 +58,21 @@ async function processPayment(event) {
     }
 
     const submitBtn = document.querySelector(".btn-mpesa-pay");
+    if (!submitBtn) {
+        alert("Payment button not available. Please refresh the page.");
+        return;
+    }
+
     const originalBtnText = submitBtn.innerHTML;
     submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Sending STK Prompt...`;
     submitBtn.disabled = true;
 
+    const apiUrl = window.location.protocol === 'file:'
+        ? 'http://127.0.0.1:5000/api/stkpush'
+        : '/api/stkpush';
+
     try {
-        const response = await fetch("http://127.0.0.1:5000/api/stkpush", {
+        const response = await fetch(apiUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -139,19 +156,32 @@ function toggleMobileNav() {
     nav.classList.toggle('open');
 }
 
+let currentCategory = null;
+
 function closeMobileNav() {
     const nav = document.getElementById('site-nav');
     if (!nav) return;
     nav.classList.remove('open');
 }
 
-function filterProducts(filter = 'all') {
+function activateCategory(filter) {
+    currentCategory = filter;
+    filterProducts(filter);
+}
+
+function resetCatalogSelection() {
+    currentCategory = null;
+    filterProducts('none');
+}
+
+function filterProducts(filter = currentCategory === null ? 'none' : currentCategory) {
     const searchInput = document.getElementById('product-search');
     const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
     const cards = document.querySelectorAll('.product-card');
     const buttons = document.querySelectorAll('.filter-btn');
     const countLabel = document.getElementById('search-count');
     const noResults = document.getElementById('no-results');
+    const catalogGrid = document.getElementById('catalog-grid');
 
     buttons.forEach(btn => {
         btn.classList.toggle('active', btn.dataset.filter === filter);
@@ -163,7 +193,7 @@ function filterProducts(filter = 'all') {
         const title = card.querySelector('h3')?.innerText.toLowerCase() || '';
         const details = card.querySelector('.compatibility')?.innerText.toLowerCase() || '';
 
-        const matchesFilter = filter === 'all' || category.includes(filter);
+        const matchesFilter = filter === 'all' ? true : filter === 'none' ? false : category.includes(filter);
         const matchesSearch = !query || title.includes(query) || details.includes(query) || category.includes(query);
         const visible = matchesFilter && matchesSearch;
 
@@ -171,10 +201,21 @@ function filterProducts(filter = 'all') {
         if (visible) visibleCount += 1;
     });
 
+    if (catalogGrid) {
+        catalogGrid.classList.toggle('hidden', visibleCount === 0);
+    }
+
     if (countLabel) {
-        countLabel.innerText = `${visibleCount} part${visibleCount === 1 ? '' : 's'} found`;
+        if (filter === 'none') {
+            countLabel.innerText = 'Choose a category to view the best spare parts.';
+        } else if (visibleCount === 0) {
+            countLabel.innerText = 'No matching parts found. Try another search or category.';
+        } else {
+            countLabel.innerText = `${visibleCount} part${visibleCount === 1 ? '' : 's'} available`;
+        }
     }
     if (noResults) {
+        noResults.innerText = filter === 'none' ? 'Choose a category to view our best spare parts.' : 'No matching parts found. Try another search or category.';
         noResults.style.display = visibleCount === 0 ? 'block' : 'none';
     }
 }
@@ -224,21 +265,27 @@ function initFaqAccordion() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    filterProducts('all');
+    resetCatalogSelection();
     initTestimonialCarousel();
     initFaqAccordion();
-});
 
-const mobileNavLinks = document.querySelectorAll('#site-nav a');
-if (mobileNavLinks) {
+    const mobileNavLinks = document.querySelectorAll('#site-nav a');
     mobileNavLinks.forEach(link => link.addEventListener('click', closeMobileNav));
-}
+
+    document.addEventListener('click', function (event) {
+        const nav = document.getElementById('site-nav');
+        const menuButton = document.querySelector('.mobile-menu-toggle');
+        if (nav && nav.classList.contains('open') && !nav.contains(event.target) && !menuButton.contains(event.target)) {
+            closeMobileNav();
+        }
+    });
+});
 
 window.addEventListener('click', function (event) {
     const modal = document.getElementById('quick-order-modal');
     if (!modal) return;
     const content = document.querySelector('.modal-content');
-    if (modal.classList.contains('active') && !content.contains(event.target) && event.target === modal) {
+    if (modal.classList.contains('active') && content && !content.contains(event.target) && event.target === modal) {
         closeQuickOrder();
     }
 });
@@ -246,9 +293,5 @@ window.addEventListener('click', function (event) {
 window.addEventListener('scroll', function () {
     const backToTop = document.getElementById('back-to-top');
     if (!backToTop) return;
-    if (window.scrollY > 400) {
-        backToTop.classList.add('show');
-    } else {
-        backToTop.classList.remove('show');
-    }
+    backToTop.classList.toggle('show', window.scrollY > 400);
 });
