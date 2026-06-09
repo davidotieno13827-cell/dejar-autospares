@@ -5,28 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Dejar Auto Supplies delivers genuine vehicle spare parts in Kenya with fast delivery, easy M-Pesa checkout, and expert support.">
-    <meta property="og:title" content="Dejar Auto Supplies | Premium Vehicle Parts Kenya">
+        content="Dejar Auto Supplies delivers major vehicle oils for Kenyan cars, pickups and diesel fleets with fast delivery, simple M-Pesa checkout, and expert oil advice.">
+    <meta property="og:title" content="Dejar Auto Supplies | Major Vehicle Oils Kenya">
     <meta property="og:description"
-        content="Fast national delivery in Kenya, secure M-Pesa checkout, and trusted workshop parts for Toyota, Nissan, Mazda and more.">
+        content="Fast national delivery in Kenya, secure M-Pesa checkout, and trusted lubricant brands for cars, pickups and diesel fleets.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://deejaraoutospares.co.ke/">
     <meta property="og:image"
-        content="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&q=80&w=1200">
-    <title>Dejar Auto Supplies | Premium Vehicle Parts Kenya</title>
+        content="https://images.unsplash.com/photo-1549964354-c9e6a2429578?auto=format&fit=crop&q=80&w=1200">
+    <title>Dejar Auto Supplies | Kenya Oil & Engine Lubricants</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
     <!-- WhatsApp Floating Quick Connect Link -->
-    <a href="https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20am%20inquiring%20about%20genuine%20car%20spare%20parts."
+    <a href="https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20am%20inquiring%20about%20vehicle%20lubricants%20and%20engine%20oils."
         class="whatsapp-float" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp"><i
             class="fa-brands fa-whatsapp"></i></a>
 
     <!-- Top Info Bar -->
     <div class="top-bar">
-        <p><i class="fa-solid fa-truck-fast"></i> Countrywide Delivery Across Kenya | <i class="fa-solid fa-phone"></i>
+        <p><i class="fa-solid fa-truck-fast"></i> Countrywide oil delivery across Kenya | <i
+                class="fa-solid fa-phone"></i>
             Call/WhatsApp: +254 721419479 | <i class="fa-solid fa-money-bill-wave"></i> Paybill: 542542 | A/C:
             131141</p>
     </div>
@@ -34,7 +38,11 @@
     <!-- Navigation Header -->
     <header>
         <div class="logo">
-            <h1>Dejar<span>Auto Supplies</span></h1>
+            <h1>Dejar<span>Auto</span> <small>Supplies</small></h1>
+        </div>
+        <div class="nav-search">
+            <input type="search" id="nav-search" placeholder="Search oils, grades or vehicles"
+                oninput="filterProducts()">
         </div>
         <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Open navigation menu">
             <i class="fa-solid fa-bars"></i>
@@ -42,15 +50,16 @@
         <nav id="site-nav">
             <ul>
                 <li><a href="#home" class="active">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#catalog">Browse Spares</a></li>
+                <li><a href="#catalog">Catalog</a></li>
+                <li><a href="#how-it-works">How it Works</a></li>
                 <li><a href="#reviews">Reviews</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
         <div class="nav-icons">
-            <div class="cart-icon" onclick="toggleCart()"><i class="fa-solid fa-cart-shopping"></i><span
-                    id="cart-count">0</span></div>
+            <a class="small-btn outline" href="#catalog">Shop</a>
+            <a class="cart-icon" onclick="toggleCart()" title="Cart"><i class="fa-solid fa-cart-shopping"></i><span
+                    id="cart-count">0</span></a>
         </div>
     </header>
 
@@ -59,8 +68,8 @@
             <strong>Quick order support:</strong> Paybill 542542 | Account 131141 | WhatsApp +254 721 419 479
         </div>
         <div class="sticky-cta-actions">
-            <a href="#catalog" class="small-btn">Browse Parts</a>
-            <a href="https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20need%20help%20with%20an%20order"
+            <a href="#catalog" class="small-btn">Browse Oils</a>
+            <a href="https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20need%20help%20choosing%20the%20right%20oil"
                 class="small-btn outline" target="_blank" rel="noopener noreferrer">Chat Now</a>
         </div>
     </div>
@@ -70,13 +79,13 @@
         <section id="home" class="hero-section">
             <div class="hero-content">
                 <p class="hero-eyebrow">Dejar Auto Supplies</p>
-                <h2>Premium Auto Spare Parts for Kenyan Vehicles</h2>
-                <p>Fast delivery, trusted genuine parts, and simple M-Pesa checkout. Paybill 542542 | Account 131141.
+                <h2>Premium Engine Oils & Lubricants for Kenyan Vehicles</h2>
+                <p>Fast delivery, trusted major oil brands, and simple M-Pesa checkout. Paybill 542542 | Account 131141.
                 </p>
                 <div class="hero-buttons">
-                    <a href="#catalog" class="cta-btn">View Professional Parts</a>
-                    <a href="https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20need%20assistance%20with%20a%20workshop%20order."
-                        class="secondary-btn" target="_blank" rel="noopener noreferrer">Talk to a Parts Expert</a>
+                    <a href="#catalog" class="cta-btn">View Professional Oils</a>
+                    <a href="https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20need%20assistance%20choosing%20the%20right%20engine%20oil."
+                        class="secondary-btn" target="_blank" rel="noopener noreferrer">Talk to an Oil Expert</a>
                 </div>
             </div>
         </section>
@@ -84,13 +93,14 @@
         <section class="hero-highlights">
             <div class="feature-card">
                 <i class="fa-solid fa-shield-halved"></i>
-                <h3>Trusted Quality</h3>
-                <p>Genuine OEM and premium aftermarket parts for Toyota, Nissan, Mazda, Subaru, Honda and Isuzu.</p>
+                <h3>Trusted Lubricants</h3>
+                <p>Major engine oil brands like Shell, Mobil, Total, Castrol, Engen and Elf stocked and ready to ship.
+                </p>
             </div>
             <div class="feature-card">
                 <i class="fa-solid fa-bolt"></i>
                 <h3>Fast Delivery</h3>
-                <p>Same-day dispatch for key towns and nationwide shipping across Kenya.</p>
+                <p>Same-day dispatch for Nairobi and Kisii, with reliable nationwide delivery across Kenya.</p>
             </div>
             <div class="feature-card">
                 <i class="fa-solid fa-wallet"></i>
@@ -102,27 +112,91 @@
         <section class="stats-section">
             <div class="stats-card">
                 <span class="stats-value">12+</span>
-                <p>Years of trusted spares supply in Kenya</p>
+                <p>Years of trusted lubricant supply in Kenya</p>
             </div>
             <div class="stats-card">
                 <span class="stats-value">1,500+</span>
-                <p>Happy customers and mechanics served</p>
+                <p>Drivers, mechanics and fleet owners served</p>
             </div>
             <div class="stats-card">
                 <span class="stats-value">98%</span>
-                <p>Customer satisfaction with delivery and part quality</p>
+                <p>Customer satisfaction with oil quality and reliable delivery</p>
             </div>
         </section>
 
         <section class="brand-matrix">
-            <h2 class="section-title">Trusted by Repair Shops & Car Owners</h2>
+            <h2 class="section-title">Major Lubricant Brands in Stock</h2>
             <div class="brand-matrix-grid">
-                <span><i class="fa-solid fa-car-side"></i>TOYOTA</span>
-                <span><i class="fa-solid fa-car-side"></i>NISSAN</span>
-                <span><i class="fa-solid fa-car-side"></i>MAZDA</span>
-                <span><i class="fa-solid fa-car-side"></i>SUBARU</span>
-                <span><i class="fa-solid fa-car-side"></i>HONDA</span>
-                <span><i class="fa-solid fa-truck"></i>ISUZU</span>
+                <span><i class="fa-solid fa-droplet"></i>SHELL</span>
+                <span><i class="fa-solid fa-droplet"></i>TOTAL</span>
+                <span><i class="fa-solid fa-droplet"></i>MOBIL</span>
+                <span><i class="fa-solid fa-droplet"></i>CASTROL</span>
+                <span><i class="fa-solid fa-droplet"></i>ENGEN</span>
+                <span><i class="fa-solid fa-droplet"></i>ELF</span>
+            </div>
+        </section>
+
+        <section class="vehicle-section">
+            <h2 class="section-title">Major Vehicles We Serve</h2>
+            <p class="section-description">Dejar Auto Supplies supports the most common Kenyan vehicles with carefully
+                selected lubricant grades for city driving, regional routes and commercial use.</p>
+            <div class="section-carousel vehicle-carousel" data-carousel="vehicle">
+                <div class="carousel-stage">
+                    <div class="carousel-slide active">
+                        <div class="vehicle-card">
+                            <h3>Toyota</h3>
+                            <p>Coverage for Corolla, Premio, Fielder, Probox, Hilux and other Toyota models.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="vehicle-card">
+                            <h3>Nissan</h3>
+                            <p>Support for X-Trail, Almera, Dualis, Note and other popular Nissan vehicles.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="vehicle-card">
+                            <h3>Mazda</h3>
+                            <p>Lubricants for CX-5, Demio, Axela and other Mazda passenger cars.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="vehicle-card">
+                            <h3>Isuzu</h3>
+                            <p>Engine oils and gear fluids for Isuzu D-Max, Hi-Lander and commercial pickups.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="vehicle-card">
+                            <h3>Mitsubishi</h3>
+                            <p>Recommended oils for Lancer, Pajero, Outlander and Triton models.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="vehicle-card">
+                            <h3>Honda</h3>
+                            <p>Trusted grades for Civic, Fit, CR-V and other reliable Honda vehicles.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="vehicle-card">
+                            <h3>Suzuki</h3>
+                            <p>Suitable lubricant options for Swift, Alto, Jimny and compact Suzuki models.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="vehicle-card">
+                            <h3>Hyundai</h3>
+                            <p>Quality oil solutions for Accent, Elantra, Tucson and i10/Mirage.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev" type="button" aria-label="Show previous vehicle"><i
+                            class="fa-solid fa-chevron-left"></i></button>
+                    <button class="carousel-btn next" type="button" aria-label="Show next vehicle"><i
+                            class="fa-solid fa-chevron-right"></i></button>
+                </div>
             </div>
         </section>
 
@@ -130,55 +204,70 @@
             <div class="about-grid">
                 <div class="about-text">
                     <h2 class="section-title">About Dejar Auto Supplies</h2>
-                    <p>We specialize in supplying quality spare parts to mechanics, car owners and fleet managers across
-                        Kenya.
-                        Every order is handled with care so your vehicle gets the right part at the right price.</p>
+                    <p>We supply the most used engine oils and lubricants for vehicles in Kenya, including Toyota
+                        Fielder, Mazda CX-5 and popular Nissan models. From modern synthetic formulas to trusted diesel
+                        and high-mileage blends, our range keeps engines protected and running strong.</p>
                     <ul>
-                        <li>Expert support for Toyota, Nissan, Mazda, Subaru, Honda and Isuzu.</li>
-                        <li>Verified parts backed by trusted service and fast delivery.</li>
-                        <li>Secure payments and clear order tracking across Kenya.</li>
+                        <li>Major oil brands like Shell, Mobil, Total, Castrol, Engen and Elf.</li>
+                        <li>Trusted grades for petrol, diesel, pickup and commercial fleet engines.</li>
+                        <li>Secure payments and fast nationwide delivery across Kenya.</li>
                     </ul>
                 </div>
                 <div class="about-info-cards">
                     <div class="info-card">
-                        <h3>Reliable stock</h3>
-                        <p>Over 1,000 in-demand parts available, from service consumables to braking systems and
-                            electrical
-                            units.</p>
+                        <h3>Reliable oil stock</h3>
+                        <p>We keep a dependable inventory of the top lubricant grades used by car owners, mechanics and
+                            fleet managers.</p>
                     </div>
                     <div class="info-card">
                         <h3>Customer-first service</h3>
-                        <p>Dedicated order support via WhatsApp and phone, plus easy returns on incorrect orders.</p>
+                        <p>Dedicated order support via WhatsApp and phone, plus fast advice on the right oil grade for
+                            your
+                            engine.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section class="trust-section">
-            <h2 class="section-title">Why Kenyan Mechanics Choose Dejar</h2>
-            <div class="trust-cards">
-                <div class="trust-card">
-                    <i class="fa-solid fa-certificate"></i>
-                    <h3>100% Genuine Parts</h3>
-                    <p>We only source verified brands and high-quality replacements for Toyota, Nissan, Mazda and more.
-                    </p>
+            <h2 class="section-title">Why Kenyan Drivers Choose Dejar Auto Supplies</h2>
+            <div class="section-carousel trust-carousel" data-carousel="trust">
+                <div class="carousel-stage">
+                    <div class="carousel-slide active">
+                        <div class="trust-card">
+                            <i class="fa-solid fa-certificate"></i>
+                            <h3>100% Genuine Lubricants</h3>
+                            <p>We stock verified oil brands and trusted grades for both petrol and diesel engines.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="trust-card">
+                            <i class="fa-solid fa-shield-check"></i>
+                            <h3>Secure Payment</h3>
+                            <p>Lipa Na M-Pesa, Paybill 542542 or request an STK push. Your order is confirmed only after
+                                payment.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="trust-card">
+                            <i class="fa-solid fa-truck-fast"></i>
+                            <h3>Fast Delivery</h3>
+                            <p>Quick shipping to major towns and reliable nationwide delivery across Kenya.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="trust-card">
+                            <i class="fa-solid fa-headset"></i>
+                            <h3>Local Support</h3>
+                            <p>Friendly WhatsApp support, order tracking and oil grade advice from our Kisii team.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="trust-card">
-                    <i class="fa-solid fa-shield-check"></i>
-                    <h3>Secure Payment</h3>
-                    <p>Lipa Na M-Pesa, Paybill 542542 or request an STK push. Your order is confirmed only after
-                        payment.
-                    </p>
-                </div>
-                <div class="trust-card">
-                    <i class="fa-solid fa-truck-fast"></i>
-                    <h3>Fast Delivery</h3>
-                    <p>Quick shipping to major towns and reliable nationwide delivery across Kenya.</p>
-                </div>
-                <div class="trust-card">
-                    <i class="fa-solid fa-headset"></i>
-                    <h3>Local Support</h3>
-                    <p>Friendly WhatsApp support, order tracking and returned goods support from our Kisii team.</p>
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev" type="button" aria-label="Show previous reason"><i
+                            class="fa-solid fa-chevron-left"></i></button>
+                    <button class="carousel-btn next" type="button" aria-label="Show next reason"><i
+                            class="fa-solid fa-chevron-right"></i></button>
                 </div>
             </div>
         </section>
@@ -188,8 +277,9 @@
             <div class="process-grid">
                 <div class="process-card">
                     <i class="fa-solid fa-search"></i>
-                    <h3>Find the right part</h3>
-                    <p>Search by vehicle brand, part type or model and choose the exact spare part you need.</p>
+                    <h3>Choose the right oil</h3>
+                    <p>Pick the correct lubricant grade for petrol, diesel or high-mileage engines from our popular
+                        brands.</p>
                 </div>
                 <div class="process-card">
                     <i class="fa-solid fa-mobile-screen-button"></i>
@@ -206,450 +296,262 @@
         </section>
 
         <section class="featured-deals-section">
-            <h2 class="section-title">Workshop Specials</h2>
-            <div class="deals-grid">
-                <div class="deal-card">
-                    <span class="deal-tag">Workshop Value</span>
-                    <h3>NGK Iridium Spark Plug Set</h3>
-                    <p>Premium ignition performance for Toyota, Mazda and Nissan.</p>
-                    <div class="deal-footer"><span>Ksh 5,800</span><button class="btn-buy-now"
-                            onclick="openQuickOrder('NGK Iridium Spark Plugs', 5800)">Order Now</button></div>
+            <h2 class="section-title">Top Lubricant Deals</h2>
+            <div class="section-carousel deals-carousel">
+                <div class="carousel-stage">
+                    <div class="carousel-slide active">
+                        <div class="card-pair">
+                            <div class="deal-card">
+                                <span class="deal-tag">Bestseller</span>
+                                <h3>Shell Helix Ultra 5W-30</h3>
+                                <p>Fully synthetic engine oil engineered for modern petrol and diesel applications with
+                                    excellent
+                                    protection and engine cleanliness.</p>
+                                <div class="deal-footer"><span>Ksh 4,200</span><button class="btn-buy-now"
+                                        onclick="openQuickOrder('Shell Helix Ultra 5W-30', 4200)">Order Now</button>
+                                </div>
+                            </div>
+                            <div class="deal-card">
+                                <span class="deal-tag">Popular Choice</span>
+                                <h3>Total Quartz 9000 10W-40</h3>
+                                <p>High-performance semi-synthetic oil for everyday driving and mixed-use fleet engines.
+                                </p>
+                                <div class="deal-footer"><span>Ksh 3,200</span><button class="btn-buy-now"
+                                        onclick="openQuickOrder('Total Quartz 9000 10W-40', 3200)">Order Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="card-pair">
+                            <div class="deal-card">
+                                <span class="deal-tag">Workshop Grade</span>
+                                <h3>Mobil Super 3000 5W-40</h3>
+                                <p>Premium synthetic oil designed for demanding petrol engines requiring robust
+                                    protection.</p>
+                                <div class="deal-footer"><span>Ksh 4,100</span><button class="btn-buy-now"
+                                        onclick="openQuickOrder('Mobil Super 3000 5W-40', 4100)">Order Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="deal-card">
-                    <span class="deal-tag">Fast Moving</span>
-                    <h3>Ceramic Front Brake Pads</h3>
-                    <p>High durability pads for popular SUV and sedan models.</p>
-                    <div class="deal-footer"><span>Ksh 4,500</span><button class="btn-buy-now"
-                            onclick="openQuickOrder('Ceramic Front Brake Pads', 4500)">Order Now</button></div>
-                </div>
-                <div class="deal-card">
-                    <span class="deal-tag">Limited Stock</span>
-                    <h3>Engine Timing Belt Kit</h3>
-                    <p>Complete kit for Toyota and Subaru engines.</p>
-                    <div class="deal-footer"><span>Ksh 9,800</span><button class="btn-buy-now"
-                            onclick="openQuickOrder('Timing Belt Kit', 9800)">Order Now</button></div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev" type="button" aria-label="Show previous deal"><i
+                            class="fa-solid fa-chevron-left"></i></button>
+                    <button class="carousel-btn next" type="button" aria-label="Show next deal"><i
+                            class="fa-solid fa-chevron-right"></i></button>
                 </div>
             </div>
         </section>
 
-        <!-- Main Catalog Showcase (Full 30 Most Demanded Car Parts in Kenya) -->
+        <!-- Main Catalog Showcase for the most used vehicle lubricants in Kenya -->
         <section id="catalog" class="catalog-section">
-            <h2 class="section-title">Premium Workshop Parts for Mechanics and Fleet Professionals</h2>
-            <p style="text-align: center; color: #64748b; margin-top: -30px; margin-bottom: 30px; font-size: 16px;">A
-                specialist inventory of workshop-grade replacement parts chosen for proven performance, exact fitment
-                and
-                rapid availability.</p>
+            <h2 class="section-title">Lubricants in Store</h2>
+            <p class="section-description">A professional catalogue of genuine, high-demand lubricant grades for cars,
+                pickups and commercial fleets across Kenya.</p>
+            <p class="carousel-hint">Swipe left or right to browse our major lubricants in stock.</p>
 
             <div class="catalog-topbar">
                 <div class="catalog-intro">
-                    <p>Pick a spare parts category below to open the most trusted workshop components, then place your
-                        order with ease.</p>
+                    <p>Select a category to browse purpose-fit lubricant grades and order the right product quickly.
+                    </p>
                 </div>
                 <div class="category-filters">
-                    <button class="filter-btn" data-filter="consumable" onclick="activateCategory('consumable')">Service
-                        Consumables</button>
-                    <button class="filter-btn" data-filter="brake" onclick="activateCategory('brake')">Brake
-                        Systems</button>
-                    <button class="filter-btn" data-filter="suspension"
-                        onclick="activateCategory('suspension')">Suspension & Steering</button>
-                    <button class="filter-btn" data-filter="engine" onclick="activateCategory('engine')">Engine &
-                        Powertrain</button>
-                    <button class="filter-btn" data-filter="oils" onclick="activateCategory('oils')">Engine
+                    <button class="filter-btn" data-filter="all" onclick="activateCategory('all')">All
+                        Lubricants</button>
+                    <button class="filter-btn" data-filter="engine" onclick="activateCategory('engine')">Engine
                         Oils</button>
-                    <button class="filter-btn" data-filter="electrical"
-                        onclick="activateCategory('electrical')">Electrical & Fuel</button>
+                    <button class="filter-btn" data-filter="transmission"
+                        onclick="activateCategory('transmission')">Transmission Fluids</button>
+                    <button class="filter-btn" data-filter="gear" onclick="activateCategory('gear')">Gear Oils</button>
                 </div>
             </div>
             <div class="catalog-hint">
-                <span class="search-count" id="search-count">Choose a category to view available spare parts.</span>
+                <span class="search-count" id="search-count">Choose a category to view our top lubricant grades.</span>
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" id="product-search" placeholder="Search within the selected category"
-                        oninput="filterProducts()">
+                    <input type="search" id="product-search"
+                        placeholder="Search oil grades, applications or vehicle types" oninput="filterProducts()">
                 </div>
             </div>
 
-            <div class="product-grid hidden" id="catalog-grid">
-                <!-- Professional workshop catalog -->
-                <div class="product-card">
-                    <div class="badge">Service Consumables</div><img
-                        src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=400"
-                        alt="Oil Filter">
-                    <div class="product-details">
-                        <h3>Premium Engine Oil Filters</h3>
-                        <p class="compatibility">Brands: Toyota (1ZZ/2NZ), Nissan, Subaru (EJ20) | Bosch / Denso</p>
-                        <div class="price-action"><span class="price">Ksh 1,200</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Engine Oil Filter', 1200)">Quick Order</button></div>
+            <div class="section-carousel product-carousel" id="catalog-grid">
+                <div class="carousel-stage">
+                    <div class="carousel-slide active">
+                        <div class="card-pair">
+                            <div class="product-card">
+                                <div class="badge">Engine Oils</div><img
+                                    src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=400"
+                                    alt="Shell Helix Ultra 5W-30">
+                                <div class="product-details">
+                                    <h3>Shell Helix Ultra 5W-30</h3>
+                                    <p class="compatibility">Fully synthetic engine oil for modern petrol and diesel
+                                        applications.</p>
+                                    <div class="price-action"><span class="price">Ksh 4,200</span><button
+                                            class="btn-buy-now"
+                                            onclick="openQuickOrder('Shell Helix Ultra 5W-30', 4200)">Quick
+                                            Order</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <div class="badge">Engine Oils</div><img
+                                    src="https://images.unsplash.com/photo-1593366281228-06ac1b9d81c8?auto=format&fit=crop&q=80&w=400"
+                                    alt="Mobil Super 3000 5W-40">
+                                <div class="product-details">
+                                    <h3>Mobil Super 3000 5W-40</h3>
+                                    <p class="compatibility">Premium oil for high-output petrol engines that demand
+                                        durability.</p>
+                                    <div class="price-action"><span class="price">Ksh 4,100</span><button
+                                            class="btn-buy-now"
+                                            onclick="openQuickOrder('Mobil Super 3000 5W-40', 4100)">Quick
+                                            Order</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Service Consumables</div><img
-                        src="https://images.unsplash.com/photo-1552656967-7a0991a13906?auto=format&fit=crop&q=80&w=400"
-                        alt="Spark Plugs">
-                    <div class="product-details">
-                        <h3>NGK Laser Iridium Spark Plugs (Set of 4)</h3>
-                        <p class="compatibility">Brands: Universal for Mazda CX5, Nissan Note, Toyota Vanguard</p>
-                        <div class="price-action"><span class="price">Ksh 5,800</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('NGK Iridium Spark Plugs', 5800)">Quick Order</button></div>
+                    <div class="carousel-slide">
+                        <div class="card-pair">
+                            <div class="product-card">
+                                <div class="badge">Engine Oils</div><img
+                                    src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=400"
+                                    alt="Total Quartz 9000 10W-40">
+                                <div class="product-details">
+                                    <h3>Total Quartz 9000 10W-40</h3>
+                                    <p class="compatibility">Trusted semi-synthetic oil for mixed-use petrol and diesel
+                                        engines.</p>
+                                    <div class="price-action"><span class="price">Ksh 3,200</span><button
+                                            class="btn-buy-now"
+                                            onclick="openQuickOrder('Total Quartz 9000 10W-40', 3200)">Quick
+                                            Order</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <div class="badge">Engine Oils</div><img
+                                    src="https://images.unsplash.com/photo-1593366281228-06ac1b9d81c8?auto=format&fit=crop&q=80&w=400"
+                                    alt="Engen PowerDrive 20W-50">
+                                <div class="product-details">
+                                    <h3>Engen PowerDrive 20W-50</h3>
+                                    <p class="compatibility">Reliable protection for older and high-mileage engines.</p>
+                                    <div class="price-action"><span class="price">Ksh 3,300</span><button
+                                            class="btn-buy-now"
+                                            onclick="openQuickOrder('Engen PowerDrive 20W-50', 3300)">Quick
+                                            Order</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Service Consumables</div><img
-                        src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&q=80&w=400"
-                        alt="Air Filter">
-                    <div class="product-details">
-                        <h3>High-Airflow Engine Air Filters</h3>
-                        <p class="compatibility">Brands: Toyota Fielders, Probox, Nissan X-Trail, Isuzu D-Max</p>
-                        <div class="price-action"><span class="price">Ksh 1,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Engine Air Filter', 1500)">Quick Order</button></div>
+                    <div class="carousel-slide">
+                        <div class="card-pair">
+                            <div class="product-card">
+                                <div class="badge">Engine Oils</div><img
+                                    src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=400"
+                                    alt="Castrol GTX 20W-50">
+                                <div class="product-details">
+                                    <h3>Castrol GTX 20W-50</h3>
+                                    <p class="compatibility">Heavy-mileage engine oil formulated for demanding Kenyan
+                                        roads.
+                                    </p>
+                                    <div class="price-action"><span class="price">Ksh 3,400</span><button
+                                            class="btn-buy-now"
+                                            onclick="openQuickOrder('Castrol GTX 20W-50', 3400)">Quick
+                                            Order</button></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <div class="badge">Transmission Fluids</div><img
+                                    src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&q=80&w=400"
+                                    alt="Shell Spirax S6 ATF">
+                                <div class="product-details">
+                                    <h3>Shell Spirax S6 ATF</h3>
+                                    <p class="compatibility">Premium automatic transmission fluid for smooth, reliable
+                                        shifts.</p>
+                                    <div class="price-action"><span class="price">Ksh 6,900</span><button
+                                            class="btn-buy-now"
+                                            onclick="openQuickOrder('Shell Spirax S6 ATF', 6900)">Quick
+                                            Order</button></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Service Consumables</div><img
-                        src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=400"
-                        alt="Cabin Filter">
-                    <div class="product-details">
-                        <h3>A/C Charcoal Cabin Air Filters</h3>
-                        <p class="compatibility">Brands: Toyota Axio, Honda Fit, Mazda Demio | Premium Air Clean</p>
-                        <div class="price-action"><span class="price">Ksh 1,400</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('A/C Cabin Filter', 1400)">Quick Order</button></div>
+                    <div class="carousel-slide">
+                        <div class="card-pair">
+                            <div class="product-card">
+                                <div class="badge">Transmission Fluids</div><img
+                                    src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&q=80&w=400"
+                                    alt="Mobil ATF 3309">
+                                <div class="product-details">
+                                    <h3>Mobil ATF 3309</h3>
+                                    <p class="compatibility">Quality automatic fluid for Toyota gearboxes and compatible
+                                        models.</p>
+                                    <div class="price-action"><span class="price">Ksh 6,500</span><button
+                                            class="btn-buy-now" onclick="openQuickOrder('Mobil ATF 3309', 6500)">Quick
+                                            Order</button></div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <div class="badge">Gear Oils</div><img
+                                    src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=400"
+                                    alt="Total Rubia 80W-90">
+                                <div class="product-details">
+                                    <h3>Total Rubia 80W-90</h3>
+                                    <p class="compatibility">Durable gear oil for manual transmissions and drive axle
+                                        applications.</p>
+                                    <div class="price-action"><span class="price">Ksh 2,900</span><button
+                                            class="btn-buy-now"
+                                            onclick="openQuickOrder('Total Rubia 80W-90', 2900)">Quick
+                                            Order</button></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Service Consumables</div><img
-                        src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&q=80&w=400"
-                        alt="Fuel Filter">
-                    <div class="product-details">
-                        <h3>High-Efficiency Fuel Filters</h3>
-                        <p class="compatibility">Brands: Toyota Hilux D4D, Isuzu NQR, Nissan NV200 | Genuine</p>
-                        <div class="price-action"><span class="price">Ksh 3,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('High-Efficiency Fuel Filter', 3500)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Service Consumables</div><img
-                        src="https://images.unsplash.com/photo-1552656967-7a0991a13906?auto=format&fit=crop&q=80&w=400"
-                        alt="Automatic Transmission Fluid">
-                    <div class="product-details">
-                        <h3>Toyota ATF CVTF Fluid (4 Liters)</h3>
-                        <p class="compatibility">Brands: Toyota K313/K114 Gearboxes, Nissan NS-2/NS-3 Gearboxes</p>
-                        <div class="price-action"><span class="price">Ksh 6,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Toyota ATF/CVTF Fluid', 6500)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Engine Oils</div><img
-                        src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=400"
-                        alt="Synthetic Engine Oil">
-                    <div class="product-details">
-                        <h3>Fully Synthetic 5W-30 Engine Oil</h3>
-                        <p class="compatibility">Perfect for modern Toyota, Nissan, Mazda and Honda engines.</p>
-                        <div class="price-action"><span class="price">Ksh 3,900</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Fully Synthetic 5W-30 Engine Oil', 3900)">Quick Order</button>
+                    <div class="carousel-slide">
+                        <div class="card-pair">
+                            <div class="product-card">
+                                <div class="badge">Gear Oils</div><img
+                                    src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=400"
+                                    alt="Castrol Syntrax 75W-90">
+                                <div class="product-details">
+                                    <h3>Castrol Syntrax 75W-90</h3>
+                                    <p class="compatibility">High-performance gear oil for heavy-duty manual
+                                        drivetrains.
+                                    </p>
+                                    <div class="price-action"><span class="price">Ksh 3,100</span><button
+                                            class="btn-buy-now"
+                                            onclick="openQuickOrder('Castrol Syntrax 75W-90', 3100)">Quick
+                                            Order</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card">
+                                <div class="badge">Engine Oils</div><img
+                                    src="https://images.unsplash.com/photo-1593366281228-06ac1b9d81c8?auto=format&fit=crop&q=80&w=400"
+                                    alt="Mobil Delvac 15W-40">
+                                <div class="product-details">
+                                    <h3>Mobil Delvac 15W-40</h3>
+                                    <p class="compatibility">Trusted diesel oil for trucks, buses and commercial fleet
+                                        engines.</p>
+                                    <div class="price-action"><span class="price">Ksh 4,500</span><button
+                                            class="btn-buy-now"
+                                            onclick="openQuickOrder('Mobil Delvac 15W-40', 4500)">Quick
+                                            Order</button></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="product-card">
-                    <div class="badge">Engine Oils</div><img
-                        src="https://images.unsplash.com/photo-1583244082372-fef8b90dc286?auto=format&fit=crop&q=80&w=400"
-                        alt="Semi Synthetic Engine Oil">
-                    <div class="product-details">
-                        <h3>Semi-Synthetic 10W-40 Engine Oil</h3>
-                        <p class="compatibility">Ideal for mixed-fleet use and diesel or petrol engines needing strong
-                            protection.</p>
-                        <div class="price-action"><span class="price">Ksh 2,950</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Semi Synthetic 10W-40 Engine Oil', 2950)">Quick Order</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Engine Oils</div><img
-                        src="https://images.unsplash.com/photo-1593366281228-06ac1b9d81c8?auto=format&fit=crop&q=80&w=400"
-                        alt="High Mileage Engine Oil">
-                    <div class="product-details">
-                        <h3>High Mileage 15W-50 Engine Oil</h3>
-                        <p class="compatibility">Built for older Kenyan engines needing extra wear resistance.</p>
-                        <div class="price-action"><span class="price">Ksh 3,450</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('High Mileage 15W-50 Engine Oil', 3450)">Quick Order</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Category 2: Braking Systems (7-11) -->
-                <div class="product-card">
-                    <div class="badge">Brake Systems</div><img
-                        src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&q=80&w=400"
-                        alt="Front Brake Pads">
-                    <div class="product-details">
-                        <h3>Ceramic Front Brake Pads</h3>
-                        <p class="compatibility">Brands: Toyota Prado, Subaru Forester, Mazda CX-5 | Brembo / Akebono
-                        </p>
-                        <div class="price-action"><span class="price">Ksh 4,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Ceramic Front Brake Pads', 4500)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Brake Systems</div><img
-                        src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&q=80&w=400"
-                        alt="Rear Brake Pads">
-                    <div class="product-details">
-                        <h3>Heavy-Duty Rear Brake Pads</h3>
-                        <p class="compatibility">Brands: Toyota Premio, Harrier, Honda Civic, Nissan Sylphy</p>
-                        <div class="price-action"><span class="price">Ksh 3,800</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Rear Brake Pads', 3800)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Brake Systems</div><img
-                        src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&q=80&w=400"
-                        alt="Brake Disc Rotors">
-                    <div class="product-details">
-                        <h3>Vented Front Brake Disc Rotors (Pair)</h3>
-                        <p class="compatibility">Brands: Subaru Impreza, Toyota LandCruiser | Max Durability</p>
-                        <div class="price-action"><span class="price">Ksh 9,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Vented Front Disc Rotors', 9500)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Brake Systems</div><img
-                        src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=400"
-                        alt="Brake Master Cylinder">
-                    <div class="product-details">
-                        <h3>M-Pesa Integrated Brake Master Cylinder</h3>
-                        <p class="compatibility">Brands: Toyota Hiace (Quantum), Isuzu NPR | AISIN Brand</p>
-                        <div class="price-action"><span class="price">Ksh 8,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Brake Master Cylinder', 8500)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Brake Systems</div><img
-                        src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=400"
-                        alt="ABS Sensors">
-                    <div class="product-details">
-                        <h3>Wheel Speed ABS Sensors (Front/Rear)</h3>
-                        <p class="compatibility">Brands: Toyota Vitz, Passo, Mazda 3, Nissan Tiida</p>
-                        <div class="price-action"><span class="price">Ksh 3,200</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('ABS Wheel Sensor', 3200)">Quick Order</button></div>
-                    </div>
-                </div>
-
-                <!-- Category 3: Suspension & Steering (12-18) -->
-                <div class="product-card">
-                    <div class="badge">Suspension & Steering</div><img
-                        src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&q=80&w=400"
-                        alt="Shock Absorbers">
-                    <div class="product-details">
-                        <h3>KYB Excel-G Heavy Duty Shock Absorbers</h3>
-                        <p class="compatibility">Brands: Toyota Probox, Succeed, Fielder, Honda Fit | KYB Japan</p>
-                        <div class="price-action"><span class="price">Ksh 7,200</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('KYB Shock Absorbers', 7200)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Suspension & Steering</div><img
-                        src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&q=80&w=400"
-                        alt="Coil Springs">
-                    <div class="product-details">
-                        <h3>Reinforced Suspension Coil Springs (Pair)</h3>
-                        <p class="compatibility">Brands: Toyota Rav4, Vanguard, Subaru Outback | Heavy Load</p>
-                        <div class="price-action"><span class="price">Ksh 6,800</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Suspension Coil Springs', 6800)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Suspension & Steering</div><img
-                        src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&q=80&w=400"
-                        alt="Ball Joints">
-                    <div class="product-details">
-                        <h3>Lower Suspension Ball Joints (555 Japan)</h3>
-                        <p class="compatibility">Brands: Toyota Hilux, LandCruiser Prado, Isuzu D-Max</p>
-                        <div class="price-action"><span class="price">Ksh 2,800</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Lower Ball Joints Set', 2800)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Suspension & Steering</div><img
-                        src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&q=80&w=400"
-                        alt="Tie Rod Ends">
-                    <div class="product-details">
-                        <h3>Steering Tie Rod Ends & Rack Ends Set</h3>
-                        <p class="compatibility">Brands: Toyota Corolla, Nissan Note, Mazda Demio</p>
-                        <div class="price-action"><span class="price">Ksh 4,200</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Tie Rod Ends Set', 4200)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Suspension & Steering</div><img
-                        src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&q=80&w=400"
-                        alt="Control Arms">
-                    <div class="product-details">
-                        <h3>Front Lower Control Arms (Bushings Included)</h3>
-                        <p class="compatibility">Brands: Nissan X-trail T31/T32, Toyota Harrier, Subaru</p>
-                        <div class="price-action"><span class="price">Ksh 8,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Lower Control Arm', 8500)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Suspension & Steering</div><img
-                        src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&q=80&w=400"
-                        alt="Stabilizer Links">
-                    <div class="product-details">
-                        <h3>Front/Rear Stabilizer Link Bars (Pair)</h3>
-                        <p class="compatibility">Brands: Universal for Toyota Noah, Voxy, Mazda 3, Honda Stream</p>
-                        <div class="price-action"><span class="price">Ksh 3,400</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Stabilizer Link Bars Set', 3400)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Suspension & Steering</div><img
-                        src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&q=80&w=400"
-                        alt="Wheel Bearings">
-                    <div class="product-details">
-                        <h3>Front Wheel Hub Hub Bearings (NSK / NTN)</h3>
-                        <p class="compatibility">Brands: Toyota Wish, IST, Nissan Tiida, Honda Fit</p>
-                        <div class="price-action"><span class="price">Ksh 4,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Wheel Hub Hub Bearing', 4500)">Quick Order</button></div>
-                    </div>
-                </div>
-
-                <!-- Category 4: Engine & Cooling Components (19-25) -->
-                <div class="product-card">
-                    <div class="badge">Engine & Powertrain</div><img
-                        src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&q=80&w=400"
-                        alt="Timing Belt">
-                    <div class="product-details">
-                        <h3>Engine Timing Belt & Tensioner Kits</h3>
-                        <p class="compatibility">Brands: Toyota 5L/1HZ Engines, Subaru EJ20, Isuzu NKR</p>
-                        <div class="price-action"><span class="price">Ksh 9,800</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Timing Belt Kit', 9800)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Engine & Powertrain</div><img
-                        src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=400"
-                        alt="Aluminum Radiator">
-                    <div class="product-details">
-                        <h3>Heavy Duty Aluminum Cooling Radiators</h3>
-                        <p class="compatibility">Brands: Toyota Fielder, Probox, Nissan Note, Mazda Demio</p>
-                        <div class="price-action"><span class="price">Ksh 8,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Aluminum Cooling Radiator', 8500)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Engine & Powertrain</div><img
-                        src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=400"
-                        alt="Water Pump">
-                    <div class="product-details">
-                        <h3>Mechanical Engine Water Pumps (GMB Japan)</h3>
-                        <p class="compatibility">Brands: Toyota 1NZ/2AZ, Nissan HR15, Subaru FB20</p>
-                        <div class="price-action"><span class="price">Ksh 4,800</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('GMB Engine Water Pump', 4800)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Engine & Powertrain</div><img
-                        src="https://images.unsplash.com/photo-1552656967-7a0991a13906?auto=format&fit=crop&q=80&w=400"
-                        alt="Thermostat">
-                    <div class="product-details">
-                        <h3>Engine Cooling System Thermostats</h3>
-                        <p class="compatibility">Brands: Toyota, Nissan, Honda, Subaru, Mazda, Isuzu | Genuine</p>
-                        <div class="price-action"><span class="price">Ksh 2,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Cooling Thermostat', 2500)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Engine & Powertrain</div><img
-                        src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&q=80&w=400"
-                        alt="Drive Belt">
-                    <div class="product-details">
-                        <h3>Ribbed Serpentine Drive Belts (MITSUBOSHI)</h3>
-                        <p class="compatibility">Brands: Multi-V belts for alternators, A/C compressors, power steering
-                        </p>
-                        <div class="price-action"><span class="price">Ksh 2,200</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Drive Serpentine Belt', 2200)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Engine & Powertrain</div><img
-                        src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=400"
-                        alt="Engine Mounts">
-                    <div class="product-details">
-                        <h3>Engine Rubber Mounting Isolators (Set of 4)</h3>
-                        <p class="compatibility">Brands: Toyota Allion, Premio NZT260, Nissan Sylphy</p>
-                        <div class="price-action"><span class="price">Ksh 12,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Engine Mountings Set', 12500)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Engine & Powertrain</div><img
-                        src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&q=80&w=400"
-                        alt="Cylinder Head Gasket">
-                    <div class="product-details">
-                        <h3>Carbon/Metal Cylinder Head Gaskets</h3>
-                        <p class="compatibility">Brands: Toyota 2AZ-FE, Nissan QR20, Isuzu 4HG1 | Solid Seal</p>
-                        <div class="price-action"><span class="price">Ksh 3,800</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Cylinder Head Gasket', 3800)">Quick Order</button></div>
-                    </div>
-                </div>
-
-                <!-- Category 5: Electricals & Fuel Systems (26-30) -->
-                <div class="product-card">
-                    <div class="badge">Electrical & Fuel</div><img
-                        src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=400"
-                        alt="Car Battery">
-                    <div class="product-details">
-                        <h3>Maintenance-Free Car Batteries (Chloride Exide)</h3>
-                        <p class="compatibility">Brands: NS40/NS60/N70 fits all compact sedans and commercial trucks</p>
-                        <div class="price-action"><span class="price">Ksh 8,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Chloride Exide Battery', 8500)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Electrical & Fuel</div><img
-                        src="https://images.unsplash.com/photo-1552656967-7a0991a13906?auto=format&fit=crop&q=80&w=400"
-                        alt="Ignition Coils">
-                    <div class="product-details">
-                        <h3>Electronic Ignition Coils (Denso Japan)</h3>
-                        <p class="compatibility">Brands: Toyota Mark X, Nissan Note, Mazda CX-5, Honda Fit</p>
-                        <div class="price-action"><span class="price">Ksh 3,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Denso Ignition Coil', 3500)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Electrical & Fuel</div><img
-                        src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=400"
-                        alt="Alternator Assembly">
-                    <div class="product-details">
-                        <h3>12V Electronic Alternator Assembly Charging Unit</h3>
-                        <p class="compatibility">Brands: Toyota Probox, Hiace, Isuzu D-Max | Denso Core</p>
-                        <div class="price-action"><span class="price">Ksh 14,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('12V Charging Alternator', 14500)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Electrical & Fuel</div><img
-                        src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=400"
-                        alt="Starter Motor">
-                    <div class="product-details">
-                        <h3>Engine Starter Motor Ignition Assembly</h3>
-                        <p class="compatibility">Brands: Toyota Hilux, Prado, Mazda Demio, Nissan Tiida</p>
-                        <div class="price-action"><span class="price">Ksh 9,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Engine Starter Motor', 9500)">Quick Order</button></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="badge">Electrical & Fuel</div><img
-                        src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&q=80&w=400"
-                        alt="Fuel Pump">
-                    <div class="product-details">
-                        <h3>12V High-Pressure Submersible Fuel Pumps</h3>
-                        <p class="compatibility">Brands: Toyota Corolla, Vanguard, Honda CR-V, Subaru Legacy</p>
-                        <div class="price-action"><span class="price">Ksh 4,500</span><button class="btn-buy-now"
-                                onclick="openQuickOrder('Submersible Fuel Pump', 4500)">Quick Order</button></div>
-                    </div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev" type="button" aria-label="Show previous lubricant"><i
+                            class="fa-solid fa-chevron-left"></i></button>
+                    <button class="carousel-btn next" type="button" aria-label="Show next lubricant"><i
+                            class="fa-solid fa-chevron-right"></i></button>
                 </div>
             </div>
-            <div class="empty-state" id="no-results">Choose a category to view our best spare parts.</div>
+            <div class="empty-state" id="no-results">Choose a category to view our top lubricants.</div>
         </section>
 
         <section id="engine-oils" class="engine-oils-section">
@@ -661,79 +563,32 @@
                     <h3>Fully Synthetic 5W-30</h3>
                     <p>Top-grade synthetic oil for modern cars, delivering excellent cold-start protection and longer
                         drain intervals.</p>
-                    <button class="btn-buy-now" onclick="activateCategory('oils')">View Engine Oils</button>
+                    <button class="btn-buy-now" onclick="activateCategory('engine')">View Engine Oils</button>
                 </div>
                 <div class="feature-card">
                     <h3>Semi-Synthetic 10W-40</h3>
                     <p>Best for mixed fleet use, offering durable protection for petrol and diesel engines across Kenya.
                     </p>
-                    <button class="btn-buy-now" onclick="activateCategory('oils')">View Engine Oils</button>
+                    <button class="btn-buy-now" onclick="activateCategory('engine')">View Engine Oils</button>
                 </div>
                 <div class="feature-card">
                     <h3>High Mileage 15W-50</h3>
                     <p>Engineered for older vehicles needing stronger wear protection and better oil pressure retention.
                     </p>
-                    <button class="btn-buy-now" onclick="activateCategory('oils')">View Engine Oils</button>
+                    <button class="btn-buy-now" onclick="activateCategory('engine')">View Engine Oils</button>
                 </div>
             </div>
         </section>
 
-        <section id="gallery" class="gallery-section">
-            <h2 class="section-title">In-Store Gallery</h2>
-            <p class="section-description">Real photos from our Kisii workshop, stock room, and shipping preparation
-                area.</p>
-            <div class="gallery-grid">
-                <div class="gallery-card">
-                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=800"
-                        alt="Shop shelves and inventory">
-                    <p>Organized inventory ready for fast delivery.</p>
-                </div>
-                <div class="gallery-card">
-                    <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&q=80&w=800"
-                        alt="Workshop order packing">
-                    <p>Careful order preparation from our team.</p>
-                </div>
-                <div class="gallery-card">
-                    <img src="https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&q=80&w=800"
-                        alt="Spare parts shelves">
-                    <p>Clean showroom-quality shelves for genuine car parts.</p>
-                </div>
-            </div>
-        </section>
 
         <!-- Customer Reviews Workspace -->
         <section id="reviews" class="reviews-section">
             <h2 class="section-title">Verified Customer Reviews</h2>
-            <div class="reviews-grid">
-                <div class="review-card">
-                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-solid fa-star"></i>
-                    </div>
-                    <p>"Nilipata genuine KYB shock absorbers za Toyota Fielder yangu hapa Dejar. Delivery ilifika Kisii
-                        town haraka sana na bei yao ilikuwa nafuu kabisa kulinganisha na kwingine."</p>
-                    <h4>- John Mwangi</h4>
-                </div>
-                <div class="review-card">
-                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-solid fa-star"></i>
-                    </div>
-                    <p>"I ordered Akebono ceramic brake pads and NGK iridium spark plugs for my Mazda CX-5. The
-                        automated
-                        payment checkout via M-Pesa is smooth and secure. Highly recommended auto shop!"</p>
-                    <h4>- Alice Waithera</h4>
-                </div>
-                <div class="review-card">
-                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                            class="fa-solid fa-star"></i>
-                    </div>
-                    <p>"Excellent service! Their physical shop location right opposite Quickmart in Kisii town makes it
-                        easy
-                        to pick up components directly."</p>
-                    <h4>- Mogaka J.</h4>
-                </div>
+            <p class="section-description">Real customer feedback appears here once submitted. Share your experience
+                below and help other Kenyan drivers choose the right oil.</p>
+            <div class="reviews-grid" id="review-list">
+                <div class="empty-state" id="reviews-empty">No reviews yet. Be the first to share your experience with
+                    Dejar Auto Supplies.</div>
             </div>
 
             <div class="add-review-box">
@@ -747,63 +602,28 @@
             </div>
         </section>
 
-        <section class="testimonial-carousel-section">
-            <h2 class="section-title">Customer Stories</h2>
-            <div class="carousel">
-                <button type="button" class="carousel-nav prev" onclick="changeSlide(-1)"><i
-                        class="fa-solid fa-chevron-left"></i></button>
-                <div class="carousel-track">
-                    <article class="carousel-item active">
-                        <p>“Dejar Auto Supplies helped me replace my brake pads fast. The part fitted perfectly and the
-                            delivery was on time.”</p>
-                        <h4>- Esther W.</h4>
-                    </article>
-                    <article class="carousel-item">
-                        <p>“I found the exact timing belt kit for my Toyota and the checkout was easy with M-Pesa. Great
-                            support.”</p>
-                        <h4>- Samuel N.</h4>
-                    </article>
-                    <article class="carousel-item">
-                        <p>“Excellent communication and genuine parts. I would recommend Dejar to every mechanic in
-                            Kisii.”
-                        </p>
-                        <h4>- Mary A.</h4>
-                    </article>
-                </div>
-                <button type="button" class="carousel-nav next" onclick="changeSlide(1)"><i
-                        class="fa-solid fa-chevron-right"></i></button>
-            </div>
-        </section>
-
         <!-- M-Pesa Checkout Overlaid Window Frame Container -->
         <div id="quick-order-modal">
             <div class="modal-content">
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <img src="https://developer.safaricom.co.ke/assets/img/daraja-logo.png" alt="M-Pesa Daraja"
-                        style="height: 45px; margin-bottom: 10px; object-fit: contain;">
-                    <h3 style="margin: 0; color: var(--daraja-charcoal); font-size: 20px;">Secure Checkout</h3>
+                <div class="modal-header">
+                    <img src="https://developer.safaricom.co.ke/assets/img/daraja-logo.png" alt="M-Pesa Daraja">
+                    <h3>Secure Checkout</h3>
                 </div>
 
-                <div
-                    style="background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--border-color);">
-                    <p style="margin: 0 0 6px 0; font-size: 14px; color: #64748b;">Item Description:</p>
-                    <p style="margin: 0 0 12px 0; font-weight: 600; color: var(--daraja-charcoal);"
-                        id="modal-item-name">-
-                    </p>
-                    <p style="margin: 0 0 4px 0; font-size: 14px; color: #64748b;">Total Amount due:</p>
-                    <p style="margin: 0; font-size: 22px; font-weight: 700; color: var(--safaricom-green);">Ksh <span
-                            id="modal-item-price">-</span></p>
+                <div class="modal-summary">
+                    <p class="modal-label">Item Description:</p>
+                    <p class="modal-detail" id="modal-item-name">-</p>
+                    <p class="modal-label">Total Amount due:</p>
+                    <p class="modal-detail modal-price">Ksh <span id="modal-item-price">-</span></p>
                 </div>
 
                 <form onsubmit="processPayment(event)">
                     <div class="mpesa-input-wrapper">
-                        <label
-                            style="display: block; margin-bottom: 8px; color: #475569; font-weight: 600; font-size: 14px;">M-Pesa
-                            Phone Number</label>
+                        <label class="modal-label" for="checkout-phone">M-Pesa Phone Number</label>
                         <input type="text" id="checkout-phone" placeholder="e.g., 0712345678" required>
                     </div>
 
-                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div class="modal-actions">
                         <button type="submit" class="btn-mpesa-pay"><i class="fa-solid fa-lock"></i> Initiate Lipa Na
                             M-Pesa</button>
                         <button type="button" class="btn-cancel" onclick="closeQuickOrder()">Cancel Order</button>
@@ -837,7 +657,7 @@
                 <!-- Precise Map Location Centered Between KPLC and Quickmart Kisii -->
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.7027552554705!2d34.76916817424602!3d-0.6784841993148154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182b26090c29f4bb%3A0xe67cf2f1839e55b4!2sQuickmart%20Kisii!5e0!3m2!1sen!2ske!4v1717462000000!5m2!1sen!2ske"
-                    width="100%" height="250" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy"
+                    width="100%" height="250" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </section>
@@ -862,19 +682,18 @@
                     </div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-question" type="button">Do you ship genuine parts for Toyota, Nissan and
-                        Mazda?</button>
+                    <button class="faq-question" type="button">Do you stock genuine lubricant brands like Shell and
+                        Mobil?</button>
                     <div class="faq-answer">
-                        <p>Absolutely. We stock genuine and premium aftermarket parts for Toyota, Nissan, Mazda, Subaru,
-                            Honda, Isuzu and more.</p>
+                        <p>Absolutely. We stock major genuine oil brands including Shell, Total, Mobil, Castrol, Engen
+                            and Elf.</p>
                     </div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-question" type="button">What if the part does not fit?</button>
+                    <button class="faq-question" type="button">What if I need a different oil grade?</button>
                     <div class="faq-answer">
-                        <p>If a part doesn't fit, contact us immediately and we will help arrange the correct
-                            replacement or
-                            a return.</p>
+                        <p>If your vehicle needs a different grade or lubricant type, contact us on WhatsApp and we will
+                            recommend the best match for your engine and driving conditions.</p>
                     </div>
                 </div>
             </div>

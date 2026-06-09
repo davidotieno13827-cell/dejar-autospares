@@ -94,8 +94,8 @@ def trigger_stk_push():
             "PhoneNumber": phone_number,
             # Once hosted online, replace this URL with your actual callback endpoint.
             "CallBackURL": CALLBACK_URL,
-            "AccountReference": "DeejarAutoSpares",
-            "TransactionDesc": "Payment for Vehicle Spare Parts",
+            "AccountReference": "DeejarLubricants",
+            "TransactionDesc": "Payment for Lubricants",
         }
 
         # 4. Broadcast request to the selected Daraja environment

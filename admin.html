@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deejar Auto Spares | Management Console</title>
+    <title>Dejar Auto Supplies | Management Console</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -70,17 +70,62 @@
             padding: 10px 20px;
             margin-top: 15px;
         }
+
+        .admin-header {
+            background: var(--dark-color);
+            color: white;
+            padding: 18px 6.5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-nav-info {
+            font-weight: 600;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .muted-label {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: var(--dark-color);
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 
 <body class="bg-light">
 
     <!-- Dark Specialized Admin Header -->
-    <header style="background: var(--dark-color); color: white;">
+    <header class="admin-header">
         <div class="logo">
-            <h1 style="color: white;">Deejar Console</h1>
+            <h1>Dejar Console</h1>
         </div>
-        <nav><span style="font-weight: 600;"><i class="fa-solid fa-user-shield"></i> Authorized Operations: Admin
+        <nav><span class="admin-nav-info"><i class="fa-solid fa-user-shield"></i> Authorized Operations: Admin
                 Panel</span></nav>
     </header>
 
@@ -96,42 +141,42 @@
             <div class="dashboard-box">
                 <h3><i class="fa-solid fa-boxes-stack"></i> Add New Stock Item</h3>
                 <form id="stock-form" onsubmit="addNewStock(event)">
-                    <label>Spare Part Title</label>
-                    <input type="text" id="stock-name" placeholder="e.g., Toyota 1NZ-FE Water Pump (GMB Brand)"
+                    <label>Lubricant Product Name</label>
+                    <input type="text" id="stock-name" placeholder="e.g., Castrol EDGE 5W-40 Fully Synthetic Engine Oil"
                         required>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px;">
+                    <div class="grid-2">
                         <div>
-                            <label style="font-size: 13px; color: #666;">Vehicle Make</label>
+                            <label class="muted-label">Vehicle Make</label>
                             <select id="stock-make">
                                 <option value="toyota">Toyota</option>
                                 <option value="nissan">Nissan</option>
                                 <option value="mazda">Mazda</option>
+                                <option value="isuzu">Isuzu</option>
                             </select>
                         </div>
                         <div>
-                            <label style="font-size: 13px; color: #666;">Category</label>
+                            <label class="muted-label">Oil Category</label>
                             <select id="stock-cat">
-                                <option value="transmission">Transmission</option>
-                                <option value="suspension">Suspension</option>
-                                <option value="braking">Braking</option>
+                                <option value="engine">Engine Oil</option>
+                                <option value="gear">Gear Oil</option>
+                                <option value="brake">Brake Fluid</option>
                             </select>
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                    <div class="grid-2">
                         <div>
-                            <label style="font-size: 13px; color: #666;">Unit Price (Ksh)</label>
+                            <label class="muted-label">Unit Price (Ksh)</label>
                             <input type="number" id="stock-price" value="7500">
                         </div>
                         <div>
-                            <label style="font-size: 13px; color: #666;">Initial Stock Qty</label>
+                            <label class="muted-label">Initial Stock Qty</label>
                             <input type="number" id="stock-qty" value="10">
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-primary"
-                        style="margin-top:15px; background-color: var(--primary-color);">Publish to Website
+                    <button type="submit" class="btn-primary" style="margin-top:15px;">Publish to Website
                         Catalog</button>
                 </form>
             </div>
@@ -139,7 +184,7 @@
             <!-- Column 2: Invoice Generator Tools -->
             <div class="dashboard-box">
                 <h3><i class="fa-solid fa-file-invoice-dollar"></i> Quick KRA PIN Invoice Builder</h3>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top: 15px;">
+                <div class="grid-2" style="margin-top:15px;">
                     <input type="text" id="inv-client" placeholder="Client / Company Name">
                     <input type="text" id="inv-pin" placeholder="Client KRA PIN (Optional)">
                     <input type="text" id="inv-item" placeholder="Item Purchased">
@@ -147,12 +192,11 @@
                 </div>
                 <button class="btn-secondary" style="margin-top: 15px;" onclick="generateInvoice()">Generate Formal
                     Invoice</button>
-
                 <!-- Hidden Printed Form Sheets -->
-                <div class="invoice-preview" id="invoice-sheet" style="display:none;">
+                <div class="invoice-preview hidden" id="invoice-sheet">
                     <div class="invoice-header">
                         <div>
-                            <h4>DEEJAR AUTO SPARES LTD</h4>
+                            <h4>DEJAR AUTO SUPPLIES LTD</h4>
                             <p style="font-size:12px; line-height:1.4;">Kirinyaga Road, Nairobi<br>PIN: P051XXXXXXZ</p>
                         </div>
                         <div class="text-right">
@@ -197,7 +241,7 @@
         function addNewStock(e) {
             e.preventDefault();
             const partName = document.getElementById("stock-name").value;
-            alert(`"${partName}" successfully published to online catalog layout!`);
+            alert(`"${partName}" successfully published to the lubricant catalog!`);
         }
 
         function generateInvoice() {

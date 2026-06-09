@@ -119,6 +119,12 @@ function submitReview(event) {
         <p>"${text}"</p>
         <h4>- ${name}</h4>
     `;
+
+    const emptyNotice = document.getElementById('reviews-empty');
+    if (emptyNotice) {
+        emptyNotice.remove();
+    }
+
     reviewsGrid.appendChild(reviewCard);
 
     alert(`Thank you for your review, ${name}! It will appear on the site after approval.`);
@@ -147,13 +153,138 @@ function addToCart(name, price) {
 }
 
 function toggleCart() {
-    window.open('https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20would%20like%20help%20with%20an%20order.', '_blank');
+    window.open('https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20would%20like%20help%20ordering%20lubricants.', '_blank');
 }
 
 function toggleMobileNav() {
     const nav = document.getElementById('site-nav');
     if (!nav) return;
     nav.classList.toggle('open');
+}
+
+function initSectionCarousels() {
+    const carousels = [];
+
+    document.querySelectorAll('.section-carousel').forEach((carousel) => {
+        const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
+        if (!slides.length) return;
+
+        const stage = carousel.querySelector('.carousel-stage');
+        let track = carousel.querySelector('.carousel-track');
+        if (!track && stage) {
+            track = document.createElement('div');
+            track.className = 'carousel-track';
+            const fragment = document.createDocumentFragment();
+            slides.forEach((slide) => fragment.appendChild(slide));
+            track.appendChild(fragment);
+            stage.appendChild(track);
+        }
+
+        const trackSlides = Array.from(track?.querySelectorAll('.carousel-slide') || []);
+        if (!trackSlides.length) return;
+
+        let currentIndex = 0;
+        const prevButton = carousel.querySelector('.carousel-btn.prev');
+        const nextButton = carousel.querySelector('.carousel-btn.next');
+        let dotsContainer = carousel.querySelector('.carousel-dots');
+
+        if (!dotsContainer) {
+            dotsContainer = document.createElement('div');
+            dotsContainer.className = 'carousel-dots';
+            carousel.appendChild(dotsContainer);
+        }
+
+        const dots = trackSlides.map((_, index) => {
+            const dot = document.createElement('button');
+            dot.className = 'carousel-dot';
+            dot.type = 'button';
+            dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+            dot.addEventListener('click', () => goTo(index));
+            dotsContainer.appendChild(dot);
+            return dot;
+        });
+
+        function getVisibleSlides() {
+            return trackSlides.filter((slide) => slide.style.display !== 'none');
+        }
+
+        function renderSlides() {
+            const visibleSlides = getVisibleSlides();
+            if (!visibleSlides.length) {
+                trackSlides.forEach((slide) => slide.classList.remove('active'));
+                dots.forEach((dot) => dot.classList.remove('active'));
+                if (track) {
+                    track.style.transform = 'translateX(0)';
+                }
+                return;
+            }
+
+            let activeSlide = visibleSlides.find((slide) => slide === trackSlides[currentIndex]) || visibleSlides[0];
+            const activePosition = visibleSlides.indexOf(activeSlide);
+            trackSlides.forEach((slide) => {
+                slide.classList.toggle('active', slide === activeSlide);
+            });
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', visibleSlides[index] === activeSlide);
+            });
+            if (track) {
+                track.style.transform = `translateX(-${activePosition * 100}%)`;
+            }
+        }
+
+        function goTo(index) {
+            const visibleSlides = getVisibleSlides();
+            if (!visibleSlides.length) return;
+            const nextIndex = ((index % visibleSlides.length) + visibleSlides.length) % visibleSlides.length;
+            currentIndex = trackSlides.indexOf(visibleSlides[nextIndex]);
+            renderSlides();
+        }
+
+        prevButton?.addEventListener('click', () => goTo(currentIndex - 1));
+        nextButton?.addEventListener('click', () => goTo(currentIndex + 1));
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+        stage?.addEventListener('touchstart', (event) => {
+            touchStartX = event.touches[0].clientX;
+        });
+        stage?.addEventListener('touchend', (event) => {
+            touchEndX = event.changedTouches[0].clientX;
+            const delta = touchStartX - touchEndX;
+            if (delta > 50) {
+                goTo(currentIndex + 1);
+            } else if (delta < -50) {
+                goTo(currentIndex - 1);
+            }
+        });
+
+        const autoplayMs = 5500;
+        let autoplayTimer = window.setInterval(() => {
+            const visibleSlides = getVisibleSlides();
+            if (visibleSlides.length > 1) {
+                goTo(currentIndex + 1);
+            }
+        }, autoplayMs);
+        carousel.addEventListener('mouseenter', () => window.clearInterval(autoplayTimer));
+        carousel.addEventListener('mouseleave', () => {
+            autoplayTimer = window.setInterval(() => {
+                const visibleSlides = getVisibleSlides();
+                if (visibleSlides.length > 1) {
+                    goTo(currentIndex + 1);
+                }
+            }, autoplayMs);
+        });
+
+        carousels.push({
+            carousel,
+            renderSlides,
+            isProductCarousel: carousel.classList.contains('product-carousel')
+        });
+
+        renderSlides();
+    });
+
+    return carousels;
 }
 
 let currentCategory = null;
@@ -177,7 +308,7 @@ function resetCatalogSelection() {
 function filterProducts(filter = currentCategory === null ? 'none' : currentCategory) {
     const searchInput = document.getElementById('product-search');
     const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
-    const cards = document.querySelectorAll('.product-card');
+    const slides = document.querySelectorAll('.product-carousel .carousel-slide');
     const buttons = document.querySelectorAll('.filter-btn');
     const countLabel = document.getElementById('search-count');
     const noResults = document.getElementById('no-results');
@@ -188,34 +319,60 @@ function filterProducts(filter = currentCategory === null ? 'none' : currentCate
     });
 
     let visibleCount = 0;
-    cards.forEach(card => {
-        const category = card.querySelector('.badge')?.innerText.toLowerCase() || '';
-        const title = card.querySelector('h3')?.innerText.toLowerCase() || '';
-        const details = card.querySelector('.compatibility')?.innerText.toLowerCase() || '';
+    let firstVisibleIndex = -1;
+    slides.forEach((slide, index) => {
+        const cards = Array.from(slide.querySelectorAll('.product-card'));
+        let visibleCardCount = 0;
 
-        const matchesFilter = filter === 'all' ? true : filter === 'none' ? false : category.includes(filter);
-        const matchesSearch = !query || title.includes(query) || details.includes(query) || category.includes(query);
-        const visible = matchesFilter && matchesSearch;
+        cards.forEach((card) => {
+            const category = card?.querySelector('.badge')?.innerText.toLowerCase() || '';
+            const title = card?.querySelector('h3')?.innerText.toLowerCase() || '';
+            const details = card?.querySelector('.compatibility')?.innerText.toLowerCase() || '';
 
-        card.style.display = visible ? 'block' : 'none';
-        if (visible) visibleCount += 1;
+            const matchesFilter = filter === 'all' ? true : filter === 'none' ? false : category.includes(filter);
+            const matchesSearch = !query || title.includes(query) || details.includes(query) || category.includes(query);
+            const visible = matchesFilter && matchesSearch;
+
+            card.style.display = visible ? 'block' : 'none';
+            if (visible) visibleCardCount += 1;
+        });
+
+        const visible = visibleCardCount > 0;
+        slide.style.display = visible ? 'block' : 'none';
+        slide.classList.toggle('active', false);
+        if (visible) {
+            visibleCount += visibleCardCount;
+            if (firstVisibleIndex === -1) firstVisibleIndex = index;
+        }
     });
 
     if (catalogGrid) {
         catalogGrid.classList.toggle('hidden', visibleCount === 0);
     }
 
+    if (visibleCount > 0 && slides[firstVisibleIndex]) {
+        slides[firstVisibleIndex].classList.add('active');
+    }
+
+    if (window.__carouselControllers) {
+        window.__carouselControllers.forEach((controller) => {
+            if (controller.isProductCarousel) {
+                controller.renderSlides();
+            }
+        });
+    }
+
     if (countLabel) {
         if (filter === 'none') {
-            countLabel.innerText = 'Choose a category to view the best spare parts.';
+            countLabel.innerText = 'Choose a category to view the best lubricant grades.';
         } else if (visibleCount === 0) {
-            countLabel.innerText = 'No matching parts found. Try another search or category.';
+            countLabel.innerText = 'No matching oils found. Try another search or category.';
         } else {
-            countLabel.innerText = `${visibleCount} part${visibleCount === 1 ? '' : 's'} available`;
+            countLabel.innerText = `${visibleCount} product${visibleCount === 1 ? '' : 's'} available`;
         }
     }
     if (noResults) {
-        noResults.innerText = filter === 'none' ? 'Choose a category to view our best spare parts.' : 'No matching parts found. Try another search or category.';
+        noResults.innerText = filter === 'none' ? 'Choose a category to view our best lubricant grades.' : 'No matching oils found. Try another search or category.';
         noResults.style.display = visibleCount === 0 ? 'block' : 'none';
     }
 }
@@ -243,6 +400,9 @@ function initTestimonialCarousel() {
     }, 6000);
 }
 
+window.__carouselControllers = initSectionCarousels();
+filterProducts('all');
+
 function initFaqAccordion() {
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
@@ -264,13 +424,10 @@ function initFaqAccordion() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    resetCatalogSelection();
+window.addEventListener('DOMContentLoaded', () => {
+    activateCategory('all');
     initTestimonialCarousel();
     initFaqAccordion();
-
-    const mobileNavLinks = document.querySelectorAll('#site-nav a');
-    mobileNavLinks.forEach(link => link.addEventListener('click', closeMobileNav));
 
     document.addEventListener('click', function (event) {
         const nav = document.getElementById('site-nav');
