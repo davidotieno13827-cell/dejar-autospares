@@ -204,39 +204,28 @@ function initSectionCarousels() {
             return dot;
         });
 
-        function getVisibleSlides() {
-            return trackSlides.filter((slide) => slide.style.display !== 'none');
-        }
-
         function renderSlides() {
-            const visibleSlides = getVisibleSlides();
-            if (!visibleSlides.length) {
-                trackSlides.forEach((slide) => slide.classList.remove('active'));
-                dots.forEach((dot) => dot.classList.remove('active'));
-                if (track) {
-                    track.style.transform = 'translateX(0)';
-                }
-                return;
-            }
+            if (!trackSlides.length) return;
 
-            let activeSlide = visibleSlides.find((slide) => slide === trackSlides[currentIndex]) || visibleSlides[0];
-            const activePosition = visibleSlides.indexOf(activeSlide);
-            trackSlides.forEach((slide) => {
-                slide.classList.toggle('active', slide === activeSlide);
+            currentIndex = ((currentIndex % trackSlides.length) + trackSlides.length) % trackSlides.length;
+
+            trackSlides.forEach((slide, index) => {
+                const isActive = index === currentIndex;
+                slide.classList.toggle('active', isActive);
+                slide.style.display = 'flex';
             });
+
             dots.forEach((dot, index) => {
-                dot.classList.toggle('active', visibleSlides[index] === activeSlide);
+                dot.classList.toggle('active', index === currentIndex);
             });
+
             if (track) {
-                track.style.transform = `translateX(-${activePosition * 100}%)`;
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
             }
         }
 
         function goTo(index) {
-            const visibleSlides = getVisibleSlides();
-            if (!visibleSlides.length) return;
-            const nextIndex = ((index % visibleSlides.length) + visibleSlides.length) % visibleSlides.length;
-            currentIndex = trackSlides.indexOf(visibleSlides[nextIndex]);
+            currentIndex = index;
             renderSlides();
         }
 
@@ -260,16 +249,14 @@ function initSectionCarousels() {
 
         const autoplayMs = 5500;
         let autoplayTimer = window.setInterval(() => {
-            const visibleSlides = getVisibleSlides();
-            if (visibleSlides.length > 1) {
+            if (trackSlides.length > 1) {
                 goTo(currentIndex + 1);
             }
         }, autoplayMs);
         carousel.addEventListener('mouseenter', () => window.clearInterval(autoplayTimer));
         carousel.addEventListener('mouseleave', () => {
             autoplayTimer = window.setInterval(() => {
-                const visibleSlides = getVisibleSlides();
-                if (visibleSlides.length > 1) {
+                if (trackSlides.length > 1) {
                     goTo(currentIndex + 1);
                 }
             }, autoplayMs);
@@ -424,6 +411,24 @@ function initFaqAccordion() {
     });
 }
 
+function updateActiveNavLink() {
+    const sections = document.querySelectorAll('main section[id], section[id]');
+    const navLinks = document.querySelectorAll('#site-nav a');
+    const scrollPosition = window.scrollY + 120;
+
+    let currentId = 'home';
+    sections.forEach((section) => {
+        if (section.id && scrollPosition >= section.offsetTop) {
+            currentId = section.id;
+        }
+    });
+
+    navLinks.forEach((link) => {
+        const isActive = link.getAttribute('href') === `#${currentId}`;
+        link.classList.toggle('active', isActive);
+    });
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     activateCategory('all');
     initTestimonialCarousel();
@@ -436,6 +441,8 @@ window.addEventListener('DOMContentLoaded', () => {
             closeMobileNav();
         }
     });
+
+    updateActiveNavLink();
 });
 
 window.addEventListener('click', function (event) {
@@ -451,4 +458,5 @@ window.addEventListener('scroll', function () {
     const backToTop = document.getElementById('back-to-top');
     if (!backToTop) return;
     backToTop.classList.toggle('show', window.scrollY > 400);
+    updateActiveNavLink();
 });
