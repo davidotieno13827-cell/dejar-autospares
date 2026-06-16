@@ -1,13 +1,18 @@
+import logging
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
 from requests.auth import HTTPBasicAuth
+from requests.exceptions import ConnectionError, Timeout
 import datetime
 import base64
 
 app = Flask(__name__)
 CORS(app)
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # =========================================================================
 # SAFARICOM DARAJA API CONFIGURATION (PRODUCTION OR SANDBOX)
@@ -30,12 +35,17 @@ DEBUG_MODE = os.getenv("FLASK_DEBUG", "0") == "1"
 @app.route("/api/stkpush", methods=["POST"])
 def trigger_stk_push():
     try:
-        data = request.json
-        phone_number = str(data.get("phone")).strip()
+        data = request.get_json(silent=True)
+        if not data or not isinstance(data, dict):
+            return jsonify({"CustomerMessage": "Invalid or missing JSON request body."}), 400
+
+        phone_raw = data.get("phone")
         amount_raw = data.get("amount")
 
-        if not phone_number or not amount_raw:
+        if not phone_raw or not amount_raw:
             return jsonify({"CustomerMessage": "Phone number and amount are required."}), 400
+
+        phone_number = str(phone_raw).strip()
 
         if not all([CONSUMER_KEY, CONSUMER_SECRET, LIPA_NA_MPESA_ONLINE_PASSKEY, BUSINESS_SHORT_CODE]) or "YOUR_LIVE" in CONSUMER_KEY or "YOUR_LIVE" in CONSUMER_SECRET or "YOUR_LIVE" in LIPA_NA_MPESA_ONLINE_PASSKEY or "YOUR_LIVE" in BUSINESS_SHORT_CODE or "YOUR_PRODUCTION" in CONSUMER_KEY or "YOUR_PRODUCTION" in CONSUMER_SECRET or "YOUR_PRODUCTION" in LIPA_NA_MPESA_ONLINE_PASSKEY or "YOUR_SHORTCODE" in BUSINESS_SHORT_CODE:
             return jsonify({
@@ -43,7 +53,10 @@ def trigger_stk_push():
             }), 500
 
         # Clean the input amount strictly to integers
-        amount = int("".join(filter(str.isdigit, str(amount_raw))))
+        digits = "".join(filter(str.isdigit, str(amount_raw)))
+        if not digits:
+            return jsonify({"CustomerMessage": "The payment amount must be a valid number."}), 400
+        amount = int(digits)
 
         if amount <= 0:
             return jsonify({"CustomerMessage": "The payment amount must be greater than zero."}), 400
@@ -55,12 +68,17 @@ def trigger_stk_push():
         phone_number = normalized_phone
 
         # 1. Generate access token for the selected Daraja environment.
-        token_response = requests.get(
-            OAUTH_URL, auth=HTTPBasicAuth(CONSUMER_KEY, CONSUMER_SECRET)
-        )
+        mode_label = "sandbox" if MPESA_MODE == "sandbox" else "production"
+        try:
+            token_response = requests.get(
+                OAUTH_URL, auth=HTTPBasicAuth(CONSUMER_KEY, CONSUMER_SECRET), timeout=30
+            )
+        except (ConnectionError, Timeout) as exc:
+            logger.error("Failed to connect to Safaricom OAuth endpoint: %s", exc)
+            return jsonify({"CustomerMessage": f"Unable to reach Safaricom {mode_label.capitalize()} servers. Please try again later."}), 502
 
         if token_response.status_code != 200:
-            mode_label = "sandbox" if MPESA_MODE == "sandbox" else "production"
+            logger.warning("Safaricom OAuth returned %s: %s", token_response.status_code, token_response.text)
             return (
                 jsonify(
                     {
@@ -70,7 +88,16 @@ def trigger_stk_push():
                 400,
             )
 
-        access_token = token_response.json().get("access_token")
+        try:
+            token_data = token_response.json()
+        except ValueError:
+            logger.error("Safaricom OAuth returned non-JSON response: %s", token_response.text[:200])
+            return jsonify({"CustomerMessage": "Unexpected response from Safaricom during authentication."}), 502
+
+        access_token = token_data.get("access_token")
+        if not access_token:
+            logger.error("Safaricom OAuth response missing access_token: %s", token_data)
+            return jsonify({"CustomerMessage": "Failed to obtain access token from Safaricom."}), 502
 
         # 2. Setup timestamp and password encryption for the environment.
         timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
@@ -99,11 +126,26 @@ def trigger_stk_push():
         }
 
         # 4. Broadcast request to the selected Daraja environment
-        safaricom_response = requests.post(STK_PUSH_URL, json=payload, headers=headers)
-        return jsonify(safaricom_response.json()), safaricom_response.status_code
+        try:
+            safaricom_response = requests.post(STK_PUSH_URL, json=payload, headers=headers, timeout=30)
+        except (ConnectionError, Timeout) as exc:
+            logger.error("Failed to connect to Safaricom STK Push endpoint: %s", exc)
+            return jsonify({"CustomerMessage": "Unable to reach Safaricom payment servers. Please try again later."}), 502
 
+        try:
+            response_data = safaricom_response.json()
+        except ValueError:
+            logger.error("Safaricom STK Push returned non-JSON response (HTTP %s): %s", safaricom_response.status_code, safaricom_response.text[:200])
+            return jsonify({"CustomerMessage": "Unexpected response from Safaricom. Please try again later."}), 502
+
+        return jsonify(response_data), safaricom_response.status_code
+
+    except ValueError as e:
+        logger.warning("Invalid input in STK push request: %s", e)
+        return jsonify({"CustomerMessage": "Invalid input provided. Please check your phone number and amount."}), 400
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        logger.exception("Unhandled error in STK push endpoint")
+        return jsonify({"CustomerMessage": "An internal error occurred. Please try again later."}), 500
 
 
 @app.route("/health", methods=["GET"])
