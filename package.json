@@ -1,0 +1,12 @@
+{
+  "name": "dejar-autospares",
+  "version": "1.0.0",
+  "description": "Dejar Auto Spares - Lubricants & Auto Parts E-commerce",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
