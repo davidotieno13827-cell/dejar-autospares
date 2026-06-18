@@ -1409,6 +1409,25 @@ section::before {
     font-size: 22px;
 }
 
+.modal-payment-summary {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.modal-note {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+#quick-order-modal h3 {
+    margin: 0;
+    color: var(--text);
+    font-size: 1.15rem;
+}
+
 .mpesa-input-wrapper input {
     width: 100%;
     padding: 11px 12px;
@@ -1515,8 +1534,21 @@ textarea {
 }
 
 @media (max-width: 900px) {
+    header {
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
     .nav-search {
         order: 3;
+        width: 100%;
+        flex: 1 1 100%;
+        justify-content: stretch;
+        margin-top: 4px;
+    }
+
+    .nav-search input {
+        max-width: none;
         width: 100%;
     }
 
@@ -1526,6 +1558,14 @@ textarea {
 
     .mobile-menu-toggle {
         display: inline-flex;
+    }
+
+    .nav-icons {
+        margin-left: auto;
+    }
+
+    .nav-icons .small-btn.outline {
+        display: none;
     }
 
     header {
