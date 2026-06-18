@@ -1,3 +1,4 @@
+import logging
 import os
 import datetime
 import smtplib
@@ -14,6 +15,9 @@ from database import db, init_db, Product, Order, Review, BusinessConfig, AdminU
 load_dotenv()
 
 app = Flask(__name__)
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # =========================================================================
 # APPLICATION CONFIGURATION
@@ -41,7 +45,10 @@ PAYBILL_ACCOUNT = os.getenv("PAYBILL_ACCOUNT", "131141").strip()
 PAYMENT_HELP_PHONE = os.getenv("PAYMENT_HELP_PHONE", "+254721419479").strip()
 
 SMTP_SERVER = os.getenv('SMTP_SERVER', '').strip()
-SMTP_PORT = int(os.getenv('SMTP_PORT', 587))
+try:
+    SMTP_PORT = int(os.getenv('SMTP_PORT', '587'))
+except ValueError:
+    SMTP_PORT = 587
 SMTP_USERNAME = os.getenv('SMTP_USERNAME', '').strip()
 SMTP_PASSWORD = os.getenv('SMTP_PASSWORD', '').strip()
 NOTIFICATION_EMAIL = os.getenv('NOTIFICATION_EMAIL', '').strip()
@@ -142,6 +149,7 @@ def require_admin(f):
             if admin_email not in AUTHORIZED_ADMINS:
                 return jsonify({'error': 'Unauthorized - not an admin'}), 403
         except Exception as e:
+            logger.warning("Admin auth token validation failed: %s", e)
             return jsonify({'error': 'Invalid token'}), 401
         
         return f(*args, **kwargs)
@@ -181,7 +189,8 @@ def get_config():
             "business_account": config.business_account
         }), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        logger.exception("Failed to load business config")
+        return jsonify({"error": "Unable to load configuration."}), 500
 
 
 @app.route("/api/products", methods=["GET"])
@@ -191,7 +200,8 @@ def get_products():
         products = Product.query.filter_by(is_active=True).all()
         return jsonify([p.to_dict() for p in products]), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        logger.exception("Failed to fetch products")
+        return jsonify({"error": "Unable to load products."}), 500
 
 
 @app.route("/api/reviews", methods=["GET"])
@@ -201,7 +211,8 @@ def get_reviews():
         reviews = Review.query.filter_by(is_approved=True).all()
         return jsonify([r.to_dict() for r in reviews]), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        logger.exception("Failed to fetch reviews")
+        return jsonify({"error": "Unable to load reviews."}), 500
 
 
 @app.route("/api/admin/reviews", methods=["GET"])
@@ -227,7 +238,10 @@ def get_admin_reviews():
 def create_order():
     """Create a quick order with reference code"""
     try:
-        data = request.json
+        data = request.get_json(silent=True)
+        if not data or not isinstance(data, dict):
+            return jsonify({"error": "Invalid or missing JSON request body."}), 400
+
         product_id = data.get('product_id')
         product_name = data.get('product_name')
         amount = data.get('amount_ksh')
@@ -283,7 +297,9 @@ Source: {order.source}
         }), 201
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        db.session.rollback()
+        logger.exception("Failed to create order")
+        return jsonify({"error": "Unable to create order. Please try again."}), 500
 
 
 @app.route("/api/orders/<int:order_id>/send-etims", methods=["POST"])
@@ -306,7 +322,9 @@ def send_etims_invoice(order_id):
 
         return jsonify(order.to_dict()), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        db.session.rollback()
+        logger.exception("Failed to send ETIMS invoice for order %s", order_id)
+        return jsonify({"error": "Unable to process ETIMS invoice."}), 500
 
 
 @app.route("/api/orders", methods=["GET"])
@@ -316,7 +334,8 @@ def get_orders():
         orders = Order.query.order_by(Order.created_at.desc()).all()
         return jsonify([o.to_dict() for o in orders]), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        logger.exception("Failed to fetch orders")
+        return jsonify({"error": "Unable to load orders."}), 500
 
 
 @app.route("/api/orders/<int:order_id>/mark-paid", methods=["PUT"])
@@ -348,15 +367,19 @@ Completed At: {order.completed_at.isoformat()}
 
         return jsonify(order.to_dict()), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        db.session.rollback()
+        logger.exception("Failed to mark order %s as paid", order_id)
+        return jsonify({"error": "Unable to update order status."}), 500
 
 
 @app.route("/api/reviews", methods=["POST"])
 def submit_review():
     """Submit a new customer review"""
     try:
-        data = request.json
-        
+        data = request.get_json(silent=True)
+        if not data or not isinstance(data, dict):
+            return jsonify({"error": "Invalid or missing JSON request body."}), 400
+
         # Validate input
         if not data.get('customer_name') or not data.get('comment'):
             return jsonify({"error": "Name and comment are required"}), 400
@@ -375,9 +398,11 @@ def submit_review():
             "message": "Review submitted successfully",
             "requires_approval": False
         }), 201
-    
+
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        db.session.rollback()
+        logger.exception("Failed to submit review")
+        return jsonify({"error": "Unable to submit review. Please try again."}), 500
 
 
 @app.route("/api/admin/reviews/<int:review_id>/approve", methods=["PUT"])
@@ -422,7 +447,7 @@ def confirm_order_payment():
     Marks the order completed and saves the transaction id.
     """
     try:
-        data = request.json or {}
+        data = request.get_json(silent=True) or {}
         order_id = data.get('order_id')
         txn_id = data.get('mpesa_transaction_id')
         receipt = data.get('receipt_number')
@@ -461,7 +486,9 @@ Completed At: {order.completed_at.isoformat()}
         return jsonify({"message": "Order confirmed", "order": order.to_dict()}), 200
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        db.session.rollback()
+        logger.exception("Failed to confirm order payment")
+        return jsonify({"error": "Unable to confirm payment. Please try again."}), 500
 
 
 if __name__ == "__main__":
