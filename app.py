@@ -1,6 +1,7 @@
 import os
 import datetime
 import smtplib
+import time
 from email.message import EmailMessage
 from functools import wraps
 from flask import Flask, request, jsonify
@@ -29,8 +30,40 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JSON_SORT_KEYS'] = False
 
 # Initialize extensions
-CORS(app, resources={r"/api/*": {"origins": os.getenv('CORS_ALLOWED_ORIGINS', '*').split(',')}})
+_allowed_origins = [
+    o.strip() for o in os.getenv('CORS_ALLOWED_ORIGINS', 'https://deejaraoutospares.co.ke').split(',')
+    if o.strip()
+]
+CORS(app, resources={r"/api/*": {"origins": _allowed_origins}})
 init_db(app)
+
+
+@app.after_request
+def _set_security_headers(response):
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+    return response
+
+
+_rate_store: dict[str, list[float]] = {}
+RATE_LIMIT_WINDOW = 60
+RATE_LIMIT_MAX = 5
+
+
+def rate_limit(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        ip = request.remote_addr or "unknown"
+        now = time.time()
+        timestamps = _rate_store.setdefault(ip, [])
+        timestamps[:] = [t for t in timestamps if now - t < RATE_LIMIT_WINDOW]
+        if len(timestamps) >= RATE_LIMIT_MAX:
+            return jsonify({"error": "Too many requests. Please wait a minute and try again."}), 429
+        timestamps.append(now)
+        return f(*args, **kwargs)
+    return decorated
 
 # =========================================================================
 # PAYBILL PAYMENT CONFIGURATION
@@ -162,12 +195,7 @@ def health_check():
     except Exception:
         db_status = "disconnected"
 
-    return jsonify({
-        "status": "ok",
-        "environment": os.getenv("FLASK_ENV", "production"),
-        "payment_method": "paybill",
-        "database": db_status
-    }), 200
+    return jsonify({"status": "ok", "database": db_status}), 200
 
 
 @app.route("/api/config", methods=["GET"])
@@ -181,7 +209,8 @@ def get_config():
             "business_account": config.business_account
         }), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.exception("Unhandled error")
+        return jsonify({"error": "An internal error occurred. Please try again later."}), 500
 
 
 @app.route("/api/products", methods=["GET"])
@@ -191,7 +220,8 @@ def get_products():
         products = Product.query.filter_by(is_active=True).all()
         return jsonify([p.to_dict() for p in products]), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.exception("Unhandled error")
+        return jsonify({"error": "An internal error occurred. Please try again later."}), 500
 
 
 @app.route("/api/reviews", methods=["GET"])
@@ -201,7 +231,8 @@ def get_reviews():
         reviews = Review.query.filter_by(is_approved=True).all()
         return jsonify([r.to_dict() for r in reviews]), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.exception("Unhandled error")
+        return jsonify({"error": "An internal error occurred. Please try again later."}), 500
 
 
 @app.route("/api/admin/reviews", methods=["GET"])
@@ -220,10 +251,12 @@ def get_admin_reviews():
         reviews = query.order_by(Review.created_at.desc()).all()
         return jsonify([r.to_dict() for r in reviews]), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.exception("Unhandled error")
+        return jsonify({"error": "An internal error occurred. Please try again later."}), 500
 
 
 @app.route("/api/orders", methods=["POST"])
+@rate_limit
 def create_order():
     """Create a quick order with reference code"""
     try:
@@ -283,7 +316,8 @@ Source: {order.source}
         }), 201
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.exception("Unhandled error")
+        return jsonify({"error": "An internal error occurred. Please try again later."}), 500
 
 
 @app.route("/api/orders/<int:order_id>/send-etims", methods=["POST"])
@@ -306,7 +340,8 @@ def send_etims_invoice(order_id):
 
         return jsonify(order.to_dict()), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.exception("Unhandled error")
+        return jsonify({"error": "An internal error occurred. Please try again later."}), 500
 
 
 @app.route("/api/orders", methods=["GET"])
@@ -316,7 +351,8 @@ def get_orders():
         orders = Order.query.order_by(Order.created_at.desc()).all()
         return jsonify([o.to_dict() for o in orders]), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.exception("Unhandled error")
+        return jsonify({"error": "An internal error occurred. Please try again later."}), 500
 
 
 @app.route("/api/orders/<int:order_id>/mark-paid", methods=["PUT"])
@@ -348,10 +384,12 @@ Completed At: {order.completed_at.isoformat()}
 
         return jsonify(order.to_dict()), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.exception("Unhandled error")
+        return jsonify({"error": "An internal error occurred. Please try again later."}), 500
 
 
 @app.route("/api/reviews", methods=["POST"])
+@rate_limit
 def submit_review():
     """Submit a new customer review"""
     try:
@@ -377,7 +415,8 @@ def submit_review():
         }), 201
     
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.exception("Unhandled error")
+        return jsonify({"error": "An internal error occurred. Please try again later."}), 500
 
 
 @app.route("/api/admin/reviews/<int:review_id>/approve", methods=["PUT"])
@@ -394,7 +433,8 @@ def approve_review(review_id):
 
         return jsonify(review.to_dict()), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.exception("Unhandled error")
+        return jsonify({"error": "An internal error occurred. Please try again later."}), 500
 
 
 @app.route("/api/admin/reviews/<int:review_id>/reject", methods=["PUT"])
@@ -411,10 +451,12 @@ def reject_review(review_id):
 
         return jsonify(review.to_dict()), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.exception("Unhandled error")
+        return jsonify({"error": "An internal error occurred. Please try again later."}), 500
 
 
 @app.route("/api/orders/confirm", methods=["POST"])
+@rate_limit
 def confirm_order_payment():
     """Simple endpoint to confirm an order payment using an M-Pesa transaction ID.
 
@@ -461,7 +503,8 @@ Completed At: {order.completed_at.isoformat()}
         return jsonify({"message": "Order confirmed", "order": order.to_dict()}), 200
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.exception("Unhandled error")
+        return jsonify({"error": "An internal error occurred. Please try again later."}), 500
 
 
 if __name__ == "__main__":

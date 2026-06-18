@@ -1,3 +1,9 @@
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+}
+
 // ====================================================================
 // TOAST NOTIFICATION SYSTEM
 // ====================================================================
@@ -7,7 +13,7 @@ function showToast(message, type = 'info') {
 
     const toast = document.createElement('div');
     toast.className = 'toast toast-' + type;
-    toast.innerHTML = `<i class="fa-solid fa-${getToastIcon(type)}"></i> <span>${message}</span>`;
+    toast.innerHTML = `<i class="fa-solid fa-${getToastIcon(type)}"></i> <span>${escapeHtml(message)}</span>`;
 
     toastContainer.appendChild(toast);
 
@@ -262,8 +268,8 @@ function submitReview(event) {
                 reviewCard.className = 'review-card';
                 reviewCard.innerHTML = `
                     <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <p>"${text}"</p>
-                    <h4>- ${name}</h4>
+                    <p>"${escapeHtml(text)}"</p>
+                    <h4>- ${escapeHtml(name)}</h4>
                 `;
 
                 reviewsGrid.appendChild(reviewCard);
