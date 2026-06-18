@@ -1,104 +1,182 @@
-// Open the Quick Order Modal smoothly
-function openQuickOrder(itemName, itemPrice) {
-    const modal = document.getElementById("quick-order-modal");
-    const phoneInput = document.getElementById("checkout-phone");
-    if (!modal) {
-        alert(`Ordering: ${itemName} for Ksh ${itemPrice}`);
-        return;
-    }
+// ====================================================================
+// TOAST NOTIFICATION SYSTEM
+// ====================================================================
 
-    document.getElementById("modal-item-name").innerText = itemName;
-    document.getElementById("modal-item-price").innerText = itemPrice.toLocaleString();
-    if (phoneInput) {
-        phoneInput.value = "";
-    }
+function showToast(message, type = 'info') {
+    const toastContainer = document.getElementById('toast-container') || createToastContainer();
 
-    modal.style.display = "flex";
+    const toast = document.createElement('div');
+    toast.className = 'toast toast-' + type;
+    toast.innerHTML = `<i class="fa-solid fa-${getToastIcon(type)}"></i> <span>${message}</span>`;
+
+    toastContainer.appendChild(toast);
+
+    // Auto-remove after 4 seconds
     setTimeout(() => {
-        modal.classList.add("active");
-        if (phoneInput) {
-            phoneInput.focus();
+        toast.classList.add('fade-out');
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+}
+
+function createToastContainer() {
+    const container = document.createElement('div');
+    container.id = 'toast-container';
+    container.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 400px;
+        font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto;
+    `;
+    document.body.appendChild(container);
+    return container;
+}
+
+function getToastIcon(type) {
+    const icons = {
+        'success': 'circle-check',
+        'error': 'circle-exclamation',
+        'info': 'circle-info',
+        'warning': 'triangle-exclamation'
+    };
+    return icons[type] || 'circle-info';
+}
+
+// Add toast styles dynamically
+(function () {
+    const style = document.createElement('style');
+    style.textContent = `
+        .toast {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+            animation: slideInRight 0.3s ease;
+            max-width: 100%;
         }
-    }, 10);
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        .toast.fade-out {
+            animation: slideOutRight 0.3s ease;
+        }
+
+        .toast-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .toast-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .toast-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .toast-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+    `;
+    document.head.appendChild(style);
+})();
+
+// ====================================================================
+// QUICK ORDER & PAYMENT FUNCTIONS
+// ====================================================================
+
+let pendingPayment = null;
+
+function openQuickOrder(itemName, itemPrice) {
+    pendingPayment = {
+        product: itemName,
+        price: itemPrice,
+        paybill: '542542',
+        account: '131141',
+        whatsapp: '+254721419479'
+    };
+    createAndShowOrder();
 }
 
-function closeQuickOrder() {
-    const modal = document.getElementById("quick-order-modal");
-    if (modal) {
-        modal.classList.remove("active");
-        setTimeout(() => {
-            modal.style.display = "none";
-        }, 300);
-    }
-}
-
-// Process live user checkout inputs cleanly
-async function processPayment(event) {
-    if (event) event.preventDefault();
-
-    const phoneInput = document.getElementById("checkout-phone");
-    const phoneValue = phoneInput?.value.trim() || "";
-    const amountInput = parseInt(document.getElementById("modal-item-price").innerText.replace(/[^0-9]/g, ''), 10);
-
-    if (!amountInput || amountInput <= 0) {
-        alert("Unable to read the order amount. Please reopen the checkout and try again.");
-        return;
-    }
-
-    let formattedPhone = phoneValue;
-    if (formattedPhone.startsWith("0")) {
-        formattedPhone = "254" + formattedPhone.slice(1);
-    } else if (formattedPhone.startsWith("+254")) {
-        formattedPhone = formattedPhone.slice(1);
-    }
-
-    if (!/^254[0-9]{9}$/.test(formattedPhone)) {
-        alert("Please enter a valid M-Pesa phone number (e.g., 0712345678)");
-        return;
-    }
-
-    const submitBtn = document.querySelector(".btn-mpesa-pay");
-    if (!submitBtn) {
-        alert("Payment button not available. Please refresh the page.");
-        return;
-    }
-
-    const originalBtnText = submitBtn.innerHTML;
-    submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Sending STK Prompt...`;
-    submitBtn.disabled = true;
-
-    const apiUrl = window.location.protocol === 'file:'
-        ? 'http://127.0.0.1:5000/api/stkpush'
-        : '/api/stkpush';
-
+async function createAndShowOrder() {
     try {
-        const response = await fetch(apiUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+        const response = await fetch('/api/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                phone: formattedPhone,
-                amount: amountInput
+                product_name: pendingPayment.product,
+                amount_ksh: pendingPayment.price
             })
         });
 
-        const data = await response.json();
-
-        if (response.ok) {
-            alert("Payment request sent successfully! Please check your handset for the M-Pesa PIN prompt.");
-            closeQuickOrder();
-        } else {
-            alert(`M-Pesa Failed: ${data.CustomerMessage || "Verify credentials setup."}`);
+        if (!response.ok) {
+            showToast('Could not create order. Please try again.', 'error');
+            return;
         }
+
+        const order = await response.json();
+        showSimplePaymentModal(order);
     } catch (error) {
-        console.error("Connection Error:", error);
-        alert("Could not connect to the payment server. Make sure app.py is running on port 5000.");
-    } finally {
-        submitBtn.innerHTML = originalBtnText;
-        submitBtn.disabled = false;
+        console.error('Order creation error:', error);
+        showToast('Unable to connect. Try WhatsApp: +254 721 419 479', 'error');
     }
 }
+
+function showSimplePaymentModal(order) {
+    // Payment modal has been removed; use the simpler direct payment flow.
+    showToast(`Order ${order.order_number} created. Pay Ksh ${order.amount_ksh.toLocaleString()} to Paybill ${order.paybill} Account ${order.account}. Send your transaction ID on WhatsApp.`, 'info');
+}
+
+function closePaymentModal() {
+    // noop
+}
+
+function sendToWhatsApp() {
+    // noop - payment modal removed
+}
+
+function copyOrderReference() {
+    // noop - payment modal removed
+}
+
+// ====================================================================
+// REVIEW & CONTACT FUNCTIONS
+// ====================================================================
 
 // Handle Customer Reviews form submission
 function submitReview(event) {
@@ -107,7 +185,7 @@ function submitReview(event) {
     const text = document.getElementById("review-text").value.trim();
 
     if (!name || !text) {
-        alert("Please add both your name and your review before submitting.");
+        showToast("Please add both your name and your review before submitting.", 'warning');
         return;
     }
 
@@ -127,7 +205,7 @@ function submitReview(event) {
 
     reviewsGrid.appendChild(reviewCard);
 
-    alert(`Thank you for your review, ${name}! It will appear on the site after approval.`);
+    showToast(`Thank you for your review, ${name}! It will appear after approval.`, 'success');
     document.getElementById("review-form").reset();
 }
 
@@ -139,22 +217,26 @@ function submitContactForm(event) {
     const message = document.getElementById('contact-message').value.trim();
 
     if (!name || !email || !phone || !message) {
-        alert('Please complete the contact form before sending.');
+        showToast('Please complete all fields in the contact form.', 'warning');
         return;
     }
 
-    alert(`Thanks ${name}! Your message has been received. We will contact you at ${phone} or ${email} shortly.`);
+    showToast(`Thanks ${name}! Your message was received. We'll contact you shortly.`, 'success');
     document.getElementById('contact-form').reset();
 }
 
-// Global visual handlers placeholders
+// Global visual handlers
 function addToCart(name, price) {
-    alert(`Added ${name} for Ksh ${price}. For fast orders, use WhatsApp or quick checkout.`);
+    showToast(`Added ${name} for Ksh ${price}. Use WhatsApp or quick checkout to order.`, 'info');
 }
 
 function toggleCart() {
     window.open('https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20would%20like%20help%20ordering%20lubricants.', '_blank');
 }
+
+// ====================================================================
+// NAVIGATION & CAROUSEL FUNCTIONS
+// ====================================================================
 
 function toggleMobileNav() {
     const nav = document.getElementById('site-nav');
@@ -274,6 +356,10 @@ function initSectionCarousels() {
     return carousels;
 }
 
+// ====================================================================
+// PRODUCT FILTERING & CATALOG FUNCTIONS
+// ====================================================================
+
 let currentCategory = null;
 
 function closeMobileNav() {
@@ -296,6 +382,7 @@ function filterProducts(filter = currentCategory === null ? 'none' : currentCate
     const searchInput = document.getElementById('product-search');
     const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
     const slides = document.querySelectorAll('.product-carousel .carousel-slide');
+    const cards = document.querySelectorAll('#catalog-grid .product-card');
     const buttons = document.querySelectorAll('.filter-btn');
     const countLabel = document.getElementById('search-count');
     const noResults = document.getElementById('no-results');
@@ -307,11 +394,35 @@ function filterProducts(filter = currentCategory === null ? 'none' : currentCate
 
     let visibleCount = 0;
     let firstVisibleIndex = -1;
-    slides.forEach((slide, index) => {
-        const cards = Array.from(slide.querySelectorAll('.product-card'));
-        let visibleCardCount = 0;
 
-        cards.forEach((card) => {
+    if (slides.length > 0) {
+        slides.forEach((slide, index) => {
+            const slideCards = Array.from(slide.querySelectorAll('.product-card'));
+            let visibleCardCount = 0;
+
+            slideCards.forEach((card) => {
+                const category = card?.querySelector('.badge')?.innerText.toLowerCase() || '';
+                const title = card?.querySelector('h3')?.innerText.toLowerCase() || '';
+                const details = card?.querySelector('.compatibility')?.innerText.toLowerCase() || '';
+
+                const matchesFilter = filter === 'all' ? true : filter === 'none' ? false : category.includes(filter);
+                const matchesSearch = !query || title.includes(query) || details.includes(query) || category.includes(query);
+                const visible = matchesFilter && matchesSearch;
+
+                card.style.display = visible ? 'block' : 'none';
+                if (visible) visibleCardCount += 1;
+            });
+
+            const visible = visibleCardCount > 0;
+            slide.style.display = visible ? 'block' : 'none';
+            slide.classList.toggle('active', false);
+            if (visible) {
+                visibleCount += visibleCardCount;
+                if (firstVisibleIndex === -1) firstVisibleIndex = index;
+            }
+        });
+    } else {
+        cards.forEach((card, index) => {
             const category = card?.querySelector('.badge')?.innerText.toLowerCase() || '';
             const title = card?.querySelector('h3')?.innerText.toLowerCase() || '';
             const details = card?.querySelector('.compatibility')?.innerText.toLowerCase() || '';
@@ -321,17 +432,12 @@ function filterProducts(filter = currentCategory === null ? 'none' : currentCate
             const visible = matchesFilter && matchesSearch;
 
             card.style.display = visible ? 'block' : 'none';
-            if (visible) visibleCardCount += 1;
+            if (visible) {
+                visibleCount += 1;
+                if (firstVisibleIndex === -1) firstVisibleIndex = index;
+            }
         });
-
-        const visible = visibleCardCount > 0;
-        slide.style.display = visible ? 'block' : 'none';
-        slide.classList.toggle('active', false);
-        if (visible) {
-            visibleCount += visibleCardCount;
-            if (firstVisibleIndex === -1) firstVisibleIndex = index;
-        }
-    });
+    }
 
     if (catalogGrid) {
         catalogGrid.classList.toggle('hidden', visibleCount === 0);
@@ -364,6 +470,10 @@ function filterProducts(filter = currentCategory === null ? 'none' : currentCate
     }
 }
 
+// ====================================================================
+// ACCORDION & UTILITY FUNCTIONS
+// ====================================================================
+
 let currentSlide = 0;
 
 function showSlide(index) {
@@ -386,9 +496,6 @@ function initTestimonialCarousel() {
         changeSlide(1);
     }, 6000);
 }
-
-window.__carouselControllers = initSectionCarousels();
-filterProducts('all');
 
 function initFaqAccordion() {
     const faqItems = document.querySelectorAll('.faq-item');
@@ -429,6 +536,13 @@ function updateActiveNavLink() {
     });
 }
 
+// ====================================================================
+// INITIALIZATION
+// ====================================================================
+
+window.__carouselControllers = initSectionCarousels();
+filterProducts('all');
+
 window.addEventListener('DOMContentLoaded', () => {
     activateCategory('all');
     initTestimonialCarousel();
@@ -443,15 +557,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     updateActiveNavLink();
-});
-
-window.addEventListener('click', function (event) {
-    const modal = document.getElementById('quick-order-modal');
-    if (!modal) return;
-    const content = document.querySelector('.modal-content');
-    if (modal.classList.contains('active') && content && !content.contains(event.target) && event.target === modal) {
-        closeQuickOrder();
-    }
 });
 
 window.addEventListener('scroll', function () {

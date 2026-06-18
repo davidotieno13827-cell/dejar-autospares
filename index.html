@@ -5,93 +5,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Dejar Auto Supplies delivers major vehicle oils for Kenyan cars, pickups and diesel fleets with fast delivery, simple M-Pesa checkout, and expert oil advice.">
-    <meta property="og:title" content="Dejar Auto Supplies | Major Vehicle Oils Kenya">
-    <meta property="og:description"
-        content="Fast national delivery in Kenya, secure M-Pesa checkout, and trusted lubricant brands for cars, pickups and diesel fleets.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://deejaraoutospares.co.ke/">
-    <meta property="og:image"
-        content="https://images.unsplash.com/photo-1549964354-c9e6a2429578?auto=format&fit=crop&q=80&w=1200">
-    <title>Dejar Auto Supplies | Kenya Oil & Engine Lubricants</title>
+        content="Dejar Auto Supplies delivers major vehicle oils for Kenyan cars, pickups and diesel fleets with fast delivery, seamless Paybill checkout, and expert oil advice.">
+    <title>Dejar Auto Supplies | Premium Engine Oils & Lubricants</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 
-<body>
-    <!-- WhatsApp Floating Quick Connect Link -->
-    <a href="https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20am%20inquiring%20about%20vehicle%20lubricants%20and%20engine%20oils."
-        class="whatsapp-float" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp"><i
-            class="fa-brands fa-whatsapp"></i></a>
-
-    <!-- Top Info Bar -->
+<body id="home">
     <div class="top-bar">
         <p><i class="fa-solid fa-truck-fast"></i> Countrywide oil delivery across Kenya | <i
-                class="fa-solid fa-phone"></i>
-            Call/WhatsApp: +254 721419479 | <i class="fa-solid fa-money-bill-wave"></i> Paybill: 542542 | A/C:
-            131141</p>
+                class="fa-solid fa-phone"></i> Call/WhatsApp: +254 721419479 | <i
+                class="fa-solid fa-money-bill-wave"></i> Paybill: 542542 | A/C: 131141</p>
     </div>
 
-    <!-- Navigation Header -->
     <header>
         <div class="logo">
-            <h1>Dejar<span>Auto</span> <small>Supplies</small></h1>
+            <h1>Dejar <span>Auto</span></h1>
+            <small>Supplies</small>
         </div>
+
         <div class="nav-search">
-            <input type="search" id="nav-search" placeholder="Search oils, grades or vehicles"
-                oninput="filterProducts()">
+            <input type="search" placeholder="Search oils, grades or vehicles"
+                aria-label="Search oils, grades or vehicles">
         </div>
-        <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Open navigation menu">
-            <i class="fa-solid fa-bars"></i>
-        </button>
-        <nav id="site-nav">
+
+        <nav id="site-nav" aria-label="Primary">
             <ul>
                 <li><a href="#home" class="active">Home</a></li>
-                <li><a href="#catalog">Catalog</a></li>
-                <li><a href="#how-it-works">How it Works</a></li>
+                <li><a href="#major-lubricants">Catalog</a></li>
+                <li><a href="#guide">How it Works</a></li>
                 <li><a href="#reviews">Reviews</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
+
         <div class="nav-icons">
-            <a class="small-btn outline" href="#catalog">Shop</a>
-            <a class="cart-icon" onclick="toggleCart()" title="Cart"><i class="fa-solid fa-cart-shopping"></i><span
-                    id="cart-count">0</span></a>
+            <a class="small-btn outline" href="#major-lubricants">Shop</a>
+            <button class="cart-icon" type="button" onclick="toggleCart()" aria-label="Open WhatsApp ordering">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>0</span>
+            </button>
+            <button class="mobile-menu-toggle" type="button" aria-label="Toggle navigation" onclick="toggleMobileNav()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
     </header>
 
-    <div class="sticky-cta-bar">
-        <div>
-            <strong>Quick order support:</strong> Paybill 542542 | Account 131141 | WhatsApp +254 721 419 479
-        </div>
-        <div class="sticky-cta-actions">
-            <a href="#catalog" class="small-btn">Browse Oils</a>
-            <a href="https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20need%20help%20choosing%20the%20right%20oil"
-                class="small-btn outline" target="_blank" rel="noopener noreferrer">Chat Now</a>
-        </div>
-    </div>
-
     <main>
-        <!-- Hero Showcase Section -->
-        <section id="home" class="hero-section">
+        <div class="sticky-cta-bar">
+            <div><strong>Quick order support:</strong> Paybill 542542 | Account 131141 | WhatsApp +254 721 419 479</div>
+            <div class="sticky-cta-actions">
+                <a class="small-btn" href="#major-lubricants">Browse Oils</a>
+                <a class="small-btn outline"
+                    href="https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20need%20help%20ordering%20motor%20oil."
+                    target="_blank" rel="noopener noreferrer">Chat Now</a>
+            </div>
+        </div>
+
+        <section class="hero-section" id="hero">
             <div class="hero-content">
                 <div>
                     <p class="hero-eyebrow">Dejar Auto Supplies</p>
                     <h2>Premium Engine Oils & Lubricants for Kenyan Vehicles</h2>
                     <p>Fast delivery, trusted major oil brands, and simple M-Pesa checkout. Paybill 542542 | Account
-                        131141.
-                    </p>
+                        131141.</p>
+
                     <div class="hero-buttons">
-                        <a href="#catalog" class="cta-btn">View Professional Oils</a>
-                        <a href="https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20need%20assistance%20choosing%20the%20right%20engine%20oil."
-                            class="secondary-btn" target="_blank" rel="noopener noreferrer">Talk to an Oil Expert</a>
+                        <a class="cta-btn" href="#major-lubricants"><i class="fa-solid fa-bottle-droplet"></i> View
+                            Professional
+                            Oils</a>
+                        <a class="secondary-btn"
+                            href="https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20need%20oil%20recommendation%20for%20my%20vehicle."
+                            target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i> Talk to an
+                            Oil Expert</a>
                     </div>
                 </div>
-                <div class="hero-side-card">
-                    <p class="hero-side-badge">Most trusted by fleets</p>
+
+                <aside class="hero-side-card">
+                    <span class="hero-side-badge">Most trusted by fleets</span>
                     <h3>Quick oil guidance for Kenyan roads</h3>
                     <ul>
                         <li>Petrol, diesel, and high-mileage grades</li>
@@ -104,529 +97,242 @@
                         <span>Total</span>
                         <span>Castrol</span>
                     </div>
-                </div>
+                </aside>
             </div>
         </section>
 
-        <section class="hero-highlights">
-            <div class="feature-card">
+        <section class="hero-highlights" aria-label="Service highlights">
+            <article class="feature-card">
                 <i class="fa-solid fa-shield-halved"></i>
                 <h3>Trusted Lubricants</h3>
                 <p>Major engine oil brands like Shell, Mobil, Total, Castrol, Engen and Elf stocked and ready to ship.
                 </p>
-            </div>
-            <div class="feature-card">
+            </article>
+            <article class="feature-card">
                 <i class="fa-solid fa-bolt"></i>
                 <h3>Fast Delivery</h3>
                 <p>Same-day dispatch for Nairobi and Kisii, with reliable nationwide delivery across Kenya.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fa-solid fa-wallet"></i>
+            </article>
+            <article class="feature-card">
+                <i class="fa-solid fa-credit-card"></i>
                 <h3>Easy Payments</h3>
-                <p>Lipa Na M-Pesa, Paybill 542542, Account 131141, or request an instant STK push from the checkout.</p>
-            </div>
+                <p>Lipa Na M-Pesa, Paybill 542542, Account 131141, or request an instant STK push from checkout.</p>
+            </article>
         </section>
 
-        <section class="stats-section">
-            <div class="stats-card">
+        <section class="stats-section" aria-label="Business stats">
+            <article class="stats-card">
                 <span class="stats-value">12+</span>
-                <p>Years of trusted lubricant supply in Kenya</p>
-            </div>
-            <div class="stats-card">
+                <p>Years of trusted lubricant supply in Kenya.</p>
+            </article>
+            <article class="stats-card">
                 <span class="stats-value">1,500+</span>
-                <p>Drivers, mechanics and fleet owners served</p>
-            </div>
-            <div class="stats-card">
+                <p>Drivers, mechanics and fleet owners served.</p>
+            </article>
+            <article class="stats-card">
                 <span class="stats-value">98%</span>
-                <p>Customer satisfaction with oil quality and reliable delivery</p>
-            </div>
+                <p>Customer satisfaction with oil quality and service.</p>
+            </article>
         </section>
 
-        <section class="brand-matrix">
-            <h2 class="section-title">Major Lubricant Brands in Stock</h2>
+        <section id="major-lubricants" class="brand-matrix">
+            <h2 class="section-title">Major Lubricants in Stock</h2>
+            <p class="section-description">Shell, Total, Mobil, Castrol, Engen and Elf are our main lubricant brands in
+                stock.</p>
             <div class="brand-matrix-grid">
-                <span><i class="fa-solid fa-droplet"></i>SHELL</span>
-                <span><i class="fa-solid fa-droplet"></i>TOTAL</span>
-                <span><i class="fa-solid fa-droplet"></i>MOBIL</span>
-                <span><i class="fa-solid fa-droplet"></i>CASTROL</span>
-                <span><i class="fa-solid fa-droplet"></i>ENGEN</span>
-                <span><i class="fa-solid fa-droplet"></i>ELF</span>
+                <span><i class="fa-solid fa-oil-can"></i> Shell</span>
+                <span><i class="fa-solid fa-oil-can"></i> Total</span>
+                <span><i class="fa-solid fa-oil-can"></i> Mobil</span>
+                <span><i class="fa-solid fa-oil-can"></i> Castrol</span>
+                <span><i class="fa-solid fa-oil-can"></i> Engen</span>
+                <span><i class="fa-solid fa-oil-can"></i> Elf</span>
             </div>
         </section>
 
-        <section class="vehicle-section">
+        <section id="major-vehicles" class="vehicle-section">
             <h2 class="section-title">Major Vehicles We Serve</h2>
-            <p class="section-description">Dejar Auto Supplies supports the most common Kenyan vehicles with carefully
-                selected lubricant grades for city driving, regional routes and commercial use.</p>
-            <div class="section-carousel vehicle-carousel" data-carousel="vehicle">
-                <div class="carousel-stage">
-                    <div class="carousel-slide active">
-                        <div class="vehicle-card">
-                            <h3>Toyota</h3>
-                            <p>Coverage for Corolla, Premio, Fielder, Probox, Hilux and other Toyota models.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="vehicle-card">
-                            <h3>Nissan</h3>
-                            <p>Support for X-Trail, Almera, Dualis, Note and other popular Nissan vehicles.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="vehicle-card">
-                            <h3>Mazda</h3>
-                            <p>Lubricants for CX-5, Demio, Axela and other Mazda passenger cars.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="vehicle-card">
-                            <h3>Isuzu</h3>
-                            <p>Engine oils and gear fluids for Isuzu D-Max, Hi-Lander and commercial pickups.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="vehicle-card">
-                            <h3>Mitsubishi</h3>
-                            <p>Recommended oils for Lancer, Pajero, Outlander and Triton models.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="vehicle-card">
-                            <h3>Honda</h3>
-                            <p>Trusted grades for Civic, Fit, CR-V and other reliable Honda vehicles.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="vehicle-card">
-                            <h3>Suzuki</h3>
-                            <p>Suitable lubricant options for Swift, Alto, Jimny and compact Suzuki models.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="vehicle-card">
-                            <h3>Hyundai</h3>
-                            <p>Quality oil solutions for Accent, Elantra, Tucson and i10/Mirage.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="vehicle-card">
-                            <h3>Subaru</h3>
-                            <p>Trusted grades for Forester, XV, Impreza and Legacy owners across Kenya.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="vehicle-card">
-                            <h3>Ford</h3>
-                            <p>Support for Ranger, Everest, Focus and other popular Ford models used locally.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="vehicle-card">
-                            <h3>Volkswagen</h3>
-                            <p>High-quality lubricants for Golf, Passat, Jetta and Polo owners.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="vehicle-card">
-                            <h3>Mercedes-Benz</h3>
-                            <p>Premium protection for C-Class, E-Class and Sprinter vans used by Kenyan businesses.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="vehicle-card">
-                            <h3>Land Cruiser / Prado</h3>
-                            <p>Heavy-duty lubricants for the rugged SUV and off-road vehicles common in Kenya.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-controls">
-                    <button class="carousel-btn prev" type="button" aria-label="Show previous vehicle"><i
-                            class="fa-solid fa-chevron-left"></i></button>
-                    <button class="carousel-btn next" type="button" aria-label="Show next vehicle"><i
-                            class="fa-solid fa-chevron-right"></i></button>
-                </div>
-            </div>
+            <p class="section-description">We stock and recommend lubricant options for the most common vehicles on
+                Kenyan roads.</p>
+            <ul class="vehicle-list">
+                <li><span class="vehicle-name">Toyota</span><span class="vehicle-models">Corolla, Premio, Axio, Hiace,
+                        Hilux, Land Cruiser/Prado</span></li>
+                <li><span class="vehicle-name">Nissan</span><span class="vehicle-models">Note, X-Trail, Dualis, Navara,
+                        Caravan</span></li>
+                <li><span class="vehicle-name">Mazda</span><span class="vehicle-models">Demio, Axela, CX-5,
+                        Atenza</span></li>
+                <li><span class="vehicle-name">Isuzu</span><span class="vehicle-models">D-Max, NPR, NQR, Forward</span>
+                </li>
+                <li><span class="vehicle-name">Mitsubishi</span><span class="vehicle-models">Lancer, Outlander, Pajero,
+                        Canter</span></li>
+                <li><span class="vehicle-name">Honda</span><span class="vehicle-models">Fit, Vezel, CR-V, Civic</span>
+                </li>
+                <li><span class="vehicle-name">Suzuki</span><span class="vehicle-models">Swift, Alto, Jimny,
+                        Vitara</span></li>
+                <li><span class="vehicle-name">Hyundai</span><span class="vehicle-models">Tucson, Santa Fe, i10,
+                        Elantra</span></li>
+                <li><span class="vehicle-name">Subaru</span><span class="vehicle-models">Forester, Outback, Impreza,
+                        Legacy</span></li>
+                <li><span class="vehicle-name">Ford</span><span class="vehicle-models">Ranger, Everest, Focus,
+                        Transit</span></li>
+                <li><span class="vehicle-name">Volkswagen</span><span class="vehicle-models">Golf, Passat, Tiguan,
+                        Polo</span></li>
+                <li><span class="vehicle-name">Mercedes-Benz</span><span class="vehicle-models">C-Class, E-Class,
+                        Sprinter, GLE</span></li>
+            </ul>
         </section>
 
-        <section id="about" class="about-section">
-            <div class="about-grid">
-                <div class="about-text">
-                    <h2 class="section-title">About Dejar Auto Supplies</h2>
-                    <p>We supply the most used engine oils and lubricants for vehicles in Kenya, including Toyota
-                        Fielder, Mazda CX-5 and popular Nissan models. From modern synthetic formulas to trusted diesel
-                        and high-mileage blends, our range keeps engines protected and running strong.</p>
-                    <ul>
-                        <li>Major oil brands like Shell, Mobil, Total, Castrol, Engen and Elf.</li>
-                        <li>Trusted grades for petrol, diesel, pickup and commercial fleet engines.</li>
-                        <li>Secure payments and fast nationwide delivery across Kenya.</li>
-                    </ul>
-                </div>
-                <div class="about-info-cards">
-                    <div class="info-card">
-                        <h3>Reliable oil stock</h3>
-                        <p>We keep a dependable inventory of the top lubricant grades used by car owners, mechanics and
-                            fleet managers.</p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Customer-first service</h3>
-                        <p>Dedicated order support via WhatsApp and phone, plus fast advice on the right oil grade for
-                            your
-                            engine.</p>
-                    </div>
-                </div>
+        <section id="oil-guide" class="oil-section">
+            <div class="guide-intro">
+                <p class="hero-eyebrow">Oil guide</p>
+                <h2 class="section-title">Major Oils In Stock</h2>
+                <p>Browse the oils below to see what each one does, the vehicles it suits best, and an indicative Kenyan
+                    market price.</p>
             </div>
-        </section>
-
-        <section class="trust-section">
-            <h2 class="section-title">Why Kenyan Drivers Choose Dejar Auto Supplies</h2>
-            <div class="section-carousel trust-carousel" data-carousel="trust">
-                <div class="carousel-stage">
-                    <div class="carousel-slide active">
-                        <div class="trust-card">
-                            <i class="fa-solid fa-certificate"></i>
-                            <h3>100% Genuine Lubricants</h3>
-                            <p>We stock verified oil brands and trusted grades for both petrol and diesel engines.</p>
-                        </div>
+            <div class="oil-grid">
+                <article class="oil-card">
+                    <div class="oil-header">
+                        <span class="oil-price">KSh 6,800</span>
+                        <span class="oil-type">ATF</span>
                     </div>
-                    <div class="carousel-slide">
-                        <div class="trust-card">
-                            <i class="fa-solid fa-shield-check"></i>
-                            <h3>Secure Payment</h3>
-                            <p>Lipa Na M-Pesa, Paybill 542542 or request an STK push. Your order is confirmed only after
-                                payment.</p>
-                        </div>
+                    <h3>Mobil ATF 3309</h3>
+                    <p>Automatic transmission fluid that gives smooth gear changes and protects Toyota-style automatic
+                        boxes.</p>
+                    <p class="oil-fit"><strong>Best for:</strong> Toyota, Nissan, Mazda, Mitsubishi automatics.</p>
+                    <button class="btn-buy-now" onclick="openQuickOrder('Mobil ATF 3309', 6800)">Quick Order</button>
+                </article>
+                <article class="oil-card">
+                    <div class="oil-header">
+                        <span class="oil-price">KSh 4,800</span>
+                        <span class="oil-type">5W-30</span>
                     </div>
-                    <div class="carousel-slide">
-                        <div class="trust-card">
-                            <i class="fa-solid fa-truck-fast"></i>
-                            <h3>Fast Delivery</h3>
-                            <p>Quick shipping to major towns and reliable nationwide delivery across Kenya.</p>
-                        </div>
+                    <h3>Shell Helix Ultra 5W-30</h3>
+                    <p>Full synthetic engine oil for cleaner engines, better fuel economy and strong cold-start
+                        protection.</p>
+                    <p class="oil-fit"><strong>Best for:</strong> Toyota, Honda, Mazda, Subaru, VW, Mercedes-Benz.</p>
+                    <button class="btn-buy-now" onclick="openQuickOrder('Shell Helix Ultra 5W-30', 4800)">Quick
+                        Order</button>
+                </article>
+                <article class="oil-card">
+                    <div class="oil-header">
+                        <span class="oil-price">KSh 4,700</span>
+                        <span class="oil-type">5W-40</span>
                     </div>
-                    <div class="carousel-slide">
-                        <div class="trust-card">
-                            <i class="fa-solid fa-headset"></i>
-                            <h3>Local Support</h3>
-                            <p>Friendly WhatsApp support, order tracking and oil grade advice from our Kisii team.</p>
-                        </div>
+                    <h3>Mobil Super 3000 5W-40</h3>
+                    <p>Premium synthetic oil that handles heat well and supports high-performance petrol and diesel
+                        engines.</p>
+                    <p class="oil-fit"><strong>Best for:</strong> Subaru, Ford, VW, Honda CR-V, Mercedes-Benz.</p>
+                    <button class="btn-buy-now" onclick="openQuickOrder('Mobil Super 3000 5W-40', 4700)">Quick
+                        Order</button>
+                </article>
+                <article class="oil-card">
+                    <div class="oil-header">
+                        <span class="oil-price">KSh 3,500</span>
+                        <span class="oil-type">10W-40</span>
                     </div>
-                </div>
-                <div class="carousel-controls">
-                    <button class="carousel-btn prev" type="button" aria-label="Show previous reason"><i
-                            class="fa-solid fa-chevron-left"></i></button>
-                    <button class="carousel-btn next" type="button" aria-label="Show next reason"><i
-                            class="fa-solid fa-chevron-right"></i></button>
-                </div>
-            </div>
-        </section>
-
-        <section id="how-it-works" class="order-process-section">
-            <h2 class="section-title">Easy Ordering in 3 Simple Steps</h2>
-            <div class="process-grid">
-                <div class="process-card">
-                    <i class="fa-solid fa-search"></i>
-                    <h3>Choose the right oil</h3>
-                    <p>Pick the correct lubricant grade for petrol, diesel or high-mileage engines from our popular
-                        brands.</p>
-                </div>
-                <div class="process-card">
-                    <i class="fa-solid fa-mobile-screen-button"></i>
-                    <h3>Checkout fast</h3>
-                    <p>Use secure M-Pesa checkout, or pay with Paybill 542542 and account 131141 for trusted payment.
+                    <h3>Total Quartz 9000 10W-40</h3>
+                    <p>Semi-synthetic all-round oil for daily driving, balancing protection, smoothness and
+                        affordability.</p>
+                    <p class="oil-fit"><strong>Best for:</strong> Toyota, Nissan, Mazda, Hyundai, Mitsubishi.</p>
+                    <button class="btn-buy-now" onclick="openQuickOrder('Total Quartz 9000 10W-40', 3500)">Quick
+                        Order</button>
+                </article>
+                <article class="oil-card">
+                    <div class="oil-header">
+                        <span class="oil-price">KSh 3,200</span>
+                        <span class="oil-type">20W-50</span>
+                    </div>
+                    <h3>Engen PowerDrive 20W-50</h3>
+                    <p>Thicker engine oil that helps older engines maintain pressure and reduce wear.</p>
+                    <p class="oil-fit"><strong>Best for:</strong> Toyota Premio, Nissan Note, Mazda Demio, Honda Fit,
+                        Suzuki Alto.</p>
+                    <button class="btn-buy-now" onclick="openQuickOrder('Engen PowerDrive 20W-50', 3200)">Quick
+                        Order</button>
+                </article>
+                <article class="oil-card">
+                    <div class="oil-header">
+                        <span class="oil-price">KSh 3,300</span>
+                        <span class="oil-type">20W-50</span>
+                    </div>
+                    <h3>Castrol GTX 20W-50</h3>
+                    <p>Heavy-duty high-mileage oil designed to keep older engines protected under tough conditions.</p>
+                    <p class="oil-fit"><strong>Best for:</strong> Toyota, Nissan, Mazda, Hyundai, Subaru.</p>
+                    <button class="btn-buy-now" onclick="openQuickOrder('Castrol GTX 20W-50', 3300)">Quick
+                        Order</button>
+                </article>
+                <article class="oil-card">
+                    <div class="oil-header">
+                        <span class="oil-price">KSh 6,200</span>
+                        <span class="oil-type">ATF</span>
+                    </div>
+                    <h3>Shell Spirax S6 ATF</h3>
+                    <p>Automatic transmission fluid made for smoother shifts and stable gearbox performance.</p>
+                    <p class="oil-fit"><strong>Best for:</strong> Toyota, Nissan, Honda, Subaru, Mazda automatics.</p>
+                    <button class="btn-buy-now" onclick="openQuickOrder('Shell Spirax S6 ATF', 6200)">Quick
+                        Order</button>
+                </article>
+                <article class="oil-card">
+                    <div class="oil-header">
+                        <span class="oil-price">KSh 2,900</span>
+                        <span class="oil-type">80W-90</span>
+                    </div>
+                    <h3>Total Rubia 80W-90</h3>
+                    <p>Gear oil that protects manual gearboxes and differentials from heat and wear.</p>
+                    <p class="oil-fit"><strong>Best for:</strong> Isuzu, Mitsubishi Canter, Toyota Hilux, Ford Ranger,
+                        Land Cruiser/Prado.</p>
+                    <button class="btn-buy-now" onclick="openQuickOrder('Total Rubia 80W-90', 2900)">Quick
+                        Order</button>
+                </article>
+                <article class="oil-card">
+                    <div class="oil-header">
+                        <span class="oil-price">KSh 3,400</span>
+                        <span class="oil-type">75W-90</span>
+                    </div>
+                    <h3>Castrol Syntrax 75W-90</h3>
+                    <p>Premium gear lubricant for stronger protection in heavy-duty manual drivetrains and 4x4s.</p>
+                    <p class="oil-fit"><strong>Best for:</strong> Toyota 4x4s, Isuzu, Ford, Volkswagen, Mercedes-Benz.
                     </p>
-                </div>
-                <div class="process-card">
-                    <i class="fa-solid fa-truck-fast"></i>
-                    <h3>Receive or collect</h3>
-                    <p>Get fast nationwide delivery or pick up directly from our Kisii shop near Quickmart.</p>
-                </div>
+                    <button class="btn-buy-now" onclick="openQuickOrder('Castrol Syntrax 75W-90', 3400)">Quick
+                        Order</button>
+                </article>
+                <article class="oil-card">
+                    <div class="oil-header">
+                        <span class="oil-price">KSh 4,300</span>
+                        <span class="oil-type">15W-40</span>
+                    </div>
+                    <h3>Mobil Delvac 15W-40</h3>
+                    <p>Diesel engine oil that supports trucks, vans and fleets with strong wear protection.</p>
+                    <p class="oil-fit"><strong>Best for:</strong> Isuzu NPR/NQR, Mitsubishi Canter, Ford Transit, Toyota
+                        Hiace, Mercedes Sprinter.</p>
+                    <button class="btn-buy-now" onclick="openQuickOrder('Mobil Delvac 15W-40', 4300)">Quick
+                        Order</button>
+                </article>
+                <article class="oil-card">
+                    <div class="oil-header">
+                        <span class="oil-price">KSh 4,600</span>
+                        <span class="oil-type">5W-30</span>
+                    </div>
+                    <h3>Total Quartz Ineo 5W-30</h3>
+                    <p>Fuel-efficient synthetic oil that reduces friction and keeps engines clean for longer.</p>
+                    <p class="oil-fit"><strong>Best for:</strong> Toyota, Mazda, Honda, Subaru, VW, Mercedes-Benz.</p>
+                    <button class="btn-buy-now" onclick="openQuickOrder('Total Quartz Ineo 5W-30', 4600)">Quick
+                        Order</button>
+                </article>
+                <article class="oil-card">
+                    <div class="oil-header">
+                        <span class="oil-price">KSh 3,700</span>
+                        <span class="oil-type">Axle/Gear</span>
+                    </div>
+                    <h3>Shell Spirax S5 ATE</h3>
+                    <p>Axle and gearbox lubricant for pickups and vans that need durable driveline protection.</p>
+                    <p class="oil-fit"><strong>Best for:</strong> Toyota Hilux, Land Cruiser/Prado, Nissan Navara, Isuzu
+                        D-Max, Ford Ranger.</p>
+                    <button class="btn-buy-now" onclick="openQuickOrder('Shell Spirax S5 ATE', 3700)">Quick
+                        Order</button>
+                </article>
             </div>
         </section>
 
-        <section class="featured-deals-section">
-            <h2 class="section-title">Top Lubricant Deals</h2>
-            <div class="section-carousel deals-carousel">
-                <div class="carousel-stage">
-                    <div class="carousel-slide active">
-                        <div class="card-pair">
-                            <div class="deal-card">
-                                <span class="deal-tag">Bestseller</span>
-                                <h3>Shell Helix Ultra 5W-30</h3>
-                                <p>Fully synthetic engine oil engineered for modern petrol and diesel applications with
-                                    excellent
-                                    protection and engine cleanliness.</p>
-                                <div class="deal-footer"><span>Ksh 4,200</span><button class="btn-buy-now"
-                                        onclick="openQuickOrder('Shell Helix Ultra 5W-30', 4200)">Order Now</button>
-                                </div>
-                            </div>
-                            <div class="deal-card">
-                                <span class="deal-tag">Popular Choice</span>
-                                <h3>Total Quartz 9000 10W-40</h3>
-                                <p>High-performance semi-synthetic oil for everyday driving and mixed-use fleet engines.
-                                </p>
-                                <div class="deal-footer"><span>Ksh 3,200</span><button class="btn-buy-now"
-                                        onclick="openQuickOrder('Total Quartz 9000 10W-40', 3200)">Order Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="card-pair">
-                            <div class="deal-card">
-                                <span class="deal-tag">Workshop Grade</span>
-                                <h3>Mobil Super 3000 5W-40</h3>
-                                <p>Premium synthetic oil designed for demanding petrol engines requiring robust
-                                    protection.</p>
-                                <div class="deal-footer"><span>Ksh 4,100</span><button class="btn-buy-now"
-                                        onclick="openQuickOrder('Mobil Super 3000 5W-40', 4100)">Order Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-controls">
-                    <button class="carousel-btn prev" type="button" aria-label="Show previous deal"><i
-                            class="fa-solid fa-chevron-left"></i></button>
-                    <button class="carousel-btn next" type="button" aria-label="Show next deal"><i
-                            class="fa-solid fa-chevron-right"></i></button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Main Catalog Showcase for the most used vehicle lubricants in Kenya -->
-        <section id="catalog" class="catalog-section">
-            <h2 class="section-title">Lubricants in Store</h2>
-            <p class="section-description">A professional catalogue of genuine, high-demand lubricant grades for cars,
-                pickups and commercial fleets across Kenya.</p>
-            <p class="carousel-hint">Swipe left or right to browse our major lubricants in stock.</p>
-
-            <div class="catalog-topbar">
-                <div class="catalog-intro">
-                    <p>Select a category to browse purpose-fit lubricant grades and order the right product quickly.
-                    </p>
-                </div>
-                <div class="category-filters">
-                    <button class="filter-btn" data-filter="all" onclick="activateCategory('all')">All
-                        Lubricants</button>
-                    <button class="filter-btn" data-filter="engine" onclick="activateCategory('engine')">Engine
-                        Oils</button>
-                    <button class="filter-btn" data-filter="transmission"
-                        onclick="activateCategory('transmission')">Transmission Fluids</button>
-                    <button class="filter-btn" data-filter="gear" onclick="activateCategory('gear')">Gear Oils</button>
-                </div>
-            </div>
-            <div class="catalog-hint">
-                <span class="search-count" id="search-count">Choose a category to view our top lubricant grades.</span>
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" id="product-search"
-                        placeholder="Search oil grades, applications or vehicle types" oninput="filterProducts()">
-                </div>
-            </div>
-
-            <div class="section-carousel product-carousel" id="catalog-grid">
-                <div class="carousel-stage">
-                    <div class="carousel-slide active">
-                        <div class="product-card">
-                            <div class="badge">Engine Oils</div><img
-                                src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=400"
-                                alt="Shell Helix Ultra 5W-30">
-                            <div class="product-details">
-                                <h3>Shell Helix Ultra 5W-30</h3>
-                                <p class="compatibility">Fully synthetic engine oil for modern petrol and diesel
-                                    applications.</p>
-                                <div class="price-action"><span class="price">Ksh 4,200</span><button
-                                        class="btn-buy-now"
-                                        onclick="openQuickOrder('Shell Helix Ultra 5W-30', 4200)">Quick
-                                        Order</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="product-card">
-                            <div class="badge">Engine Oils</div><img
-                                src="https://images.unsplash.com/photo-1593366281228-06ac1b9d81c8?auto=format&fit=crop&q=80&w=400"
-                                alt="Mobil Super 3000 5W-40">
-                            <div class="product-details">
-                                <h3>Mobil Super 3000 5W-40</h3>
-                                <p class="compatibility">Premium oil for high-output petrol engines that demand
-                                    durability.</p>
-                                <div class="price-action"><span class="price">Ksh 4,100</span><button
-                                        class="btn-buy-now"
-                                        onclick="openQuickOrder('Mobil Super 3000 5W-40', 4100)">Quick
-                                        Order</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="product-card">
-                            <div class="badge">Engine Oils</div><img
-                                src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=400"
-                                alt="Total Quartz 9000 10W-40">
-                            <div class="product-details">
-                                <h3>Total Quartz 9000 10W-40</h3>
-                                <p class="compatibility">Trusted semi-synthetic oil for mixed-use petrol and diesel
-                                    engines.</p>
-                                <div class="price-action"><span class="price">Ksh 3,200</span><button
-                                        class="btn-buy-now"
-                                        onclick="openQuickOrder('Total Quartz 9000 10W-40', 3200)">Quick
-                                        Order</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="product-card">
-                            <div class="badge">Engine Oils</div><img
-                                src="https://images.unsplash.com/photo-1593366281228-06ac1b9d81c8?auto=format&fit=crop&q=80&w=400"
-                                alt="Engen PowerDrive 20W-50">
-                            <div class="product-details">
-                                <h3>Engen PowerDrive 20W-50</h3>
-                                <p class="compatibility">Reliable protection for older and high-mileage engines.</p>
-                                <div class="price-action"><span class="price">Ksh 3,300</span><button
-                                        class="btn-buy-now"
-                                        onclick="openQuickOrder('Engen PowerDrive 20W-50', 3300)">Quick
-                                        Order</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="product-card">
-                            <div class="badge">Engine Oils</div><img
-                                src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=400"
-                                alt="Castrol GTX 20W-50">
-                            <div class="product-details">
-                                <h3>Castrol GTX 20W-50</h3>
-                                <p class="compatibility">Heavy-mileage engine oil formulated for demanding Kenyan roads.
-                                </p>
-                                <div class="price-action"><span class="price">Ksh 3,400</span><button
-                                        class="btn-buy-now" onclick="openQuickOrder('Castrol GTX 20W-50', 3400)">Quick
-                                        Order</button></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="product-card">
-                            <div class="badge">Transmission Fluids</div><img
-                                src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&q=80&w=400"
-                                alt="Shell Spirax S6 ATF">
-                            <div class="product-details">
-                                <h3>Shell Spirax S6 ATF</h3>
-                                <p class="compatibility">Premium automatic transmission fluid for smooth, reliable
-                                    shifts.</p>
-                                <div class="price-action"><span class="price">Ksh 6,900</span><button
-                                        class="btn-buy-now" onclick="openQuickOrder('Shell Spirax S6 ATF', 6900)">Quick
-                                        Order</button></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="product-card">
-                            <div class="badge">Transmission Fluids</div><img
-                                src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&q=80&w=400"
-                                alt="Mobil ATF 3309">
-                            <div class="product-details">
-                                <h3>Mobil ATF 3309</h3>
-                                <p class="compatibility">Quality automatic fluid for Toyota gearboxes and compatible
-                                    models.</p>
-                                <div class="price-action"><span class="price">Ksh 6,500</span><button
-                                        class="btn-buy-now" onclick="openQuickOrder('Mobil ATF 3309', 6500)">Quick
-                                        Order</button></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="product-card">
-                            <div class="badge">Gear Oils</div><img
-                                src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=400"
-                                alt="Total Rubia 80W-90">
-                            <div class="product-details">
-                                <h3>Total Rubia 80W-90</h3>
-                                <p class="compatibility">Durable gear oil for manual transmissions and drive axle
-                                    applications.</p>
-                                <div class="price-action"><span class="price">Ksh 2,900</span><button
-                                        class="btn-buy-now" onclick="openQuickOrder('Total Rubia 80W-90', 2900)">Quick
-                                        Order</button></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="product-card">
-                            <div class="badge">Gear Oils</div><img
-                                src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=400"
-                                alt="Castrol Syntrax 75W-90">
-                            <div class="product-details">
-                                <h3>Castrol Syntrax 75W-90</h3>
-                                <p class="compatibility">High-performance gear oil for heavy-duty manual drivetrains.
-                                </p>
-                                <div class="price-action"><span class="price">Ksh 3,100</span><button
-                                        class="btn-buy-now"
-                                        onclick="openQuickOrder('Castrol Syntrax 75W-90', 3100)">Quick
-                                        Order</button></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="product-card">
-                            <div class="badge">Engine Oils</div><img
-                                src="https://images.unsplash.com/photo-1593366281228-06ac1b9d81c8?auto=format&fit=crop&q=80&w=400"
-                                alt="Mobil Delvac 15W-40">
-                            <div class="product-details">
-                                <h3>Mobil Delvac 15W-40</h3>
-                                <p class="compatibility">Trusted diesel oil for trucks, buses and commercial fleet
-                                    engines.</p>
-                                <div class="price-action"><span class="price">Ksh 4,500</span><button
-                                        class="btn-buy-now" onclick="openQuickOrder('Mobil Delvac 15W-40', 4500)">Quick
-                                        Order</button></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="product-card">
-                            <div class="badge">Engine Oils</div><img
-                                src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=400"
-                                alt="Total Quartz Ineo 5W-30">
-                            <div class="product-details">
-                                <h3>Total Quartz Ineo 5W-30</h3>
-                                <p class="compatibility">Low-friction full synthetic oil for modern fuel-efficient cars.
-                                </p>
-                                <div class="price-action"><span class="price">Ksh 4,700</span><button
-                                        class="btn-buy-now"
-                                        onclick="openQuickOrder('Total Quartz Ineo 5W-30', 4700)">Quick
-                                        Order</button></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <div class="product-card">
-                            <div class="badge">Gear Oils</div><img
-                                src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=400"
-                                alt="Shell Spirax S5 ATE">
-                            <div class="product-details">
-                                <h3>Shell Spirax S5 ATE</h3>
-                                <p class="compatibility">Durable axle and gearbox lubricant for commercial pickups and
-                                    vans.</p>
-                                <div class="price-action"><span class="price">Ksh 3,600</span><button
-                                        class="btn-buy-now" onclick="openQuickOrder('Shell Spirax S5 ATE', 3600)">Quick
-                                        Order</button></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-controls">
-                    <button class="carousel-btn prev" type="button" aria-label="Show previous lubricant"><i
-                            class="fa-solid fa-chevron-left"></i></button>
-                    <button class="carousel-btn next" type="button" aria-label="Show next lubricant"><i
-                            class="fa-solid fa-chevron-right"></i></button>
-                </div>
-            </div>
-            <div class="empty-state" id="no-results">Choose a category to view our top lubricants.</div>
-        </section>
-
-        <section class="guide-section">
+        <section id="guide" class="guide-section">
             <div class="guide-intro">
                 <p class="hero-eyebrow">Quick buying guide</p>
                 <h2 class="section-title">Pick the right oil in under a minute</h2>
@@ -639,14 +345,14 @@
                     <h3>City commuters</h3>
                     <p>Corolla, Premio, Axio and Civic drivers often choose 5W-30 or 10W-40 for reliable daily
                         performance.</p>
-                    <a href="#catalog" class="text-link">Browse commuter oils</a>
+                    <a href="#major-lubricants" class="text-link">Browse commuter oils</a>
                 </article>
                 <article class="guide-card">
                     <div class="guide-icon"><i class="fa-solid fa-truck-fast"></i></div>
                     <h3>Pickups and fleets</h3>
                     <p>Hilux, D-Max and commercial vehicles benefit from durable 15W-40 and 10W-40 options built for
                         heavy use.</p>
-                    <a href="#catalog" class="text-link">View fleet grades</a>
+                    <a href="#major-lubricants" class="text-link">View fleet grades</a>
                 </article>
                 <article class="guide-card">
                     <div class="guide-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
@@ -664,29 +370,27 @@
             <p class="section-description">Shop our carefully selected engine oil ranges for Kenyan vehicles, from
                 modern synthetic formulas to reliable high-mileage blends.</p>
             <div class="feature-card-grid">
-                <div class="feature-card">
+                <article class="feature-card">
                     <h3>Fully Synthetic 5W-30</h3>
                     <p>Top-grade synthetic oil for modern cars, delivering excellent cold-start protection and longer
                         drain intervals.</p>
                     <button class="btn-buy-now" onclick="activateCategory('engine')">View Engine Oils</button>
-                </div>
-                <div class="feature-card">
+                </article>
+                <article class="feature-card">
                     <h3>Semi-Synthetic 10W-40</h3>
                     <p>Best for mixed fleet use, offering durable protection for petrol and diesel engines across Kenya.
                     </p>
                     <button class="btn-buy-now" onclick="activateCategory('engine')">View Engine Oils</button>
-                </div>
-                <div class="feature-card">
+                </article>
+                <article class="feature-card">
                     <h3>High Mileage 15W-50</h3>
                     <p>Engineered for older vehicles needing stronger wear protection and better oil pressure retention.
                     </p>
                     <button class="btn-buy-now" onclick="activateCategory('engine')">View Engine Oils</button>
-                </div>
+                </article>
             </div>
         </section>
 
-
-        <!-- Customer Reviews Workspace -->
         <section id="reviews" class="reviews-section">
             <h2 class="section-title">Verified Customer Reviews</h2>
             <p class="section-description">Real customer feedback appears here once submitted. Share your experience
@@ -695,7 +399,6 @@
                 <div class="empty-state" id="reviews-empty">No reviews yet. Be the first to share your experience with
                     Dejar Auto Supplies.</div>
             </div>
-
             <div class="add-review-box">
                 <h3>Leave a Review</h3>
                 <form id="review-form" onsubmit="submitReview(event)">
@@ -707,37 +410,6 @@
             </div>
         </section>
 
-        <!-- M-Pesa Checkout Overlaid Window Frame Container -->
-        <div id="quick-order-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <img src="https://developer.safaricom.co.ke/assets/img/daraja-logo.png" alt="M-Pesa Daraja">
-                    <h3>Secure Checkout</h3>
-                </div>
-
-                <div class="modal-summary">
-                    <p class="modal-label">Item Description:</p>
-                    <p class="modal-detail" id="modal-item-name">-</p>
-                    <p class="modal-label">Total Amount due:</p>
-                    <p class="modal-detail modal-price">Ksh <span id="modal-item-price">-</span></p>
-                </div>
-
-                <form onsubmit="processPayment(event)">
-                    <div class="mpesa-input-wrapper">
-                        <label class="modal-label" for="checkout-phone">M-Pesa Phone Number</label>
-                        <input type="text" id="checkout-phone" placeholder="e.g., 0712345678" required>
-                    </div>
-
-                    <div class="modal-actions">
-                        <button type="submit" class="btn-mpesa-pay"><i class="fa-solid fa-lock"></i> Initiate Lipa Na
-                            M-Pesa</button>
-                        <button type="button" class="btn-cancel" onclick="closeQuickOrder()">Cancel Order</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Map & Physical Address Navigation Center Footer -->
         <section id="contact" class="contact-section">
             <div class="contact-info">
                 <h3>Visit Our Shop</h3>
@@ -759,7 +431,6 @@
                 </form>
             </div>
             <div class="footer-map">
-                <!-- Precise Map Location Centered Between KPLC and Quickmart Kisii -->
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.7027552554705!2d34.76916817424602!3d-0.6784841993148154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182b26090c29f4bb%3A0xe67cf2f1839e55b4!2sQuickmart%20Kisii!5e0!3m2!1sen!2ske!4v1717462000000!5m2!1sen!2ske"
                     width="100%" height="250" allowfullscreen="" loading="lazy"
@@ -774,16 +445,14 @@
                     <button class="faq-question" type="button">How fast is delivery in Nairobi and Kisii?</button>
                     <div class="faq-answer">
                         <p>Most orders are dispatched the same day. Nairobi and Kisii deliveries typically arrive within
-                            1-2
-                            business days.</p>
+                            1-2 business days.</p>
                     </div>
                 </div>
                 <div class="faq-item">
                     <button class="faq-question" type="button">Can I pay using Paybill 542542?</button>
                     <div class="faq-answer">
-                        <p>Yes — you can pay via Paybill 542542, Account 131141, or request a secure Lipa Na M-Pesa STK
-                            push
-                            on checkout.</p>
+                        <p>Yes — you can pay via Paybill 542542, Account 131141. Confirm your payment by messaging us on
+                            WhatsApp.</p>
                     </div>
                 </div>
                 <div class="faq-item">
@@ -803,22 +472,28 @@
                 </div>
             </div>
         </section>
-    </main>
 
-    <section class="built-by-section">
-        <div class="built-by-card">
-            <p>Built for Kenyan workshops and fleet professionals by <a href="https://DOsystems.co.ke" target="_blank"
-                    rel="noopener noreferrer">DOsystems.co.ke</a>.</p>
-            <p><strong>DOsystems</strong> creates growth-focused e-commerce and auto service systems that help clients
-                sell faster and build stronger credibility.</p>
-        </div>
-    </section>
+        <section class="built-by-section">
+            <div class="built-by-card">
+                <p>Built for Kenyan workshops and fleet professionals by <a href="https://DOsystems.co.ke"
+                        target="_blank" rel="noopener noreferrer">DOsystems.co.ke</a>.</p>
+                <p><strong>DOsystems</strong> creates growth-focused e-commerce and auto service systems that help
+                    clients sell faster and build stronger credibility.</p>
+            </div>
+        </section>
+    </main>
 
     <footer class="bottom-footer">
         <p>&copy; 2026 Dejar Auto Supplies. All Rights Reserved. Paybill 542542 | Account 131141.</p>
     </footer>
 
     <a id="back-to-top" href="#home" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></a>
+    <a class="whatsapp-float"
+        href="https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20need%20help%20ordering%20lubricants."
+        target="_blank" rel="noopener noreferrer" aria-label="WhatsApp support">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
     <script src="app.js"></script>
 </body>
 

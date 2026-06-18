@@ -1,0 +1,9 @@
+.git
+.venv
+__pycache__
+instance
+*.pyc
+*.pyo
+*.pyd
+.env
+.DS_Store

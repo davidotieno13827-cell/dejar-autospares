@@ -164,6 +164,7 @@ nav#site-nav a {
     color: #425266;
     font-weight: 600;
     padding: 6px 0;
+    white-space: nowrap;
 }
 
 nav#site-nav a.active,
@@ -497,14 +498,59 @@ section::before {
     color: var(--dark-color);
 }
 
-/* Vehicles */
-.vehicle-grid {
+.vehicle-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 14px;
+    margin-top: 24px;
+    padding-left: 0;
+    list-style: none;
+    counter-reset: vehicle-item;
 }
 
-.vehicle-card,
+.vehicle-list li {
+    position: relative;
+    background: linear-gradient(180deg, #fff, #f8fbff);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 12px 12px 12px 48px;
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.04);
+}
+
+.vehicle-list li::before {
+    counter-increment: vehicle-item;
+    content: counter(vehicle-item);
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-color), #ff7b5c);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    box-shadow: 0 10px 20px rgba(230, 57, 70, 0.18);
+}
+
+.vehicle-name {
+    display: block;
+    color: var(--text);
+    font-weight: 800;
+    margin-bottom: 3px;
+}
+
+.vehicle-models {
+    display: block;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.vehicle-list li,
 .info-card,
 .trust-card,
 .process-card,
@@ -518,7 +564,6 @@ section::before {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.vehicle-card h3,
 .info-card h3,
 .trust-card h3,
 .process-card h3,
@@ -565,14 +610,13 @@ section::before {
 }
 
 .deal-card {
-    position: relative;
+    min-height: 100%;
 }
 
 .deal-tag {
     display: inline-block;
     background: rgba(230, 57, 70, 0.1);
     color: var(--primary-color);
-    font-size: 12px;
     font-weight: 700;
     padding: 4px 10px;
     border-radius: 999px;
@@ -585,6 +629,7 @@ section::before {
     align-items: center;
     gap: 12px;
     margin-top: 12px;
+    flex-wrap: wrap;
 }
 
 .deal-footer span {
@@ -871,7 +916,6 @@ section::before {
     border-color: rgba(255, 255, 255, 0.24);
 }
 
-.vehicle-card:hover,
 .info-card:hover,
 .trust-card:hover,
 .process-card:hover,
@@ -1041,6 +1085,74 @@ section::before {
 
 .feature-card-grid .feature-card {
     min-height: 100%;
+}
+
+.oil-section {
+    margin: 24px 16px 0;
+    padding: 36px 6%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    box-shadow: 0 14px 38px rgba(15, 23, 42, 0.06);
+}
+
+.oil-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+}
+
+.oil-card {
+    padding: 20px;
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+}
+
+.oil-card h3 {
+    margin: 10px 0 8px;
+    color: var(--text);
+    font-weight: 800;
+}
+
+.oil-card p {
+    color: var(--muted);
+    font-size: 0.93rem;
+    line-height: 1.5;
+}
+
+.oil-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.oil-price {
+    background: rgba(230, 57, 70, 0.1);
+    color: var(--primary-color);
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.86rem;
+}
+
+.oil-type {
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.oil-fit {
+    margin-top: 10px;
+}
+
+.oil-fit strong {
+    color: var(--text);
 }
 
 .guide-section {
@@ -1301,6 +1413,25 @@ textarea {
     display: none;
 }
 
+.payment-text {
+    margin: 0;
+    padding: 8px 0 0 0;
+    color: #111827;
+    font-weight: 600;
+}
+
+.payment-text#display-paybill,
+.payment-text#display-account {
+    color: #111827;
+    font-weight: 700;
+    background: transparent;
+    border-radius: 0;
+    cursor: auto;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+
 @media (max-width: 920px) {
     .hero-content {
         grid-template-columns: 1fr;
@@ -1378,9 +1509,86 @@ textarea {
         align-items: stretch;
     }
 
+    .deals-grid,
+    .feature-card-grid,
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .featured-deals-section,
+    .catalog-section,
+    .engine-oils-section,
+    .oil-section {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .deals-grid,
+    .feature-card-grid,
+    .product-grid,
+    .oil-grid {
+        gap: 12px;
+    }
+
+    .deal-card,
+    .feature-card,
+    .product-card,
+    .oil-card {
+        border-radius: 16px;
+        padding: 16px;
+    }
+
+    .deal-card p,
+    .section-description,
+    .compatibility,
+    .feature-card p,
+    .oil-card p {
+        font-size: 0.92rem;
+        line-height: 1.5;
+    }
+
+    .deal-footer,
+    .price-action {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .deal-footer span,
+    .price {
+        text-align: left;
+    }
+
+    .catalog-topbar,
+    .catalog-hint {
+        align-items: stretch;
+    }
+
+    .category-filters {
+        gap: 8px;
+    }
+
+    .filter-btn {
+        flex: 1 1 calc(50% - 8px);
+        justify-content: center;
+    }
+
+    .catalog-hint .search-box {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .carousel-stage {
+        min-height: auto;
+    }
+
+    .carousel-controls {
+        margin-top: 12px;
+    }
+
     .stats-section,
     .brand-matrix,
     .vehicle-section,
+    .oil-section,
     .about-section,
     .trust-section,
     .order-process-section,
@@ -1391,4 +1599,487 @@ textarea {
         margin: 16px 10px 0;
         padding: 24px 4%;
     }
+
+    .vehicle-section {
+        padding-top: 14px;
+    }
+
+    .vehicle-section .section-title {
+        font-size: clamp(19px, 4.6vw, 23px);
+        margin-bottom: 4px;
+    }
+
+    .vehicle-section .section-title::after {
+        width: 44px;
+        height: 3px;
+        margin-top: 5px;
+    }
+
+    .vehicle-section .section-description {
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+    }
+
+    .vehicle-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px;
+        margin-top: 12px;
+    }
+
+    .vehicle-list li {
+        padding: 8px 8px 8px 38px;
+    }
+
+    .vehicle-list li::before {
+        left: 8px;
+        top: 8px;
+        width: 18px;
+        height: 18px;
+        font-size: 0.66rem;
+    }
+
+    .vehicle-models {
+        font-size: 0.78rem;
+        line-height: 1.22;
+    }
+
+    .about-grid {
+        gap: 16px;
+    }
+
+    .about-text p,
+    .about-text ul {
+        font-size: 0.92rem;
+    }
+
+    .about-text ul {
+        margin: 10px 0 0 16px;
+    }
+
+    .about-info-cards {
+        gap: 10px;
+    }
+
+    .info-card,
+    .trust-card,
+    .process-card {
+        padding: 16px;
+    }
+
+    .trust-section {
+        padding-top: 14px;
+    }
+
+    .trust-section .section-title {
+        font-size: clamp(19px, 4.6vw, 23px);
+        margin-bottom: 4px;
+    }
+
+    .trust-section .section-title::after {
+        width: 44px;
+        height: 3px;
+        margin-top: 5px;
+    }
+
+    .trust-section .section-description {
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+    }
+
+    .trust-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 12px;
+    }
+
+    .trust-card {
+        padding: 12px;
+    }
+
+    .trust-card i {
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+
+    .trust-card h3 {
+        font-size: 0.92rem;
+        margin-bottom: 4px;
+    }
+
+    .trust-card p {
+        font-size: 0.8rem;
+        line-height: 1.25;
+    }
+
+    .featured-deals-section {
+        padding-top: 14px;
+    }
+
+    .featured-deals-section .section-title {
+        font-size: clamp(19px, 4.6vw, 23px);
+        margin-bottom: 4px;
+    }
+
+    .featured-deals-section .section-title::after {
+        width: 44px;
+        height: 3px;
+        margin-top: 5px;
+    }
+
+    .featured-deals-section .section-description {
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+    }
+
+    .deals-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-top: 12px;
+    }
+
+    .deal-card {
+        padding: 12px;
+    }
+
+    .deal-card h3 {
+        font-size: 0.92rem;
+        margin-bottom: 4px;
+    }
+
+    .deal-card p {
+        font-size: 0.8rem;
+        line-height: 1.25;
+        margin-bottom: 8px;
+    }
+
+    .deal-tag {
+        margin-bottom: 6px;
+        font-size: 10px;
+    }
+
+    .deal-footer {
+        gap: 6px;
+        margin-top: 8px;
+    }
+
+    .deal-footer span {
+        font-size: 0.86rem;
+    }
+
+    .featured-deals-section .section-title,
+    .catalog-section .section-title {
+        font-size: clamp(19px, 4.6vw, 23px);
+        margin-bottom: 4px;
+    }
+
+    .featured-deals-section .section-description,
+    .catalog-section .section-description,
+    .catalog-hint,
+    .carousel-hint {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+
+    .catalog-topbar,
+    .catalog-hint {
+        gap: 10px;
+    }
+
+    .category-filters {
+        gap: 6px;
+    }
+
+    .filter-btn {
+        padding: 7px 10px;
+        font-size: 0.82rem;
+    }
+
+    .carousel-stage {
+        min-height: 300px;
+        padding-top: 4px;
+    }
+
+    .product-card {
+        border-radius: 18px;
+    }
+
+    .product-card img {
+        height: 160px;
+    }
+
+    .product-details {
+        padding: 14px;
+    }
+
+    .product-details h3 {
+        font-size: 0.98rem;
+    }
+
+    .compatibility {
+        font-size: 0.84rem;
+        line-height: 1.35;
+    }
+
+    .deal-card {
+        padding: 16px;
+    }
+
+    .deal-tag {
+        margin-bottom: 8px;
+        font-size: 11px;
+    }
+
+    .deal-footer {
+        margin-top: 10px;
+        gap: 8px;
+    }
+
+    .deal-footer span {
+        font-size: 0.92rem;
+    }
+
+    .trust-section .carousel-stage {
+        min-height: 300px;
+    }
+
+    .trust-card p,
+    .process-card p,
+    .info-card p {
+        font-size: 0.9rem;
+        line-height: 1.45;
+    }
+}
+
+@media (max-width: 420px) {
+    .vehicle-list {
+        grid-template-columns: 1fr;
+    }
+
+    .deals-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================================
+   ADMIN DASHBOARD STYLES (Unified with main branding)
+   ========================================================================= */
+
+.admin-header {
+    background: linear-gradient(90deg, var(--dark-color), var(--dark-soft));
+    color: white;
+    padding: 18px 6.5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.admin-nav-info {
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+@media (max-width: 900px) {
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.dashboard-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-top: 4px solid var(--primary-color);
+}
+
+.dashboard-box h3 {
+    color: var(--dark-color);
+    margin-bottom: 18px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dashboard-box form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dashboard-box label {
+    display: block;
+    margin-top: 12px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.dashboard-box input,
+.dashboard-box select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fbfdff;
+}
+
+.dashboard-box input:focus,
+.dashboard-box select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(215, 38, 61, 0.1);
+}
+
+.invoice-preview {
+    background: #fdfdfd;
+    border: 1px dashed #bbb;
+    padding: 30px;
+    border-radius: 4px;
+    margin-top: 20px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #333;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.table-invoice {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.table-invoice th,
+.table-invoice td {
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.orders-table th,
+.orders-table td {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 12px;
+    text-align: left;
+}
+
+.orders-table th {
+    background: #f5f5f5;
+    font-weight: 700;
+}
+
+.orders-table button {
+    min-width: 110px;
+}
+
+.table-invoice th {
+    background: #f5f5f5;
+    font-weight: 700;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.btn-print {
+    background: #2b2d42;
+    color: white;
+    width: auto;
+    padding: 10px 20px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-print:hover {
+    background: #1f212f;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.muted-label {
+    font-size: 13px;
+    color: #666;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-strong);
+}
+
+.btn-secondary {
+    background: #f1f5f9;
+    color: var(--dark-color);
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    cursor: pointer;
+    font-weight: 600;
+    width: 100%;
+}
+
+.btn-secondary:hover {
+    background: #e2e8f0;
+}
+
+.bg-light {
+    background: #f8fafc;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 6.5%;
+}
+
+.container h2 {
+    color: var(--text);
+    font-weight: 800;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.section-subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 20px;
 }

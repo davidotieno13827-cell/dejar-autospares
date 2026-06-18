@@ -4,118 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dejar Auto Supplies | Management Console</title>
+    <title>Dejar Auto Supplies | Admin Console</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .admin-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        @media (max-width: 900px) {
-            .admin-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .dashboard-box {
-            background: #fff;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border-top: 4px solid var(--dark-color);
-        }
-
-        .invoice-preview {
-            background: #fdfdfd;
-            border: 1px dashed #bbb;
-            padding: 30px;
-            border-radius: 4px;
-            margin-top: 20px;
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        .invoice-header {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 2px solid #333;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-        }
-
-        .table-invoice {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        .table-invoice th,
-        .table-invoice td {
-            border-bottom: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        .text-right {
-            text-align: right !important;
-        }
-
-        .btn-print {
-            background: #2b2d42;
-            color: white;
-            width: auto;
-            padding: 10px 20px;
-            margin-top: 15px;
-        }
-
-        .admin-header {
-            background: var(--dark-color);
-            color: white;
-            padding: 18px 6.5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .admin-nav-info {
-            font-weight: 600;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .muted-label {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 10px 16px;
-            border-radius: 8px;
-            border: none;
-        }
-
-        .btn-secondary {
-            background: #f1f5f9;
-            color: var(--dark-color);
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
+    <!-- Google Sign-In -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
 <body class="bg-light">
@@ -123,17 +19,37 @@
     <!-- Dark Specialized Admin Header -->
     <header class="admin-header">
         <div class="logo">
-            <h1>Dejar Console</h1>
+            <h1>Dejar<span>Auto</span> <small>Console</small></h1>
         </div>
-        <nav><span class="admin-nav-info"><i class="fa-solid fa-user-shield"></i> Authorized Operations: Admin
-                Panel</span></nav>
+        <nav>
+            <span class="admin-nav-info">
+                <i class="fa-solid fa-user-shield"></i>
+                <span id="admin-user-name">Loading...</span>
+            </span>
+            <button id="logout-btn" class="small-btn outline" style="margin-left: 16px; display: none;"
+                onclick="handleLogout()">Logout</button>
+            <div id="google-signin" style="margin-left: 16px;"></div>
+        </nav>
     </header>
 
-    <!-- Main Dashboard Container -->
-    <main class="container">
-        <h2>Business Operations Dashboard</h2>
-        <p class="section-subtitle" style="text-align: left; margin-bottom: 20px;">Manage product inventories, log
-            incoming requests, and issue corporate compliant invoices.</p>
+    <!-- Google Authentication Required Screen (hidden by JavaScript) -->
+    <div id="auth-gate"
+        style="display: flex; height: 100vh; align-items: center; justify-content: center; background: linear-gradient(135deg, #f8fafc 0%, #eef4ff 45%, #fdf2f2 100%);">
+        <div
+            style="text-align: center; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 24px 60px rgba(15, 23, 42, 0.2); max-width: 400px;">
+            <i class="fa-solid fa-lock"
+                style="font-size: 48px; color: var(--primary-color); margin-bottom: 16px; display: block;"></i>
+            <h2 style="color: var(--text); margin-bottom: 12px;">Admin Access Required</h2>
+            <p style="color: var(--muted); margin-bottom: 24px;">Sign in with your Google account to access the
+                management console.</p>
+            <div id="google-signin-auth"></div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Container (hidden until authenticated) -->
+    <main class="container" id="admin-dashboard" style="display: none;">
+        <h2><i class="fa-solid fa-chart-line"></i> Business Operations Dashboard</h2>
+        <p class="section-subtitle">Manage product inventories, configure settings, and issue compliant invoices.</p>
 
         <div class="admin-grid">
 
@@ -153,12 +69,15 @@
                                 <option value="nissan">Nissan</option>
                                 <option value="mazda">Mazda</option>
                                 <option value="isuzu">Isuzu</option>
+                                <option value="honda">Honda</option>
+                                <option value="mitsubishi">Mitsubishi</option>
                             </select>
                         </div>
                         <div>
                             <label class="muted-label">Oil Category</label>
                             <select id="stock-cat">
                                 <option value="engine">Engine Oil</option>
+                                <option value="transmission">Transmission Fluid</option>
                                 <option value="gear">Gear Oil</option>
                                 <option value="brake">Brake Fluid</option>
                             </select>
@@ -168,11 +87,11 @@
                     <div class="grid-2">
                         <div>
                             <label class="muted-label">Unit Price (Ksh)</label>
-                            <input type="number" id="stock-price" value="7500">
+                            <input type="number" id="stock-price" value="7500" required>
                         </div>
                         <div>
                             <label class="muted-label">Initial Stock Qty</label>
-                            <input type="number" id="stock-qty" value="10">
+                            <input type="number" id="stock-qty" value="10" required>
                         </div>
                     </div>
 
@@ -181,17 +100,85 @@
                 </form>
             </div>
 
-            <!-- Column 2: Invoice Generator Tools -->
+            <!-- Column 2: Settings & Configuration -->
+            <div class="dashboard-box">
+                <h3><i class="fa-solid fa-sliders"></i> Business Configuration</h3>
+
+                <label>Tax Rate (VAT) - %</label>
+                <div class="grid-2">
+                    <input type="number" id="tax-rate" placeholder="16" value="16" step="0.01" min="0" max="100"
+                        required>
+                    <button type="button" class="btn-secondary" onclick="saveTaxRate()">Save Tax Rate</button>
+                </div>
+
+                <label style="margin-top: 16px;">Business Shortcode</label>
+                <input type="text" id="business-shortcode" placeholder="e.g., 542542" required>
+
+                <label>Business Account Number</label>
+                <input type="text" id="business-account" placeholder="e.g., 131141" required>
+
+                <button type="button" class="btn-secondary" style="margin-top: 15px; width: 100%;"
+                    onclick="saveBusinessConfig()">
+                    <i class="fa-solid fa-floppy-disk"></i> Save Configuration
+                </button>
+
+                <div style="margin-top: 16px; padding: 12px; background: #f0f4f8; border-radius: 6px;">
+                    <p style="font-size: 12px; color: #666; margin: 0;">
+                        <i class="fa-solid fa-info-circle"></i> These settings are stored securely and used for all
+                        invoices and business operations.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="admin-grid" style="margin-top: 20px;">
+            <div class="dashboard-box" style="grid-column: 1 / -1;">
+                <h3><i class="fa-solid fa-receipt"></i> Order Management</h3>
+                <p style="color: var(--muted); margin-bottom: 18px;">View Paybill orders and confirm payment once
+                    received.</p>
+                <div class="table-responsive">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Product / Customer</th>
+                                <th>Phone</th>
+                                <th>Amount</th>
+                                <th>Source</th>
+                                <th>ETIMS</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body">
+                            <tr>
+                                <td colspan="8" style="text-align:center; color:#666; padding:24px;">No orders loaded
+                                    yet.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Row: Invoice Generator -->
+        <div style="margin-top: 30px;">
             <div class="dashboard-box">
                 <h3><i class="fa-solid fa-file-invoice-dollar"></i> Quick KRA PIN Invoice Builder</h3>
+                <p style="color: var(--muted); font-size: 14px; margin-bottom: 16px;">Generate professional tax invoices
+                    with configurable VAT.</p>
+
                 <div class="grid-2" style="margin-top:15px;">
                     <input type="text" id="inv-client" placeholder="Client / Company Name">
                     <input type="text" id="inv-pin" placeholder="Client KRA PIN (Optional)">
                     <input type="text" id="inv-item" placeholder="Item Purchased">
                     <input type="number" id="inv-cost" placeholder="Total Cost (Ksh)">
                 </div>
-                <button class="btn-secondary" style="margin-top: 15px;" onclick="generateInvoice()">Generate Formal
-                    Invoice</button>
+                <button class="btn-secondary" style="margin-top: 15px; width: 100%;" onclick="generateInvoice()">
+                    <i class="fa-solid fa-file-export"></i> Generate Formal Invoice
+                </button>
+
                 <!-- Hidden Printed Form Sheets -->
                 <div class="invoice-preview hidden" id="invoice-sheet">
                     <div class="invoice-header">
@@ -220,7 +207,8 @@
                                 <td class="text-right" id="lbl-sub">Ksh 0.00</td>
                             </tr>
                             <tr>
-                                <td class="text-right"><strong>VAT (16%)</strong></td>
+                                <td class="text-right"><strong>VAT (<span id="invoice-vat-rate">16</span>%)</strong>
+                                </td>
                                 <td class="text-right" id="lbl-vat">Ksh 0.00</td>
                             </tr>
                             <tr style="background:#eee; font-weight:bold;">
@@ -233,29 +221,254 @@
                         Invoice</button>
                 </div>
             </div>
-
         </div>
     </main>
 
     <script>
+        // =====================================================
+        // GOOGLE OAUTH 2.0 CONFIGURATION
+        // =====================================================
+        const GOOGLE_CLIENT_ID = '{{ GOOGLE_CLIENT_ID }}'; // Replace with your actual Google Client ID
+
+        let currentUser = null;
+        let adminSettings = {
+            taxRate: 16,
+            businessShortcode: '542542',
+            businessAccount: '131141'
+        };
+
+        // Initialize Google Sign-In
+        function initializeGoogleSignIn() {
+            google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: handleCredentialResponse,
+                ux_mode: 'popup'
+            });
+
+            // Render sign-in buttons
+            google.accounts.id.renderButton(
+                document.getElementById('google-signin'),
+                {
+                    theme: 'outline',
+                    size: 'large',
+                    text: 'signin_with'
+                }
+            );
+
+            google.accounts.id.renderButton(
+                document.getElementById('google-signin-auth'),
+                {
+                    theme: 'outline',
+                    size: 'large',
+                    text: 'signin_with'
+                }
+            );
+        }
+
+        // Handle successful authentication
+        function handleCredentialResponse(response) {
+            try {
+                // Decode JWT token to get user info
+                const base64Url = response.credential.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+
+                currentUser = JSON.parse(jsonPayload);
+
+                // Update UI
+                document.getElementById('admin-user-name').textContent = currentUser.name || currentUser.email;
+                document.getElementById('auth-gate').style.display = 'none';
+                document.getElementById('admin-dashboard').style.display = 'block';
+                document.getElementById('logout-btn').style.display = 'inline-block';
+                document.getElementById('google-signin').style.display = 'none';
+
+                // Load saved settings
+                loadAdminSettings();
+
+                loadOrders();
+                showToast('Welcome ' + (currentUser.name || 'Admin') + '!', 'success');
+            } catch (error) {
+                console.error('Authentication error:', error);
+                showToast('Authentication failed. Please try again.', 'error');
+            }
+        }
+
+        function handleLogout() {
+            google.accounts.id.disableAutoSelect();
+            currentUser = null;
+
+            document.getElementById('auth-gate').style.display = 'flex';
+            document.getElementById('admin-dashboard').style.display = 'none';
+            document.getElementById('logout-btn').style.display = 'none';
+            document.getElementById('google-signin').style.display = 'block';
+
+            showToast('Logged out successfully', 'info');
+        }
+
+        // =====================================================
+        // ADMIN FUNCTIONS
+        // =====================================================
+
+        function loadAdminSettings() {
+            // In production, these would be fetched from the backend
+            const saved = localStorage.getItem('adminSettings');
+            if (saved) {
+                adminSettings = JSON.parse(saved);
+                document.getElementById('tax-rate').value = adminSettings.taxRate;
+                document.getElementById('business-shortcode').value = adminSettings.businessShortcode;
+                document.getElementById('business-account').value = adminSettings.businessAccount;
+            }
+        }
+
+        function saveTaxRate() {
+            const newRate = parseFloat(document.getElementById('tax-rate').value);
+            if (isNaN(newRate) || newRate < 0) {
+                showToast('Please enter a valid tax rate', 'error');
+                return;
+            }
+            adminSettings.taxRate = newRate;
+            saveAdminSettings();
+            showToast('Tax rate updated to ' + newRate + '%', 'success');
+        }
+
+        function saveBusinessConfig() {
+            const shortcode = document.getElementById('business-shortcode').value.trim();
+            const account = document.getElementById('business-account').value.trim();
+
+            if (!shortcode || !account) {
+                showToast('Please fill in all business configuration fields', 'error');
+                return;
+            }
+
+            adminSettings.businessShortcode = shortcode;
+            adminSettings.businessAccount = account;
+            saveAdminSettings();
+            showToast('Business configuration saved successfully', 'success');
+        }
+
+        function saveAdminSettings() {
+            localStorage.setItem('adminSettings', JSON.stringify(adminSettings));
+        }
+
+        async function loadOrders() {
+            const tbody = document.getElementById('orders-table-body');
+            if (!tbody) return;
+
+            try {
+                const response = await fetch('/api/orders');
+                const orders = response.ok ? await response.json() : [];
+
+                if (!orders.length) {
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#666; padding:24px;">No orders found yet.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = orders.map(order => {
+                    const paid = order.status === 'completed';
+                    const action = paid
+                        ? '<span class="btn-secondary" style="cursor: default; opacity: 0.7;">Paid</span>'
+                        : `<button class="btn-primary" type="button" onclick="markOrderPaid(${order.id})">Mark as Paid</button>`;
+
+                    return `
+                        <tr>
+                            <td>${order.order_number || '—'}</td>
+                            <td>${order.product_name || order.customer_name || 'N/A'}</td>
+                            <td>${order.customer_phone}</td>
+                            <td>Ksh ${order.amount_ksh.toLocaleString()}</td>
+                            <td>${order.source ? order.source.toUpperCase() : 'WEB'}</td>
+                            <td>${order.etims_status ? order.etims_status.replace(/_/g, ' ') : 'not sent'}</td>
+                            <td>${paid ? '<strong style="color:#1f8a3a;">PAID</strong>' : '<strong style="color:#b06b06;">PENDING</strong>'}</td>
+                            <td>${action}</td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#c00; padding:24px;">Unable to load orders.</td></tr>';
+                console.error('Order load error:', error);
+            }
+        }
+
+        async function resendEtims(orderId) {
+            try {
+                const response = await fetch(`/api/orders/${orderId}/send-etims`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    showToast(error.error || 'Unable to send ETIMS invoice', 'error');
+                    return;
+                }
+
+                const order = await response.json();
+                showToast(`ETIMS invoice sent for ${order.order_number}`, 'success');
+                loadOrders();
+            } catch (error) {
+                console.error('ETIMS resend error:', error);
+                showToast('Unable to connect to the server', 'error');
+            }
+        }
+
+        async function markOrderPaid(orderId) {
+            try {
+                const response = await fetch(`/api/orders/${orderId}/mark-paid`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    showToast(error.error || 'Unable to update order status', 'error');
+                    return;
+                }
+
+                showToast('Order marked as paid successfully', 'success');
+                loadOrders();
+            } catch (error) {
+                console.error('Mark paid error:', error);
+                showToast('Unable to connect to the server', 'error');
+            }
+        }
+
         function addNewStock(e) {
             e.preventDefault();
+            if (!currentUser) {
+                showToast('You must be logged in to perform this action', 'error');
+                return;
+            }
+
             const partName = document.getElementById("stock-name").value;
-            alert(`"${partName}" successfully published to the lubricant catalog!`);
+            showToast('"' + partName + '" successfully published to the lubricant catalog!', 'success');
+            document.getElementById("stock-form").reset();
         }
 
         function generateInvoice() {
+            if (!currentUser) {
+                showToast('You must be logged in to generate invoices', 'error');
+                return;
+            }
+
             const client = document.getElementById("inv-client").value || "Walk-in Customer";
             const pin = document.getElementById("inv-pin").value || "N/A";
             const item = document.getElementById("inv-item").value || "Assorted Components";
             const cost = parseFloat(document.getElementById("inv-cost").value) || 0;
 
-            const subtotal = cost / 1.16;
+            if (cost <= 0) {
+                showToast('Please enter a valid cost amount', 'error');
+                return;
+            }
+
+            const vatRate = adminSettings.taxRate;
+            const subtotal = cost / (1 + vatRate / 100);
             const vatAmount = cost - subtotal;
 
             document.getElementById("lbl-customer").innerText = client;
             document.getElementById("lbl-pin").innerText = pin;
             document.getElementById("lbl-desc").innerText = item;
+            document.getElementById("invoice-vat-rate").innerText = vatRate.toFixed(2);
             document.getElementById("lbl-sub").innerText = "Ksh " + subtotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
             document.getElementById("lbl-vat").innerText = "Ksh " + vatAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
             document.getElementById("lbl-grand").innerText = "Ksh " + cost.toLocaleString(undefined, { minimumFractionDigits: 2 });
@@ -263,8 +476,118 @@
             const randInvoiceNum = Math.floor(1000 + Math.random() * 9000);
             document.getElementById("inv-date-num").innerHTML = `Date: ${new Date().toLocaleDateString('en-KE')}<br>Inv No: #DJA-${randInvoiceNum}`;
             document.getElementById("invoice-sheet").style.display = "block";
+
+            showToast('Invoice generated successfully', 'success');
         }
+
+        // =====================================================
+        // TOAST NOTIFICATION SYSTEM
+        // =====================================================
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toast-container') || createToastContainer();
+
+            const toast = document.createElement('div');
+            toast.className = 'toast toast-' + type;
+            toast.innerHTML = '<i class="fa-solid fa-' + getToastIcon(type) + '"></i> <span>' + message + '</span>';
+
+            toastContainer.appendChild(toast);
+
+            // Auto-remove after 4 seconds
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+
+        function createToastContainer() {
+            const container = document.createElement('div');
+            container.id = 'toast-container';
+            container.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                max-width: 400px;
+            `;
+            document.body.appendChild(container);
+            return container;
+        }
+
+        function getToastIcon(type) {
+            const icons = {
+                'success': 'circle-check',
+                'error': 'circle-exclamation',
+                'info': 'info',
+                'warning': 'triangle-exclamation'
+            };
+            return icons[type] || 'info';
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initializeGoogleSignIn);
     </script>
+
+    <style>
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 400px;
+        }
+
+        .toast {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .toast-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .toast-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .toast-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
 </body>
 
 </html>
