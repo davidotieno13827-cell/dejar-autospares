@@ -451,11 +451,35 @@ function resetCatalogSelection() {
     filterProducts('none');
 }
 
+function getSearchableProductCards() {
+    const catalogCards = Array.from(document.querySelectorAll('#catalog-grid .product-card'));
+    if (catalogCards.length > 0) {
+        return catalogCards;
+    }
+
+    const oilCards = Array.from(document.querySelectorAll('.oil-grid .oil-card'));
+    if (oilCards.length > 0) {
+        return oilCards;
+    }
+
+    return [];
+}
+
+function getCardSearchText(card) {
+    const title = card?.querySelector('h3')?.innerText.toLowerCase() || '';
+    const details = Array.from(card?.querySelectorAll('p') || []).map((paragraph) => paragraph.innerText.toLowerCase()).join(' ');
+    const category = card?.querySelector('.badge, .oil-type')?.innerText.toLowerCase() || '';
+    const compatibility = card?.querySelector('.compatibility, .oil-fit')?.innerText.toLowerCase() || '';
+
+    return `${title} ${details} ${category} ${compatibility}`.trim();
+}
+
 function filterProducts(filter = currentCategory === null ? 'none' : currentCategory) {
     const searchInput = document.getElementById('product-search');
     const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const catalogCards = Array.from(document.querySelectorAll('#catalog-grid .product-card'));
+    const oilCards = Array.from(document.querySelectorAll('.oil-grid .oil-card'));
     const slides = document.querySelectorAll('.product-carousel .carousel-slide');
-    const cards = document.querySelectorAll('#catalog-grid .product-card');
     const buttons = document.querySelectorAll('.filter-btn');
     const countLabel = document.getElementById('search-count');
     const noResults = document.getElementById('no-results');
@@ -468,7 +492,7 @@ function filterProducts(filter = currentCategory === null ? 'none' : currentCate
     let visibleCount = 0;
     let firstVisibleIndex = -1;
 
-    if (slides.length > 0) {
+    if (catalogCards.length > 0 && slides.length > 0) {
         slides.forEach((slide, index) => {
             const slideCards = Array.from(slide.querySelectorAll('.product-card'));
             let visibleCardCount = 0;
@@ -494,14 +518,12 @@ function filterProducts(filter = currentCategory === null ? 'none' : currentCate
                 if (firstVisibleIndex === -1) firstVisibleIndex = index;
             }
         });
-    } else {
-        cards.forEach((card, index) => {
-            const category = card?.querySelector('.badge')?.innerText.toLowerCase() || '';
-            const title = card?.querySelector('h3')?.innerText.toLowerCase() || '';
-            const details = card?.querySelector('.compatibility')?.innerText.toLowerCase() || '';
+    } else if (oilCards.length > 0) {
+        oilCards.forEach((card, index) => {
+            const searchText = getCardSearchText(card);
 
-            const matchesFilter = filter === 'all' ? true : filter === 'none' ? false : category.includes(filter);
-            const matchesSearch = !query || title.includes(query) || details.includes(query) || category.includes(query);
+            const matchesFilter = filter === 'all' ? true : filter === 'none' ? false : searchText.includes(filter);
+            const matchesSearch = !query || searchText.includes(query);
             const visible = matchesFilter && matchesSearch;
 
             card.style.display = visible ? 'block' : 'none';
@@ -540,6 +562,14 @@ function filterProducts(filter = currentCategory === null ? 'none' : currentCate
     if (noResults) {
         noResults.innerText = filter === 'none' ? 'Choose a category to view our best lubricant grades.' : 'No matching oils found. Try another search or category.';
         noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    if (query && visibleCount > 0) {
+        const searchableCards = catalogCards.length > 0 ? catalogCards : oilCards;
+        const firstVisibleCard = searchableCards.find((card) => card.style.display !== 'none');
+        if (firstVisibleCard && typeof firstVisibleCard.scrollIntoView === 'function') {
+            firstVisibleCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
     }
 }
 
@@ -643,6 +673,16 @@ window.addEventListener('DOMContentLoaded', () => {
     activateCategory('all');
     initTestimonialCarousel();
     initFaqAccordion();
+
+    const searchInput = document.getElementById('product-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            filterProducts();
+        });
+        searchInput.addEventListener('search', () => {
+            filterProducts();
+        });
+    }
 
     document.addEventListener('click', function (event) {
         const nav = document.getElementById('site-nav');
