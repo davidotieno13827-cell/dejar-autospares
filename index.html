@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=3">
 </head>
 
 <body id="home">
@@ -150,35 +150,47 @@
         </section>
 
         <section id="major-vehicles" class="vehicle-section">
-            <h2 class="section-title">Major Vehicles We Serve</h2>
-            <p class="section-description">We stock and recommend lubricant options for the most common vehicles on
-                Kenyan roads.</p>
-            <ul class="vehicle-list">
-                <li><span class="vehicle-name">Toyota</span><span class="vehicle-models">Corolla, Premio, Axio, Hiace,
-                        Hilux, Land Cruiser/Prado</span></li>
-                <li><span class="vehicle-name">Nissan</span><span class="vehicle-models">Note, X-Trail, Dualis, Navara,
-                        Caravan</span></li>
-                <li><span class="vehicle-name">Mazda</span><span class="vehicle-models">Demio, Axela, CX-5,
-                        Atenza</span></li>
-                <li><span class="vehicle-name">Isuzu</span><span class="vehicle-models">D-Max, NPR, NQR, Forward</span>
-                </li>
-                <li><span class="vehicle-name">Mitsubishi</span><span class="vehicle-models">Lancer, Outlander, Pajero,
-                        Canter</span></li>
-                <li><span class="vehicle-name">Honda</span><span class="vehicle-models">Fit, Vezel, CR-V, Civic</span>
-                </li>
-                <li><span class="vehicle-name">Suzuki</span><span class="vehicle-models">Swift, Alto, Jimny,
-                        Vitara</span></li>
-                <li><span class="vehicle-name">Hyundai</span><span class="vehicle-models">Tucson, Santa Fe, i10,
-                        Elantra</span></li>
-                <li><span class="vehicle-name">Subaru</span><span class="vehicle-models">Forester, Outback, Impreza,
-                        Legacy</span></li>
-                <li><span class="vehicle-name">Ford</span><span class="vehicle-models">Ranger, Everest, Focus,
-                        Transit</span></li>
-                <li><span class="vehicle-name">Volkswagen</span><span class="vehicle-models">Golf, Passat, Tiguan,
-                        Polo</span></li>
-                <li><span class="vehicle-name">Mercedes-Benz</span><span class="vehicle-models">C-Class, E-Class,
-                        Sprinter, GLE</span></li>
-            </ul>
+            <button class="vehicle-toggle" type="button" aria-expanded="false" aria-controls="vehicle-content">
+                <span class="section-title vehicle-title">
+                    <span>Major Vehicles We Serve</span>
+                    <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                </span>
+            </button>
+            <div class="vehicle-content" id="vehicle-content" hidden>
+                <p class="section-description">We stock and recommend lubricant options for the most common vehicles on
+                    Kenyan roads.</p>
+                <ul class="vehicle-list">
+                    <li><span class="vehicle-name">Toyota</span><span class="vehicle-models">Corolla, Premio, Axio,
+                            Hiace,
+                            Hilux, Land Cruiser/Prado</span></li>
+                    <li><span class="vehicle-name">Nissan</span><span class="vehicle-models">Note, X-Trail, Dualis,
+                            Navara,
+                            Caravan</span></li>
+                    <li><span class="vehicle-name">Mazda</span><span class="vehicle-models">Demio, Axela, CX-5,
+                            Atenza</span></li>
+                    <li><span class="vehicle-name">Isuzu</span><span class="vehicle-models">D-Max, NPR, NQR,
+                            Forward</span>
+                    </li>
+                    <li><span class="vehicle-name">Mitsubishi</span><span class="vehicle-models">Lancer, Outlander,
+                            Pajero,
+                            Canter</span></li>
+                    <li><span class="vehicle-name">Honda</span><span class="vehicle-models">Fit, Vezel, CR-V,
+                            Civic</span>
+                    </li>
+                    <li><span class="vehicle-name">Suzuki</span><span class="vehicle-models">Swift, Alto, Jimny,
+                            Vitara</span></li>
+                    <li><span class="vehicle-name">Hyundai</span><span class="vehicle-models">Tucson, Santa Fe, i10,
+                            Elantra</span></li>
+                    <li><span class="vehicle-name">Subaru</span><span class="vehicle-models">Forester, Outback, Impreza,
+                            Legacy</span></li>
+                    <li><span class="vehicle-name">Ford</span><span class="vehicle-models">Ranger, Everest, Focus,
+                            Transit</span></li>
+                    <li><span class="vehicle-name">Volkswagen</span><span class="vehicle-models">Golf, Passat, Tiguan,
+                            Polo</span></li>
+                    <li><span class="vehicle-name">Mercedes-Benz</span><span class="vehicle-models">C-Class, E-Class,
+                            Sprinter, GLE</span></li>
+                </ul>
+            </div>
         </section>
 
         <section id="oil-guide" class="oil-section">
@@ -395,10 +407,7 @@
             <h2 class="section-title">Verified Customer Reviews</h2>
             <p class="section-description">Real customer feedback appears here once submitted. Share your experience
                 below and help other Kenyan drivers choose the right oil.</p>
-            <div class="reviews-grid" id="review-list">
-                <div class="empty-state" id="reviews-empty">No reviews yet. Be the first to share your experience with
-                    Dejar Auto Supplies.</div>
-            </div>
+            <div class="reviews-grid" id="review-list"></div>
             <div class="add-review-box">
                 <h3>Leave a Review</h3>
                 <form id="review-form" onsubmit="submitReview(event)">
@@ -423,11 +432,10 @@
                 <h3>Send a Quick Message</h3>
                 <form id="contact-form" onsubmit="submitContactForm(event)">
                     <input type="text" id="contact-name" placeholder="Your Name" required>
-                    <input type="email" id="contact-email" placeholder="Your Email" required>
                     <input type="tel" id="contact-phone" placeholder="Phone Number" required>
                     <textarea id="contact-message" placeholder="What do you need help with?" rows="4"
                         required></textarea>
-                    <button type="submit" class="btn-primary-style">Send Message</button>
+                    <button type="submit" class="btn-primary-style">Send on WhatsApp</button>
                 </form>
             </div>
             <div class="footer-map">
@@ -439,35 +447,46 @@
         </section>
 
         <section class="faq-section">
-            <h2 class="section-title">Frequently Asked Questions</h2>
-            <div class="faq-grid">
-                <div class="faq-item">
-                    <button class="faq-question" type="button">How fast is delivery in Nairobi and Kisii?</button>
-                    <div class="faq-answer">
-                        <p>Most orders are dispatched the same day. Nairobi and Kisii deliveries typically arrive within
-                            1-2 business days.</p>
+            <button class="faq-toggle" type="button" aria-expanded="false" aria-controls="faq-content">
+                <span class="section-title faq-title">
+                    <span>Frequently Asked Questions</span>
+                    <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                </span>
+            </button>
+            <div class="faq-content" id="faq-content" hidden>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <button class="faq-question" type="button">How fast is delivery in Nairobi and Kisii?</button>
+                        <div class="faq-answer">
+                            <p>Most orders are dispatched the same day. Nairobi and Kisii deliveries typically arrive
+                                within
+                                1-2 business days.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" type="button">Can I pay using Paybill 542542?</button>
-                    <div class="faq-answer">
-                        <p>Yes — you can pay via Paybill 542542, Account 131141. Confirm your payment by messaging us on
-                            WhatsApp.</p>
+                    <div class="faq-item">
+                        <button class="faq-question" type="button">Can I pay using Paybill 542542?</button>
+                        <div class="faq-answer">
+                            <p>Yes — you can pay via Paybill 542542, Account 131141. Confirm your payment by messaging
+                                us on
+                                WhatsApp.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" type="button">Do you stock genuine lubricant brands like Shell and
-                        Mobil?</button>
-                    <div class="faq-answer">
-                        <p>Absolutely. We stock major genuine oil brands including Shell, Total, Mobil, Castrol, Engen
-                            and Elf.</p>
+                    <div class="faq-item">
+                        <button class="faq-question" type="button">Do you stock genuine lubricant brands like Shell and
+                            Mobil?</button>
+                        <div class="faq-answer">
+                            <p>Absolutely. We stock major genuine oil brands including Shell, Total, Mobil, Castrol,
+                                Engen
+                                and Elf.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question" type="button">What if I need a different oil grade?</button>
-                    <div class="faq-answer">
-                        <p>If your vehicle needs a different grade or lubricant type, contact us on WhatsApp and we will
-                            recommend the best match for your engine and driving conditions.</p>
+                    <div class="faq-item">
+                        <button class="faq-question" type="button">What if I need a different oil grade?</button>
+                        <div class="faq-answer">
+                            <p>If your vehicle needs a different grade or lubricant type, contact us on WhatsApp and we
+                                will
+                                recommend the best match for your engine and driving conditions.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -493,6 +512,50 @@
         target="_blank" rel="noopener noreferrer" aria-label="WhatsApp support">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
+
+    <div id="quick-order-modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="quick-order-title">
+            <div class="modal-header">
+                <div>
+                    <p class="modal-label">Quick Order Payment</p>
+                    <h3 id="quick-order-title">Complete your payment</h3>
+                </div>
+                <button class="btn-cancel" type="button" onclick="closePaymentModal()"
+                    aria-label="Close payment modal">×</button>
+            </div>
+
+            <div class="modal-payment-summary">
+                <div>
+                    <p class="modal-label">Product</p>
+                    <p class="modal-detail" id="display-product"></p>
+                </div>
+                <div>
+                    <p class="modal-label">Amount</p>
+                    <p class="modal-price" id="display-amount"></p>
+                </div>
+                <div>
+                    <p class="modal-label">Paybill</p>
+                    <p class="payment-text" id="display-paybill"></p>
+                </div>
+                <div>
+                    <p class="modal-label">Account</p>
+                    <p class="payment-text" id="display-account"></p>
+                </div>
+                <div>
+                    <p class="modal-label">WhatsApp</p>
+                    <p class="modal-detail" id="display-whatsapp"></p>
+                </div>
+                <p class="modal-note">After payment, send your transaction ID on WhatsApp so we can confirm your order.
+                </p>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-primary-style" type="button" onclick="copyOrderReference()">Copy payment
+                    details</button>
+                <button class="btn-cancel" type="button" onclick="sendToWhatsApp()">Chat on WhatsApp</button>
+            </div>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>

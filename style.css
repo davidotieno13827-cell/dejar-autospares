@@ -447,6 +447,70 @@ section::before {
     box-shadow: 0 6px 18px rgba(230, 57, 70, 0.16);
 }
 
+.faq-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.faq-title::after {
+    margin-top: 0;
+}
+
+.faq-title i {
+    font-size: 0.95rem;
+    color: var(--primary-color);
+}
+
+.faq-toggle,
+.vehicle-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+}
+
+.faq-toggle:focus-visible,
+.vehicle-toggle:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 6px;
+    border-radius: 12px;
+}
+
+.faq-section.is-open .faq-toggle i,
+.vehicle-section.is-open .vehicle-toggle i {
+    transform: rotate(180deg);
+}
+
+.faq-section.is-open .faq-content,
+.vehicle-section.is-open .vehicle-content {
+    display: block;
+}
+
+.faq-content {
+    margin-top: 18px;
+}
+
+.vehicle-content {
+    margin-top: 12px;
+}
+
+.faq-toggle .section-title {
+    margin-bottom: 0;
+}
+
+.vehicle-toggle .section-title {
+    margin-bottom: 0;
+}
+
+.faq-toggle .section-title::after,
+.vehicle-toggle .section-title::after {
+    margin-top: 8px;
+}
+
 .section-description {
     color: var(--muted);
     max-width: 760px;
@@ -1391,6 +1455,9 @@ section::before {
 
 /* Utilities and responsive rules */
 .whatsapp-float {
+    position: fixed;
+    right: 20px;
+    bottom: 84px;
     z-index: 1200;
     width: 56px;
     height: 56px;

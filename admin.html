@@ -162,6 +162,33 @@
             </div>
         </div>
 
+        <div class="admin-grid" style="margin-top: 20px;">
+            <div class="dashboard-box" style="grid-column: 1 / -1;">
+                <h3><i class="fa-solid fa-message"></i> Review Moderation</h3>
+                <p style="color: var(--muted); margin-bottom: 18px;">Approve or reject customer reviews before they
+                    appear on the public site.</p>
+                <div class="table-responsive">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Reviewer</th>
+                                <th>Comment</th>
+                                <th>Rating</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reviews-table-body">
+                            <tr>
+                                <td colspan="5" style="text-align:center; color:#666; padding:24px;">No reviews loaded
+                                    yet.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <!-- Second Row: Invoice Generator -->
         <div style="margin-top: 30px;">
             <div class="dashboard-box">
@@ -288,6 +315,7 @@
                 loadAdminSettings();
 
                 loadOrders();
+                loadReviews();
                 showToast('Welcome ' + (currentUser.name || 'Admin') + '!', 'success');
             } catch (error) {
                 console.error('Authentication error:', error);
@@ -352,6 +380,15 @@
             localStorage.setItem('adminSettings', JSON.stringify(adminSettings));
         }
 
+        function adminRequestHeaders() {
+            const headers = { 'Content-Type': 'application/json' };
+            if (currentUser && currentUser.email) {
+                headers['Authorization'] = 'Bearer admin-session';
+                headers['X-Admin-Email'] = currentUser.email;
+            }
+            return headers;
+        }
+
         async function loadOrders() {
             const tbody = document.getElementById('orders-table-body');
             if (!tbody) return;
@@ -387,6 +424,86 @@
             } catch (error) {
                 tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#c00; padding:24px;">Unable to load orders.</td></tr>';
                 console.error('Order load error:', error);
+            }
+        }
+
+        async function loadReviews() {
+            const tbody = document.getElementById('reviews-table-body');
+            if (!tbody) return;
+
+            try {
+                const response = await fetch('/api/admin/reviews', {
+                    headers: adminRequestHeaders()
+                });
+                const reviews = response.ok ? await response.json() : [];
+
+                if (!reviews.length) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#666; padding:24px;">No reviews found yet.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = reviews.map(review => {
+                    const approved = review.is_approved;
+                    const status = approved ? '<strong style="color:#1f8a3a;">APPROVED</strong>' : '<strong style="color:#b06b06;">PENDING</strong>';
+                    const action = approved
+                        ? `<button class="btn-secondary" type="button" onclick="rejectReview(${review.id})">Reject</button>`
+                        : `<button class="btn-primary" type="button" onclick="approveReview(${review.id})">Approve</button>`;
+
+                    return `
+                        <tr>
+                            <td>${review.customer_name || 'N/A'}</td>
+                            <td>${review.comment || ''}</td>
+                            <td>${review.rating || 5}/5</td>
+                            <td>${status}</td>
+                            <td>${action}</td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#c00; padding:24px;">Unable to load reviews.</td></tr>';
+                console.error('Review load error:', error);
+            }
+        }
+
+        async function approveReview(reviewId) {
+            try {
+                const response = await fetch(`/api/admin/reviews/${reviewId}/approve`, {
+                    method: 'PUT',
+                    headers: adminRequestHeaders()
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    showToast(error.error || 'Unable to approve review', 'error');
+                    return;
+                }
+
+                showToast('Review approved successfully', 'success');
+                loadReviews();
+            } catch (error) {
+                console.error('Approve review error:', error);
+                showToast('Unable to connect to the server', 'error');
+            }
+        }
+
+        async function rejectReview(reviewId) {
+            try {
+                const response = await fetch(`/api/admin/reviews/${reviewId}/reject`, {
+                    method: 'PUT',
+                    headers: adminRequestHeaders()
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    showToast(error.error || 'Unable to reject review', 'error');
+                    return;
+                }
+
+                showToast('Review moved back to pending', 'info');
+                loadReviews();
+            } catch (error) {
+                console.error('Reject review error:', error);
+                showToast('Unable to connect to the server', 'error');
             }
         }
 

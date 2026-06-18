@@ -204,6 +204,25 @@ def get_reviews():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/api/admin/reviews", methods=["GET"])
+@require_admin
+def get_admin_reviews():
+    """Get customer reviews for moderation"""
+    try:
+        status = request.args.get('status', 'all').lower()
+        query = Review.query
+
+        if status == 'approved':
+            query = query.filter_by(is_approved=True)
+        elif status == 'pending':
+            query = query.filter_by(is_approved=False)
+
+        reviews = query.order_by(Review.created_at.desc()).all()
+        return jsonify([r.to_dict() for r in reviews]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route("/api/orders", methods=["POST"])
 def create_order():
     """Create a quick order with reference code"""
@@ -346,7 +365,7 @@ def submit_review():
             customer_name=data.get('customer_name'),
             rating=data.get('rating', 5),
             comment=data.get('comment'),
-            is_approved=get_business_config().auto_approve_reviews
+            is_approved=True
         )
         
         db.session.add(review)
@@ -354,9 +373,43 @@ def submit_review():
         
         return jsonify({
             "message": "Review submitted successfully",
-            "requires_approval": not get_business_config().auto_approve_reviews
+            "requires_approval": False
         }), 201
     
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/admin/reviews/<int:review_id>/approve", methods=["PUT"])
+@require_admin
+def approve_review(review_id):
+    """Approve a customer review"""
+    try:
+        review = Review.query.get(review_id)
+        if not review:
+            return jsonify({"error": "Review not found"}), 404
+
+        review.is_approved = True
+        db.session.commit()
+
+        return jsonify(review.to_dict()), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/admin/reviews/<int:review_id>/reject", methods=["PUT"])
+@require_admin
+def reject_review(review_id):
+    """Reject a customer review"""
+    try:
+        review = Review.query.get(review_id)
+        if not review:
+            return jsonify({"error": "Review not found"}), 404
+
+        review.is_approved = False
+        db.session.commit()
+
+        return jsonify(review.to_dict()), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

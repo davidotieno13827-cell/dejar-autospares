@@ -130,7 +130,14 @@ function openQuickOrder(itemName, itemPrice) {
         account: '131141',
         whatsapp: '+254721419479'
     };
-    createAndShowOrder();
+    showSimplePaymentModal({
+        order_number: `DQ-${Date.now().toString().slice(-6)}`,
+        product_name: itemName,
+        amount_ksh: itemPrice,
+        paybill: pendingPayment.paybill,
+        account: pendingPayment.account,
+        whatsapp: pendingPayment.whatsapp
+    });
 }
 
 async function createAndShowOrder() {
@@ -158,20 +165,62 @@ async function createAndShowOrder() {
 }
 
 function showSimplePaymentModal(order) {
-    // Payment modal has been removed; use the simpler direct payment flow.
-    showToast(`Order ${order.order_number} created. Pay Ksh ${order.amount_ksh.toLocaleString()} to Paybill ${order.paybill} Account ${order.account}. Send your transaction ID on WhatsApp.`, 'info');
+    const modal = document.getElementById('quick-order-modal');
+    if (!modal) {
+        showToast(`Pay Ksh ${Number(order.amount_ksh).toLocaleString()} to Paybill ${order.paybill} Account ${order.account}. Send your transaction ID on WhatsApp.`, 'info');
+        return;
+    }
+
+    const productField = document.getElementById('display-product');
+    const amountField = document.getElementById('display-amount');
+    const paybillField = document.getElementById('display-paybill');
+    const accountField = document.getElementById('display-account');
+    const whatsappField = document.getElementById('display-whatsapp');
+
+    if (productField) productField.textContent = order.product_name;
+    if (amountField) amountField.textContent = `Ksh ${Number(order.amount_ksh).toLocaleString()}`;
+    if (paybillField) paybillField.textContent = order.paybill;
+    if (accountField) accountField.textContent = order.account;
+    if (whatsappField) whatsappField.textContent = order.whatsapp || '+254 721 419 479';
+
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
 }
 
 function closePaymentModal() {
-    // noop
+    const modal = document.getElementById('quick-order-modal');
+    if (!modal) {
+        return;
+    }
+
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
 }
 
 function sendToWhatsApp() {
-    // noop - payment modal removed
+    if (!pendingPayment) {
+        return;
+    }
+
+    const message = `Hello Dejar Auto Supplies, I want to order ${pendingPayment.product} for Ksh ${Number(pendingPayment.price).toLocaleString()}. My payment details are Paybill ${pendingPayment.paybill} and Account ${pendingPayment.account}.`;
+    window.open(`https://wa.me/${pendingPayment.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
 }
 
 function copyOrderReference() {
-    // noop - payment modal removed
+    if (!pendingPayment) {
+        return;
+    }
+
+    const message = `Product: ${pendingPayment.product}\nAmount: Ksh ${Number(pendingPayment.price).toLocaleString()}\nPaybill: ${pendingPayment.paybill}\nAccount: ${pendingPayment.account}`;
+
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(message).then(() => {
+            showToast('Payment details copied.', 'info');
+        });
+        return;
+    }
+
+    showToast(message, 'info');
 }
 
 // ====================================================================
@@ -189,39 +238,63 @@ function submitReview(event) {
         return;
     }
 
-    const reviewsGrid = document.querySelector('.reviews-grid');
-    const reviewCard = document.createElement('div');
-    reviewCard.className = 'review-card';
-    reviewCard.innerHTML = `
-        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-        <p>"${text}"</p>
-        <h4>- ${name}</h4>
-    `;
+    fetch('/api/reviews', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            customer_name: name,
+            comment: text,
+            rating: 5
+        })
+    })
+        .then(async response => {
+            const data = await response.json().catch(() => ({}));
 
-    const emptyNotice = document.getElementById('reviews-empty');
-    if (emptyNotice) {
-        emptyNotice.remove();
-    }
+            if (!response.ok) {
+                throw new Error(data.error || 'Unable to submit review');
+            }
 
-    reviewsGrid.appendChild(reviewCard);
+            if (!data.requires_approval) {
+                const reviewsGrid = document.querySelector('.reviews-grid');
+                const reviewCard = document.createElement('div');
+                reviewCard.className = 'review-card';
+                reviewCard.innerHTML = `
+                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p>"${text}"</p>
+                    <h4>- ${name}</h4>
+                `;
 
-    showToast(`Thank you for your review, ${name}! It will appear after approval.`, 'success');
-    document.getElementById("review-form").reset();
+                reviewsGrid.appendChild(reviewCard);
+            }
+
+            showToast(`Thanks for your review, ${name}!`, 'success');
+            document.getElementById("review-form").reset();
+        })
+        .catch(error => {
+            console.error('Review submission error:', error);
+            showToast(error.message || 'Unable to submit review right now.', 'error');
+        });
 }
 
 function submitContactForm(event) {
     if (event) event.preventDefault();
     const name = document.getElementById('contact-name').value.trim();
-    const email = document.getElementById('contact-email').value.trim();
     const phone = document.getElementById('contact-phone').value.trim();
     const message = document.getElementById('contact-message').value.trim();
 
-    if (!name || !email || !phone || !message) {
+    if (!name || !phone || !message) {
         showToast('Please complete all fields in the contact form.', 'warning');
         return;
     }
 
-    showToast(`Thanks ${name}! Your message was received. We'll contact you shortly.`, 'success');
+    const whatsappNumber = '254721419479';
+    const whatsappMessage = `Hello Dejar Auto Supplies,\n\nName: ${name}\nPhone: ${phone}\nMessage: ${message}`;
+
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, '_blank', 'noopener,noreferrer');
+
+    showToast(`Thanks ${name}! Your message is opening in WhatsApp.`, 'success');
     document.getElementById('contact-form').reset();
 }
 
@@ -498,7 +571,30 @@ function initTestimonialCarousel() {
 }
 
 function initFaqAccordion() {
+    const faqSection = document.querySelector('.faq-section');
+    const faqToggle = document.querySelector('.faq-toggle');
+    const faqContent = document.querySelector('.faq-content');
+    const vehicleSection = document.querySelector('.vehicle-section');
+    const vehicleToggle = document.querySelector('.vehicle-toggle');
+    const vehicleContent = document.querySelector('.vehicle-content');
     const faqItems = document.querySelectorAll('.faq-item');
+
+    if (faqToggle && faqSection && faqContent) {
+        faqToggle.addEventListener('click', () => {
+            const isOpen = faqSection.classList.toggle('is-open');
+            faqToggle.setAttribute('aria-expanded', String(isOpen));
+            faqContent.hidden = !isOpen;
+        });
+    }
+
+    if (vehicleToggle && vehicleSection && vehicleContent) {
+        vehicleToggle.addEventListener('click', () => {
+            const isOpen = vehicleSection.classList.toggle('is-open');
+            vehicleToggle.setAttribute('aria-expanded', String(isOpen));
+            vehicleContent.hidden = !isOpen;
+        });
+    }
+
     faqItems.forEach(item => {
         const button = item.querySelector('.faq-question');
         const answer = item.querySelector('.faq-answer');
