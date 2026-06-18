@@ -251,6 +251,7 @@
         </div>
     </main>
 
+    <script src="utils.js"></script>
     <script>
         // =====================================================
         // GOOGLE OAUTH 2.0 CONFIGURATION
@@ -413,7 +414,7 @@
                             <td>${order.order_number || '—'}</td>
                             <td>${order.product_name || order.customer_name || 'N/A'}</td>
                             <td>${order.customer_phone}</td>
-                            <td>Ksh ${order.amount_ksh.toLocaleString()}</td>
+                            <td>${formatKsh(order.amount_ksh)}</td>
                             <td>${order.source ? order.source.toUpperCase() : 'WEB'}</td>
                             <td>${order.etims_status ? order.etims_status.replace(/_/g, ' ') : 'not sent'}</td>
                             <td>${paid ? '<strong style="color:#1f8a3a;">PAID</strong>' : '<strong style="color:#b06b06;">PENDING</strong>'}</td>
@@ -586,9 +587,9 @@
             document.getElementById("lbl-pin").innerText = pin;
             document.getElementById("lbl-desc").innerText = item;
             document.getElementById("invoice-vat-rate").innerText = vatRate.toFixed(2);
-            document.getElementById("lbl-sub").innerText = "Ksh " + subtotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
-            document.getElementById("lbl-vat").innerText = "Ksh " + vatAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-            document.getElementById("lbl-grand").innerText = "Ksh " + cost.toLocaleString(undefined, { minimumFractionDigits: 2 });
+            document.getElementById("lbl-sub").innerText = formatKsh(subtotal, 2);
+            document.getElementById("lbl-vat").innerText = formatKsh(vatAmount, 2);
+            document.getElementById("lbl-grand").innerText = formatKsh(cost, 2);
 
             const randInvoiceNum = Math.floor(1000 + Math.random() * 9000);
             document.getElementById("inv-date-num").innerHTML = `Date: ${new Date().toLocaleDateString('en-KE')}<br>Inv No: #DJA-${randInvoiceNum}`;
@@ -597,114 +598,9 @@
             showToast('Invoice generated successfully', 'success');
         }
 
-        // =====================================================
-        // TOAST NOTIFICATION SYSTEM
-        // =====================================================
-        function showToast(message, type = 'info') {
-            const toastContainer = document.getElementById('toast-container') || createToastContainer();
-
-            const toast = document.createElement('div');
-            toast.className = 'toast toast-' + type;
-            toast.innerHTML = '<i class="fa-solid fa-' + getToastIcon(type) + '"></i> <span>' + message + '</span>';
-
-            toastContainer.appendChild(toast);
-
-            // Auto-remove after 4 seconds
-            setTimeout(() => {
-                toast.remove();
-            }, 4000);
-        }
-
-        function createToastContainer() {
-            const container = document.createElement('div');
-            container.id = 'toast-container';
-            container.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                z-index: 9999;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                max-width: 400px;
-            `;
-            document.body.appendChild(container);
-            return container;
-        }
-
-        function getToastIcon(type) {
-            const icons = {
-                'success': 'circle-check',
-                'error': 'circle-exclamation',
-                'info': 'info',
-                'warning': 'triangle-exclamation'
-            };
-            return icons[type] || 'info';
-        }
-
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', initializeGoogleSignIn);
     </script>
-
-    <style>
-        #toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 400px;
-        }
-
-        .toast {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 16px;
-            border-radius: 8px;
-            font-weight: 600;
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
-            animation: slideInRight 0.3s ease;
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .toast-success {
-            background: #d4edda;
-            color: #155724;
-            border-left: 4px solid #28a745;
-        }
-
-        .toast-error {
-            background: #f8d7da;
-            color: #721c24;
-            border-left: 4px solid #dc3545;
-        }
-
-        .toast-info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border-left: 4px solid #17a2b8;
-        }
-
-        .toast-warning {
-            background: #fff3cd;
-            color: #856404;
-            border-left: 4px solid #ffc107;
-        }
-    </style>
 </body>
 
 </html>

@@ -1,122 +1,4 @@
 // ====================================================================
-// TOAST NOTIFICATION SYSTEM
-// ====================================================================
-
-function showToast(message, type = 'info') {
-    const toastContainer = document.getElementById('toast-container') || createToastContainer();
-
-    const toast = document.createElement('div');
-    toast.className = 'toast toast-' + type;
-    toast.innerHTML = `<i class="fa-solid fa-${getToastIcon(type)}"></i> <span>${message}</span>`;
-
-    toastContainer.appendChild(toast);
-
-    // Auto-remove after 4 seconds
-    setTimeout(() => {
-        toast.classList.add('fade-out');
-        setTimeout(() => toast.remove(), 300);
-    }, 4000);
-}
-
-function createToastContainer() {
-    const container = document.createElement('div');
-    container.id = 'toast-container';
-    container.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        max-width: 400px;
-        font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto;
-    `;
-    document.body.appendChild(container);
-    return container;
-}
-
-function getToastIcon(type) {
-    const icons = {
-        'success': 'circle-check',
-        'error': 'circle-exclamation',
-        'info': 'circle-info',
-        'warning': 'triangle-exclamation'
-    };
-    return icons[type] || 'circle-info';
-}
-
-// Add toast styles dynamically
-(function () {
-    const style = document.createElement('style');
-    style.textContent = `
-        .toast {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 16px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
-            animation: slideInRight 0.3s ease;
-            max-width: 100%;
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-        }
-
-        .toast.fade-out {
-            animation: slideOutRight 0.3s ease;
-        }
-
-        .toast-success {
-            background: #d4edda;
-            color: #155724;
-            border-left: 4px solid #28a745;
-        }
-
-        .toast-error {
-            background: #f8d7da;
-            color: #721c24;
-            border-left: 4px solid #dc3545;
-        }
-
-        .toast-info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border-left: 4px solid #17a2b8;
-        }
-
-        .toast-warning {
-            background: #fff3cd;
-            color: #856404;
-            border-left: 4px solid #ffc107;
-        }
-    `;
-    document.head.appendChild(style);
-})();
-
-// ====================================================================
 // QUICK ORDER & PAYMENT FUNCTIONS
 // ====================================================================
 
@@ -128,7 +10,7 @@ function openQuickOrder(itemName, itemPrice) {
         price: itemPrice,
         paybill: '542542',
         account: '131141',
-        whatsapp: '+254721419479'
+        whatsapp: '+' + WHATSAPP_NUMBER
     };
     showSimplePaymentModal({
         order_number: `DQ-${Date.now().toString().slice(-6)}`,
@@ -167,7 +49,7 @@ async function createAndShowOrder() {
 function showSimplePaymentModal(order) {
     const modal = document.getElementById('quick-order-modal');
     if (!modal) {
-        showToast(`Pay Ksh ${Number(order.amount_ksh).toLocaleString()} to Paybill ${order.paybill} Account ${order.account}. Send your transaction ID on WhatsApp.`, 'info');
+        showToast(`Pay ${formatKsh(order.amount_ksh)} to Paybill ${order.paybill} Account ${order.account}. Send your transaction ID on WhatsApp.`, 'info');
         return;
     }
 
@@ -178,7 +60,7 @@ function showSimplePaymentModal(order) {
     const whatsappField = document.getElementById('display-whatsapp');
 
     if (productField) productField.textContent = order.product_name;
-    if (amountField) amountField.textContent = `Ksh ${Number(order.amount_ksh).toLocaleString()}`;
+    if (amountField) amountField.textContent = formatKsh(order.amount_ksh);
     if (paybillField) paybillField.textContent = order.paybill;
     if (accountField) accountField.textContent = order.account;
     if (whatsappField) whatsappField.textContent = order.whatsapp || '+254 721 419 479';
@@ -202,7 +84,7 @@ function sendToWhatsApp() {
         return;
     }
 
-    const message = `Hello Dejar Auto Supplies, I want to order ${pendingPayment.product} for Ksh ${Number(pendingPayment.price).toLocaleString()}. My payment details are Paybill ${pendingPayment.paybill} and Account ${pendingPayment.account}.`;
+    const message = `Hello Dejar Auto Supplies, I want to order ${pendingPayment.product} for ${formatKsh(pendingPayment.price)}. My payment details are Paybill ${pendingPayment.paybill} and Account ${pendingPayment.account}.`;
     window.open(`https://wa.me/${pendingPayment.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
 }
 
@@ -211,7 +93,7 @@ function copyOrderReference() {
         return;
     }
 
-    const message = `Product: ${pendingPayment.product}\nAmount: Ksh ${Number(pendingPayment.price).toLocaleString()}\nPaybill: ${pendingPayment.paybill}\nAccount: ${pendingPayment.account}`;
+    const message = `Product: ${pendingPayment.product}\nAmount: ${formatKsh(pendingPayment.price)}\nPaybill: ${pendingPayment.paybill}\nAccount: ${pendingPayment.account}`;
 
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(message).then(() => {
@@ -230,13 +112,14 @@ function copyOrderReference() {
 // Handle Customer Reviews form submission
 function submitReview(event) {
     if (event) event.preventDefault();
-    const name = document.getElementById("review-name").value.trim();
-    const text = document.getElementById("review-text").value.trim();
-
-    if (!name || !text) {
+    const result = validateRequiredFields(['review-name', 'review-text']);
+    if (!result.valid) {
         showToast("Please add both your name and your review before submitting.", 'warning');
         return;
     }
+
+    const name = result.values['review-name'];
+    const text = result.values['review-text'];
 
     fetch('/api/reviews', {
         method: 'POST',
@@ -280,19 +163,19 @@ function submitReview(event) {
 
 function submitContactForm(event) {
     if (event) event.preventDefault();
-    const name = document.getElementById('contact-name').value.trim();
-    const phone = document.getElementById('contact-phone').value.trim();
-    const message = document.getElementById('contact-message').value.trim();
-
-    if (!name || !phone || !message) {
+    const result = validateRequiredFields(['contact-name', 'contact-phone', 'contact-message']);
+    if (!result.valid) {
         showToast('Please complete all fields in the contact form.', 'warning');
         return;
     }
 
-    const whatsappNumber = '254721419479';
+    const name = result.values['contact-name'];
+    const phone = result.values['contact-phone'];
+    const message = result.values['contact-message'];
+
     const whatsappMessage = `Hello Dejar Auto Supplies,\n\nName: ${name}\nPhone: ${phone}\nMessage: ${message}`;
 
-    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, '_blank', 'noopener,noreferrer');
+    window.open(buildWhatsAppUrl(whatsappMessage), '_blank', 'noopener,noreferrer');
 
     showToast(`Thanks ${name}! Your message is opening in WhatsApp.`, 'success');
     document.getElementById('contact-form').reset();
@@ -300,11 +183,11 @@ function submitContactForm(event) {
 
 // Global visual handlers
 function addToCart(name, price) {
-    showToast(`Added ${name} for Ksh ${price}. Use WhatsApp or quick checkout to order.`, 'info');
+    showToast(`Added ${name} for ${formatKsh(price)}. Use WhatsApp or quick checkout to order.`, 'info');
 }
 
 function toggleCart() {
-    window.open('https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20would%20like%20help%20ordering%20lubricants.', '_blank');
+    window.open(buildWhatsAppUrl('Hello Dejar Auto Supplies, I would like help ordering lubricants.'), '_blank');
 }
 
 // ====================================================================
@@ -321,109 +204,8 @@ function initSectionCarousels() {
     const carousels = [];
 
     document.querySelectorAll('.section-carousel').forEach((carousel) => {
-        const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
-        if (!slides.length) return;
-
-        const stage = carousel.querySelector('.carousel-stage');
-        let track = carousel.querySelector('.carousel-track');
-        if (!track && stage) {
-            track = document.createElement('div');
-            track.className = 'carousel-track';
-            const fragment = document.createDocumentFragment();
-            slides.forEach((slide) => fragment.appendChild(slide));
-            track.appendChild(fragment);
-            stage.appendChild(track);
-        }
-
-        const trackSlides = Array.from(track?.querySelectorAll('.carousel-slide') || []);
-        if (!trackSlides.length) return;
-
-        let currentIndex = 0;
-        const prevButton = carousel.querySelector('.carousel-btn.prev');
-        const nextButton = carousel.querySelector('.carousel-btn.next');
-        let dotsContainer = carousel.querySelector('.carousel-dots');
-
-        if (!dotsContainer) {
-            dotsContainer = document.createElement('div');
-            dotsContainer.className = 'carousel-dots';
-            carousel.appendChild(dotsContainer);
-        }
-
-        const dots = trackSlides.map((_, index) => {
-            const dot = document.createElement('button');
-            dot.className = 'carousel-dot';
-            dot.type = 'button';
-            dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
-            dot.addEventListener('click', () => goTo(index));
-            dotsContainer.appendChild(dot);
-            return dot;
-        });
-
-        function renderSlides() {
-            if (!trackSlides.length) return;
-
-            currentIndex = ((currentIndex % trackSlides.length) + trackSlides.length) % trackSlides.length;
-
-            trackSlides.forEach((slide, index) => {
-                const isActive = index === currentIndex;
-                slide.classList.toggle('active', isActive);
-                slide.style.display = 'flex';
-            });
-
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentIndex);
-            });
-
-            if (track) {
-                track.style.transform = `translateX(-${currentIndex * 100}%)`;
-            }
-        }
-
-        function goTo(index) {
-            currentIndex = index;
-            renderSlides();
-        }
-
-        prevButton?.addEventListener('click', () => goTo(currentIndex - 1));
-        nextButton?.addEventListener('click', () => goTo(currentIndex + 1));
-
-        let touchStartX = 0;
-        let touchEndX = 0;
-        stage?.addEventListener('touchstart', (event) => {
-            touchStartX = event.touches[0].clientX;
-        });
-        stage?.addEventListener('touchend', (event) => {
-            touchEndX = event.changedTouches[0].clientX;
-            const delta = touchStartX - touchEndX;
-            if (delta > 50) {
-                goTo(currentIndex + 1);
-            } else if (delta < -50) {
-                goTo(currentIndex - 1);
-            }
-        });
-
-        const autoplayMs = 5500;
-        let autoplayTimer = window.setInterval(() => {
-            if (trackSlides.length > 1) {
-                goTo(currentIndex + 1);
-            }
-        }, autoplayMs);
-        carousel.addEventListener('mouseenter', () => window.clearInterval(autoplayTimer));
-        carousel.addEventListener('mouseleave', () => {
-            autoplayTimer = window.setInterval(() => {
-                if (trackSlides.length > 1) {
-                    goTo(currentIndex + 1);
-                }
-            }, autoplayMs);
-        });
-
-        carousels.push({
-            carousel,
-            renderSlides,
-            isProductCarousel: carousel.classList.contains('product-carousel')
-        });
-
-        renderSlides();
+        const controller = createCarousel(carousel);
+        if (controller) carousels.push(controller);
     });
 
     return carousels;
