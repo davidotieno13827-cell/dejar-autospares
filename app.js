@@ -607,6 +607,11 @@ function initFaqAccordion() {
     const vehicleSection = document.querySelector('.vehicle-section');
     const vehicleToggle = document.querySelector('.vehicle-toggle');
     const vehicleContent = document.querySelector('.vehicle-content');
+    const brandPanels = document.querySelectorAll('.brand-panel');
+    const brandToggles = document.querySelectorAll('.brand-toggle');
+    const engineSection = document.querySelector('.engine-oils-section');
+    const engineToggle = document.querySelector('.engine-oils-toggle');
+    const engineContent = document.querySelector('.engine-oils-content');
     const faqItems = document.querySelectorAll('.faq-item');
 
     if (faqToggle && faqSection && faqContent) {
@@ -622,6 +627,36 @@ function initFaqAccordion() {
             const isOpen = vehicleSection.classList.toggle('is-open');
             vehicleToggle.setAttribute('aria-expanded', String(isOpen));
             vehicleContent.hidden = !isOpen;
+        });
+    }
+
+    brandToggles.forEach((brandToggle) => {
+        brandToggle.addEventListener('click', () => {
+            const brandPanel = brandToggle.closest('.brand-panel');
+            const brandContent = brandPanel && brandPanel.querySelector('.brand-content');
+            const willOpen = brandPanel ? !brandPanel.classList.contains('is-open') : false;
+
+            brandPanels.forEach((otherPanel) => {
+                const otherToggle = otherPanel.querySelector('.brand-toggle');
+                const otherContent = otherPanel.querySelector('.brand-content');
+                otherPanel.classList.remove('is-open');
+                if (otherToggle) otherToggle.setAttribute('aria-expanded', 'false');
+                if (otherContent) otherContent.hidden = true;
+            });
+
+            if (brandPanel && brandContent && willOpen) {
+                brandPanel.classList.add('is-open');
+                brandToggle.setAttribute('aria-expanded', 'true');
+                brandContent.hidden = false;
+            }
+        });
+    });
+
+    if (engineToggle && engineSection && engineContent) {
+        engineToggle.addEventListener('click', () => {
+            const isOpen = engineSection.classList.toggle('is-open');
+            engineToggle.setAttribute('aria-expanded', String(isOpen));
+            engineContent.hidden = !isOpen;
         });
     }
 

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Dejar Auto Supplies delivers major vehicle oils for Kenyan cars, pickups and diesel fleets with fast delivery, seamless Paybill checkout, and expert oil advice.">
-    <title>Dejar Auto Supplies | Premium Engine Oils & Lubricants</title>
+    <title>Dejar Auto Supplies | Lubricants & Auto Oils</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -34,15 +34,15 @@
         <nav id="site-nav" aria-label="Primary">
             <ul>
                 <li><a href="#home" class="active">Home</a></li>
-                <li><a href="#major-lubricants">Catalog</a></li>
-                <li><a href="#guide">How it Works</a></li>
+                <li><a href="#brand-catalog">Catalog</a></li>
+                <li><a href="#brand-catalog">How it Works</a></li>
                 <li><a href="#reviews">Reviews</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
 
         <div class="nav-icons">
-            <a class="small-btn outline" href="#major-lubricants">Shop</a>
+            <a class="small-btn outline" href="#brand-catalog">Shop</a>
             <button class="cart-icon" type="button" onclick="toggleCart()" aria-label="Open WhatsApp ordering">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span>0</span>
@@ -57,7 +57,7 @@
         <div class="sticky-cta-bar">
             <div><strong>Quick order support:</strong> Paybill 542542 | Account 131141 | WhatsApp +254 721 419 479</div>
             <div class="sticky-cta-actions">
-                <a class="small-btn" href="#major-lubricants">Browse Oils</a>
+                <a class="small-btn" href="#brand-catalog">Browse Oils</a>
                 <a class="small-btn outline"
                     href="https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20need%20help%20ordering%20motor%20oil."
                     target="_blank" rel="noopener noreferrer">Chat Now</a>
@@ -68,12 +68,12 @@
             <div class="hero-content">
                 <div>
                     <p class="hero-eyebrow">Dejar Auto Supplies</p>
-                    <h2>Premium Engine Oils & Lubricants for Kenyan Vehicles</h2>
+                    <h2>Lubricants & Auto Oils for Kenyan Vehicles</h2>
                     <p>Fast delivery, trusted major oil brands, and simple M-Pesa checkout. Paybill 542542 | Account
                         131141.</p>
 
                     <div class="hero-buttons">
-                        <a class="cta-btn" href="#major-lubricants"><i class="fa-solid fa-bottle-droplet"></i> View
+                        <a class="cta-btn" href="#brand-catalog"><i class="fa-solid fa-bottle-droplet"></i> View
                             Professional
                             Oils</a>
                         <a class="secondary-btn"
@@ -135,20 +135,6 @@
             </article>
         </section>
 
-        <section id="major-lubricants" class="brand-matrix">
-            <h2 class="section-title">Major Lubricants in Stock</h2>
-            <p class="section-description">Shell, Total, Mobil, Castrol, Engen and Elf are our main lubricant brands in
-                stock.</p>
-            <div class="brand-matrix-grid">
-                <span><i class="fa-solid fa-oil-can"></i> Shell</span>
-                <span><i class="fa-solid fa-oil-can"></i> Total</span>
-                <span><i class="fa-solid fa-oil-can"></i> Mobil</span>
-                <span><i class="fa-solid fa-oil-can"></i> Castrol</span>
-                <span><i class="fa-solid fa-oil-can"></i> Engen</span>
-                <span><i class="fa-solid fa-oil-can"></i> Elf</span>
-            </div>
-        </section>
-
         <section id="major-vehicles" class="vehicle-section">
             <button class="vehicle-toggle" type="button" aria-expanded="false" aria-controls="vehicle-content">
                 <span class="section-title vehicle-title">
@@ -193,212 +179,356 @@
             </div>
         </section>
 
-        <section id="oil-guide" class="oil-section">
-            <div class="guide-intro">
-                <p class="hero-eyebrow">Oil guide</p>
-                <h2 class="section-title">Major Oils In Stock</h2>
-                <p>Browse the oils below to see what each one does, the vehicles it suits best, and an indicative Kenyan
-                    market price.</p>
-            </div>
-            <div class="oil-grid">
-                <article class="oil-card">
-                    <div class="oil-header">
-                        <span class="oil-price">KSh 6,800</span>
-                        <span class="oil-type">ATF</span>
+        <section id="brand-catalog" class="oil-section brand-catalog-section">
+            <h2 class="section-title">Major Lubricants in Stock</h2>
+            <p class="section-description">Tap a brand to expand its oils. Opening a new brand automatically closes the
+                one you were viewing before.</p>
+            <div class="brand-accordion">
+                <article class="brand-panel is-open">
+                    <button class="brand-toggle" type="button" aria-expanded="true" aria-controls="brand-shell-content">
+                        <span class="section-title brand-title">
+                            <span>Shell</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                    <div class="brand-content" id="brand-shell-content">
+                        <div class="brand-order-bar">
+                            <button type="button" class="quick-order-btn"
+                                onclick="openQuickOrder('Shell Helix Ultra 0W-20 Fully Synthetic', 9800)">Quick Order
+                                Shell</button>
+                        </div>
+                        <div class="shell-grid">
+                            <article class="shell-card oil-card">
+                                <div class="oil-card-visual shell-card-visual"
+                                    style="--oil-image: url('UShell Helix Ultra 0W-20.jpg');">
+                                </div>
+                                <div class="oil-card-body">
+                                    <div class="oil-header">
+                                        <span class="oil-type">Shell Helix Ultra</span>
+                                        <span class="oil-price">KSh 9,800</span>
+                                    </div>
+                                    <h3>0W-20 Fully Synthetic</h3>
+                                    <p>Premium low-viscosity protection for modern engines and fuel-efficient daily
+                                        driving.</p>
+                                </div>
+                            </article>
+                            <article class="shell-card oil-card">
+                                <div class="oil-card-visual shell-card-visual"
+                                    style="--oil-image: url('UShell ultra 5W-40.jpg');">
+                                </div>
+                                <div class="oil-card-body">
+                                    <div class="oil-header">
+                                        <span class="oil-type">Shell Helix Ultra</span>
+                                        <span class="oil-price">KSh 10,500</span>
+                                    </div>
+                                    <h3>5W-40 Fully Synthetic</h3>
+                                    <p>Strong wear protection for heavier duty use and higher temperature conditions.
+                                    </p>
+                                </div>
+                            </article>
+                            <article class="shell-card oil-card">
+                                <div class="oil-card-visual shell-card-visual"
+                                    style="--oil-image: url('USHell helix ultra 0W-30 .jpg');">
+                                </div>
+                                <div class="oil-card-body">
+                                    <div class="oil-header">
+                                        <span class="oil-type">Shell Helix Ultra</span>
+                                        <span class="oil-price">KSh 9,800</span>
+                                    </div>
+                                    <h3>0W-30 Fully Synthetic</h3>
+                                    <p>Balanced cold-start protection and smooth performance for newer passenger
+                                        vehicles.</p>
+                                </div>
+                            </article>
+                            <article class="shell-card oil-card">
+                                <div class="oil-card-visual shell-card-visual"
+                                    style="--oil-image: url('Ushell helix ultra 0W-40.jpg');">
+                                </div>
+                                <div class="oil-card-body">
+                                    <div class="oil-header">
+                                        <span class="oil-type">Shell Helix Ultra</span>
+                                        <span class="oil-price">KSh 10,500</span>
+                                    </div>
+                                    <h3>0W-40 Fully Synthetic</h3>
+                                    <p>High-performance protection for engines that need wider operating temperature
+                                        coverage.</p>
+                                </div>
+                            </article>
+                            <article class="shell-card oil-card">
+                                <div class="oil-card-visual shell-card-visual"
+                                    style="--oil-image: url('PShell Helix HX8 0W-20.jpg');">
+                                </div>
+                                <div class="oil-card-body">
+                                    <div class="oil-header">
+                                        <span class="oil-type">Shell Helix HX8</span>
+                                        <span class="oil-price">KSh 8,500</span>
+                                    </div>
+                                    <h3>0W-20 Synthetic</h3>
+                                    <p>Reliable daily protection for newer engines and modern light-duty vehicles.</p>
+                                </div>
+                            </article>
+                            <article class="shell-card oil-card">
+                                <div class="oil-card-visual shell-card-visual"
+                                    style="--oil-image: url('PShell helix HX8 0W-30.jpg');">
+                                </div>
+                                <div class="oil-card-body">
+                                    <div class="oil-header">
+                                        <span class="oil-type">Shell Helix HX8</span>
+                                        <span class="oil-price">KSh 8,500</span>
+                                    </div>
+                                    <h3>0W-30 Synthetic</h3>
+                                    <p>Solid protection with smooth flow for efficient city and highway use.</p>
+                                </div>
+                            </article>
+                            <article class="shell-card oil-card">
+                                <div class="oil-card-visual shell-card-visual"
+                                    style="--oil-image: url('PShell Helix HX8 0W-40.jpg');">
+                                </div>
+                                <div class="oil-card-body">
+                                    <div class="oil-header">
+                                        <span class="oil-type">Shell Helix HX8</span>
+                                        <span class="oil-price">KSh 8,900</span>
+                                    </div>
+                                    <h3>0W-40 Synthetic</h3>
+                                    <p>Good all-rounder for engines needing more protection in varied driving
+                                        conditions.</p>
+                                </div>
+                            </article>
+                            <article class="shell-card oil-card">
+                                <div class="oil-card-visual shell-card-visual"
+                                    style="--oil-image: url('CShell helix HX7 5W-30.jpg');">
+                                </div>
+                                <div class="oil-card-body">
+                                    <div class="oil-header">
+                                        <span class="oil-type">Shell Helix HX7</span>
+                                        <span class="oil-price">KSh 7,200</span>
+                                    </div>
+                                    <h3>5W-30 Synthetic Blend</h3>
+                                    <p>Popular for everyday commuter vehicles needing balanced protection and value.</p>
+                                </div>
+                            </article>
+                            <article class="shell-card oil-card">
+                                <div class="oil-card-visual shell-card-visual"
+                                    style="--oil-image: url('CShell helix HX7+ 5W-30.jpg');">
+                                </div>
+                                <div class="oil-card-body">
+                                    <div class="oil-header">
+                                        <span class="oil-type">Shell Helix HX7+</span>
+                                        <span class="oil-price">KSh 7,800</span>
+                                    </div>
+                                    <h3>5W-30 Enhanced Blend</h3>
+                                    <p>Extra protection for drivers who want a little more performance and cleanliness.
+                                    </p>
+                                </div>
+                            </article>
+                            <article class="shell-card oil-card">
+                                <div class="oil-card-visual shell-card-visual"
+                                    style="--oil-image: url('CShell helix HX6+ 5W-30.jpg');">
+                                </div>
+                                <div class="oil-card-body">
+                                    <div class="oil-header">
+                                        <span class="oil-type">Shell Helix HX6+</span>
+                                        <span class="oil-price">KSh 6,800</span>
+                                    </div>
+                                    <h3>5W-30 Multi-grade</h3>
+                                    <p>Practical everyday option for drivers wanting dependable engine cleanliness.</p>
+                                </div>
+                            </article>
+                            <article class="shell-card oil-card">
+                                <div class="oil-card-visual shell-card-visual"
+                                    style="--oil-image: url('CShell helix HX5 5W-30.jpg');">
+                                </div>
+                                <div class="oil-card-body">
+                                    <div class="oil-header">
+                                        <span class="oil-type">Shell Helix HX5</span>
+                                        <span class="oil-price">KSh 5,900</span>
+                                    </div>
+                                    <h3>5W-30 Mineral Blend</h3>
+                                    <p>Entry Shell option for routine servicing and budget-conscious maintenance.</p>
+                                </div>
+                            </article>
+                        </div>
                     </div>
-                    <h3>Mobil ATF 3309</h3>
-                    <p>Automatic transmission fluid that gives smooth gear changes and protects Toyota-style automatic
-                        boxes.</p>
-                    <p class="oil-fit"><strong>Best for:</strong> Toyota, Nissan, Mazda, Mitsubishi automatics.</p>
-                    <button class="btn-buy-now" onclick="openQuickOrder('Mobil ATF 3309', 6800)">Quick Order</button>
                 </article>
-                <article class="oil-card">
-                    <div class="oil-header">
-                        <span class="oil-price">KSh 4,800</span>
-                        <span class="oil-type">5W-30</span>
+                <article class="brand-panel">
+                    <button class="brand-toggle" type="button" aria-expanded="false"
+                        aria-controls="brand-total-content">
+                        <span class="section-title brand-title">
+                            <span>TotalEnergies</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                    <div class="brand-content" id="brand-total-content" hidden>
+                        <div class="brand-order-bar">
+                            <button type="button" class="quick-order-btn"
+                                onclick="openQuickOrder('TotalEnergies Quartz & Rubia Range', 6500)">Quick Order
+                                TotalEnergies</button>
+                        </div>
+                        <article class="oil-card brand-card brand-total">
+                            <div class="oil-card-visual oil-visual-total">
+                                <span>TotalEnergies</span>
+                                <p>Reliable synthetic and semi-synthetic grades</p>
+                            </div>
+                            <div class="oil-card-body">
+                                <div class="oil-header">
+                                    <span class="oil-type">TotalEnergies</span>
+                                    <span class="oil-price">From KSh 6,500</span>
+                                </div>
+                                <h3>Quartz & Rubia Range</h3>
+                                <p>Popular everyday oils for petrol and diesel vehicles, with strong cold-start
+                                    performance.</p>
+                            </div>
+                        </article>
                     </div>
-                    <h3>Shell Helix Ultra 5W-30</h3>
-                    <p>Full synthetic engine oil for cleaner engines, better fuel economy and strong cold-start
-                        protection.</p>
-                    <p class="oil-fit"><strong>Best for:</strong> Toyota, Honda, Mazda, Subaru, VW, Mercedes-Benz.</p>
-                    <button class="btn-buy-now" onclick="openQuickOrder('Shell Helix Ultra 5W-30', 4800)">Quick
-                        Order</button>
                 </article>
-                <article class="oil-card">
-                    <div class="oil-header">
-                        <span class="oil-price">KSh 4,700</span>
-                        <span class="oil-type">5W-40</span>
+                <article class="brand-panel">
+                    <button class="brand-toggle" type="button" aria-expanded="false"
+                        aria-controls="brand-mobil-content">
+                        <span class="section-title brand-title">
+                            <span>Mobil</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                    <div class="brand-content" id="brand-mobil-content" hidden>
+                        <div class="brand-order-bar">
+                            <button type="button" class="quick-order-btn"
+                                onclick="openQuickOrder('Mobil 1 & Super', 8500)">Quick Order Mobil</button>
+                        </div>
+                        <article class="oil-card brand-card brand-mobil">
+                            <div class="oil-card-visual oil-visual-mobil">
+                                <span>Mobil</span>
+                                <p>Premium protection for modern engines</p>
+                            </div>
+                            <div class="oil-card-body">
+                                <div class="oil-header">
+                                    <span class="oil-type">Mobil</span>
+                                    <span class="oil-price">From KSh 8,500</span>
+                                </div>
+                                <h3>Mobil 1 & Super</h3>
+                                <p>Designed for drivers who want premium performance, longer drains and smooth engine
+                                    response.</p>
+                            </div>
+                        </article>
                     </div>
-                    <h3>Mobil Super 3000 5W-40</h3>
-                    <p>Premium synthetic oil that handles heat well and supports high-performance petrol and diesel
-                        engines.</p>
-                    <p class="oil-fit"><strong>Best for:</strong> Subaru, Ford, VW, Honda CR-V, Mercedes-Benz.</p>
-                    <button class="btn-buy-now" onclick="openQuickOrder('Mobil Super 3000 5W-40', 4700)">Quick
-                        Order</button>
                 </article>
-                <article class="oil-card">
-                    <div class="oil-header">
-                        <span class="oil-price">KSh 3,500</span>
-                        <span class="oil-type">10W-40</span>
+                <article class="brand-panel">
+                    <button class="brand-toggle" type="button" aria-expanded="false"
+                        aria-controls="brand-castrol-content">
+                        <span class="section-title brand-title">
+                            <span>Castrol</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                    <div class="brand-content" id="brand-castrol-content" hidden>
+                        <div class="brand-order-bar">
+                            <button type="button" class="quick-order-btn"
+                                onclick="openQuickOrder('Castrol Magnatec, Edge & GTX', 7200)">Quick Order
+                                Castrol</button>
+                        </div>
+                        <article class="oil-card brand-card brand-castrol">
+                            <div class="oil-card-visual oil-visual-castrol">
+                                <span>Castrol</span>
+                                <p>Performance oils under pressure</p>
+                            </div>
+                            <div class="oil-card-body">
+                                <div class="oil-header">
+                                    <span class="oil-type">Castrol</span>
+                                    <span class="oil-price">From KSh 7,200</span>
+                                </div>
+                                <h3>Magnatec, Edge & GTX</h3>
+                                <p>Trusted for durability, warm-up protection and strong everyday engine cleanliness.
+                                </p>
+                            </div>
+                        </article>
                     </div>
-                    <h3>Total Quartz 9000 10W-40</h3>
-                    <p>Semi-synthetic all-round oil for daily driving, balancing protection, smoothness and
-                        affordability.</p>
-                    <p class="oil-fit"><strong>Best for:</strong> Toyota, Nissan, Mazda, Hyundai, Mitsubishi.</p>
-                    <button class="btn-buy-now" onclick="openQuickOrder('Total Quartz 9000 10W-40', 3500)">Quick
-                        Order</button>
                 </article>
-                <article class="oil-card">
-                    <div class="oil-header">
-                        <span class="oil-price">KSh 3,200</span>
-                        <span class="oil-type">20W-50</span>
+                <article class="brand-panel">
+                    <button class="brand-toggle" type="button" aria-expanded="false"
+                        aria-controls="brand-engen-content">
+                        <span class="section-title brand-title">
+                            <span>Engen</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                    <div class="brand-content" id="brand-engen-content" hidden>
+                        <div class="brand-order-bar">
+                            <button type="button" class="quick-order-btn"
+                                onclick="openQuickOrder('Engen Durable Everyday Oils', 5800)">Quick Order Engen</button>
+                        </div>
+                        <article class="oil-card brand-card brand-engen">
+                            <div class="oil-card-visual oil-visual-oem">
+                                <span>Engen</span>
+                                <p>Balanced value for daily servicing</p>
+                            </div>
+                            <div class="oil-card-body">
+                                <div class="oil-header">
+                                    <span class="oil-type">Engen</span>
+                                    <span class="oil-price">From KSh 5,800</span>
+                                </div>
+                                <h3>Durable Everyday Oils</h3>
+                                <p>Good value lubricants for routine maintenance and a wide range of passenger vehicles.
+                                </p>
+                            </div>
+                        </article>
                     </div>
-                    <h3>Engen PowerDrive 20W-50</h3>
-                    <p>Thicker engine oil that helps older engines maintain pressure and reduce wear.</p>
-                    <p class="oil-fit"><strong>Best for:</strong> Toyota Premio, Nissan Note, Mazda Demio, Honda Fit,
-                        Suzuki Alto.</p>
-                    <button class="btn-buy-now" onclick="openQuickOrder('Engen PowerDrive 20W-50', 3200)">Quick
-                        Order</button>
                 </article>
-                <article class="oil-card">
-                    <div class="oil-header">
-                        <span class="oil-price">KSh 3,300</span>
-                        <span class="oil-type">20W-50</span>
+                <article class="brand-panel">
+                    <button class="brand-toggle" type="button" aria-expanded="false" aria-controls="brand-elf-content">
+                        <span class="section-title brand-title">
+                            <span>Elf</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                    <div class="brand-content" id="brand-elf-content" hidden>
+                        <div class="brand-order-bar">
+                            <button type="button" class="quick-order-btn"
+                                onclick="openQuickOrder('Elf Evolution Line', 6000)">Quick Order Elf</button>
+                        </div>
+                        <article class="oil-card brand-card brand-elf">
+                            <div class="oil-card-visual oil-visual-total">
+                                <span>Elf</span>
+                                <p>Smooth running and clean protection</p>
+                            </div>
+                            <div class="oil-card-body">
+                                <div class="oil-header">
+                                    <span class="oil-type">Elf</span>
+                                    <span class="oil-price">From KSh 6,000</span>
+                                </div>
+                                <h3>Evolution Line</h3>
+                                <p>A practical choice for everyday engines that need dependable lubrication and
+                                    cleanliness.</p>
+                            </div>
+                        </article>
                     </div>
-                    <h3>Castrol GTX 20W-50</h3>
-                    <p>Heavy-duty high-mileage oil designed to keep older engines protected under tough conditions.</p>
-                    <p class="oil-fit"><strong>Best for:</strong> Toyota, Nissan, Mazda, Hyundai, Subaru.</p>
-                    <button class="btn-buy-now" onclick="openQuickOrder('Castrol GTX 20W-50', 3300)">Quick
-                        Order</button>
                 </article>
-                <article class="oil-card">
-                    <div class="oil-header">
-                        <span class="oil-price">KSh 6,200</span>
-                        <span class="oil-type">ATF</span>
+                <article class="brand-panel">
+                    <button class="brand-toggle" type="button" aria-expanded="false" aria-controls="brand-oem-content">
+                        <span class="section-title brand-title">
+                            <span>OEM</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                    <div class="brand-content" id="brand-oem-content" hidden>
+                        <div class="brand-order-bar">
+                            <button type="button" class="quick-order-btn"
+                                onclick="openQuickOrder('OEM Genuine Fluids & Kits', 4500)">Quick Order OEM</button>
+                        </div>
+                        <article class="oil-card brand-card brand-oem">
+                            <div class="oil-card-visual oil-visual-oem">
+                                <span>OEM</span>
+                                <p>Factory-matched fluids and kits</p>
+                            </div>
+                            <div class="oil-card-body">
+                                <div class="oil-header">
+                                    <span class="oil-type">OEM</span>
+                                    <span class="oil-price">From KSh 4,500</span>
+                                </div>
+                                <h3>Genuine Fluids & Kits</h3>
+                                <p>OEM fluids for Toyota, Honda and specialized maintenance products for specific
+                                    service needs.</p>
+                            </div>
+                        </article>
                     </div>
-                    <h3>Shell Spirax S6 ATF</h3>
-                    <p>Automatic transmission fluid made for smoother shifts and stable gearbox performance.</p>
-                    <p class="oil-fit"><strong>Best for:</strong> Toyota, Nissan, Honda, Subaru, Mazda automatics.</p>
-                    <button class="btn-buy-now" onclick="openQuickOrder('Shell Spirax S6 ATF', 6200)">Quick
-                        Order</button>
-                </article>
-                <article class="oil-card">
-                    <div class="oil-header">
-                        <span class="oil-price">KSh 2,900</span>
-                        <span class="oil-type">80W-90</span>
-                    </div>
-                    <h3>Total Rubia 80W-90</h3>
-                    <p>Gear oil that protects manual gearboxes and differentials from heat and wear.</p>
-                    <p class="oil-fit"><strong>Best for:</strong> Isuzu, Mitsubishi Canter, Toyota Hilux, Ford Ranger,
-                        Land Cruiser/Prado.</p>
-                    <button class="btn-buy-now" onclick="openQuickOrder('Total Rubia 80W-90', 2900)">Quick
-                        Order</button>
-                </article>
-                <article class="oil-card">
-                    <div class="oil-header">
-                        <span class="oil-price">KSh 3,400</span>
-                        <span class="oil-type">75W-90</span>
-                    </div>
-                    <h3>Castrol Syntrax 75W-90</h3>
-                    <p>Premium gear lubricant for stronger protection in heavy-duty manual drivetrains and 4x4s.</p>
-                    <p class="oil-fit"><strong>Best for:</strong> Toyota 4x4s, Isuzu, Ford, Volkswagen, Mercedes-Benz.
-                    </p>
-                    <button class="btn-buy-now" onclick="openQuickOrder('Castrol Syntrax 75W-90', 3400)">Quick
-                        Order</button>
-                </article>
-                <article class="oil-card">
-                    <div class="oil-header">
-                        <span class="oil-price">KSh 4,300</span>
-                        <span class="oil-type">15W-40</span>
-                    </div>
-                    <h3>Mobil Delvac 15W-40</h3>
-                    <p>Diesel engine oil that supports trucks, vans and fleets with strong wear protection.</p>
-                    <p class="oil-fit"><strong>Best for:</strong> Isuzu NPR/NQR, Mitsubishi Canter, Ford Transit, Toyota
-                        Hiace, Mercedes Sprinter.</p>
-                    <button class="btn-buy-now" onclick="openQuickOrder('Mobil Delvac 15W-40', 4300)">Quick
-                        Order</button>
-                </article>
-                <article class="oil-card">
-                    <div class="oil-header">
-                        <span class="oil-price">KSh 4,600</span>
-                        <span class="oil-type">5W-30</span>
-                    </div>
-                    <h3>Total Quartz Ineo 5W-30</h3>
-                    <p>Fuel-efficient synthetic oil that reduces friction and keeps engines clean for longer.</p>
-                    <p class="oil-fit"><strong>Best for:</strong> Toyota, Mazda, Honda, Subaru, VW, Mercedes-Benz.</p>
-                    <button class="btn-buy-now" onclick="openQuickOrder('Total Quartz Ineo 5W-30', 4600)">Quick
-                        Order</button>
-                </article>
-                <article class="oil-card">
-                    <div class="oil-header">
-                        <span class="oil-price">KSh 3,700</span>
-                        <span class="oil-type">Axle/Gear</span>
-                    </div>
-                    <h3>Shell Spirax S5 ATE</h3>
-                    <p>Axle and gearbox lubricant for pickups and vans that need durable driveline protection.</p>
-                    <p class="oil-fit"><strong>Best for:</strong> Toyota Hilux, Land Cruiser/Prado, Nissan Navara, Isuzu
-                        D-Max, Ford Ranger.</p>
-                    <button class="btn-buy-now" onclick="openQuickOrder('Shell Spirax S5 ATE', 3700)">Quick
-                        Order</button>
-                </article>
-            </div>
-        </section>
-
-        <section id="guide" class="guide-section">
-            <div class="guide-intro">
-                <p class="hero-eyebrow">Quick buying guide</p>
-                <h2 class="section-title">Pick the right oil in under a minute</h2>
-                <p>Our most requested grades cover everyday commuters, business pickups and diesel fleets, with fast
-                    guidance and smooth checkout.</p>
-            </div>
-            <div class="guide-grid">
-                <article class="guide-card">
-                    <div class="guide-icon"><i class="fa-solid fa-car-side"></i></div>
-                    <h3>City commuters</h3>
-                    <p>Corolla, Premio, Axio and Civic drivers often choose 5W-30 or 10W-40 for reliable daily
-                        performance.</p>
-                    <a href="#major-lubricants" class="text-link">Browse commuter oils</a>
-                </article>
-                <article class="guide-card">
-                    <div class="guide-icon"><i class="fa-solid fa-truck-fast"></i></div>
-                    <h3>Pickups and fleets</h3>
-                    <p>Hilux, D-Max and commercial vehicles benefit from durable 15W-40 and 10W-40 options built for
-                        heavy use.</p>
-                    <a href="#major-lubricants" class="text-link">View fleet grades</a>
-                </article>
-                <article class="guide-card">
-                    <div class="guide-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-                    <h3>Older vehicles</h3>
-                    <p>High-mileage engines need stronger wear protection, and our 20W-50 blends are popular for that
-                        purpose.</p>
-                    <a href="https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20need%20help%20choosing%20an%20oil%20for%20my%20vehicle"
-                        class="text-link" target="_blank" rel="noopener noreferrer">Ask for guidance</a>
-                </article>
-            </div>
-        </section>
-
-        <section id="engine-oils" class="engine-oils-section">
-            <h2 class="section-title">Premium Engine Oils</h2>
-            <p class="section-description">Shop our carefully selected engine oil ranges for Kenyan vehicles, from
-                modern synthetic formulas to reliable high-mileage blends.</p>
-            <div class="feature-card-grid">
-                <article class="feature-card">
-                    <h3>Fully Synthetic 5W-30</h3>
-                    <p>Top-grade synthetic oil for modern cars, delivering excellent cold-start protection and longer
-                        drain intervals.</p>
-                    <button class="btn-buy-now" onclick="activateCategory('engine')">View Engine Oils</button>
-                </article>
-                <article class="feature-card">
-                    <h3>Semi-Synthetic 10W-40</h3>
-                    <p>Best for mixed fleet use, offering durable protection for petrol and diesel engines across Kenya.
-                    </p>
-                    <button class="btn-buy-now" onclick="activateCategory('engine')">View Engine Oils</button>
-                </article>
-                <article class="feature-card">
-                    <h3>High Mileage 15W-50</h3>
-                    <p>Engineered for older vehicles needing stronger wear protection and better oil pressure retention.
-                    </p>
-                    <button class="btn-buy-now" onclick="activateCategory('engine')">View Engine Oils</button>
                 </article>
             </div>
         </section>
@@ -423,72 +553,15 @@
             <div class="contact-info">
                 <h3>Visit Our Shop</h3>
                 <p><i class="fa-solid fa-location-dot"></i> Hospital Road, Near KPLC Office, Opposite Quickmart, Kisii,
-                    Kenya</p>
-                <p><i class="fa-solid fa-envelope"></i> info@dejarautosupplies.co.ke</p>
-                <p><i class="fa-solid fa-phone"></i> +254 721419479</p>
-                <p><i class="fa-solid fa-money-bill-wave"></i> Paybill: 542542 | Account: 131141</p>
-            </div>
-            <div class="contact-form">
-                <h3>Send a Quick Message</h3>
-                <form id="contact-form" onsubmit="submitContactForm(event)">
-                    <input type="text" id="contact-name" placeholder="Your Name" required>
-                    <input type="tel" id="contact-phone" placeholder="Phone Number" required>
-                    <textarea id="contact-message" placeholder="What do you need help with?" rows="4"
-                        required></textarea>
-                    <button type="submit" class="btn-primary-style">Send on WhatsApp</button>
-                </form>
-            </div>
-            <div class="footer-map">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.7027552554705!2d34.76916817424602!3d-0.6784841993148154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182b26090c29f4bb%3A0xe67cf2f1839e55b4!2sQuickmart%20Kisii!5e0!3m2!1sen!2ske!4v1717462000000!5m2!1sen!2ske"
-                    width="100%" height="250" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-        </section>
-
-        <section class="faq-section">
-            <button class="faq-toggle" type="button" aria-expanded="false" aria-controls="faq-content">
-                <span class="section-title faq-title">
-                    <span>Frequently Asked Questions</span>
-                    <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
-                </span>
-            </button>
-            <div class="faq-content" id="faq-content" hidden>
-                <div class="faq-grid">
-                    <div class="faq-item">
-                        <button class="faq-question" type="button">How fast is delivery in Nairobi and Kisii?</button>
-                        <div class="faq-answer">
-                            <p>Most orders are dispatched the same day. Nairobi and Kisii deliveries typically arrive
-                                within
-                                1-2 business days.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" type="button">Can I pay using Paybill 542542?</button>
-                        <div class="faq-answer">
-                            <p>Yes — you can pay via Paybill 542542, Account 131141. Confirm your payment by messaging
-                                us on
-                                WhatsApp.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" type="button">Do you stock genuine lubricant brands like Shell and
-                            Mobil?</button>
-                        <div class="faq-answer">
-                            <p>Absolutely. We stock major genuine oil brands including Shell, Total, Mobil, Castrol,
-                                Engen
-                                and Elf.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" type="button">What if I need a different oil grade?</button>
-                        <div class="faq-answer">
-                            <p>If your vehicle needs a different grade or lubricant type, contact us on WhatsApp and we
-                                will
-                                recommend the best match for your engine and driving conditions.</p>
-                        </div>
+                <div class="faq-item">
+                    <button class="faq-question" type="button">What if I need a different oil grade?</button>
+                    <div class="faq-answer">
+                        <p>If your vehicle needs a different grade or lubricant type, contact us on WhatsApp and we
+                            will
+                            recommend the best match for your engine and driving conditions.</p>
                     </div>
                 </div>
+            </div>
             </div>
         </section>
 

@@ -68,6 +68,22 @@ function setupMinimalDOM() {
     <div class="carousel-item">Slide 3</div>
     <div class="filter-btn" data-filter="all"></div>
     <div class="filter-btn" data-filter="engine-oil"></div>
+    <section class="brand-panel">
+      <button class="brand-toggle" aria-expanded="false" aria-controls="brand-shell-content"></button>
+      <div class="brand-content" id="brand-shell-content" hidden></div>
+    </section>
+    <section class="brand-panel">
+      <button class="brand-toggle" aria-expanded="false" aria-controls="brand-castrol-content"></button>
+      <div class="brand-content" id="brand-castrol-content" hidden></div>
+    </section>
+    <section class="vehicle-section">
+      <button class="vehicle-toggle" aria-expanded="false" aria-controls="vehicle-content"></button>
+      <div class="vehicle-content" id="vehicle-content" hidden></div>
+    </section>
+    <section class="engine-oils-section">
+      <button class="engine-oils-toggle" aria-expanded="false" aria-controls="engine-oils-content"></button>
+      <div class="engine-oils-content" id="engine-oils-content" hidden></div>
+    </section>
     <div class="faq-item">
       <button class="faq-question">Q1</button>
       <div class="faq-answer">A1</div>
@@ -431,6 +447,29 @@ describe("filterProducts", () => {
 });
 
 describe("initFaqAccordion", () => {
+  test("opening one lubricant brand closes the previous one", () => {
+    initFaqAccordion();
+
+    const brandPanels = document.querySelectorAll(".brand-panel");
+    const shellToggle = document.querySelectorAll(".brand-toggle")[0];
+    const castrolToggle = document.querySelectorAll(".brand-toggle")[1];
+    const shellContent = document.getElementById("brand-shell-content");
+    const castrolContent = document.getElementById("brand-castrol-content");
+
+    shellToggle.click();
+    expect(brandPanels[0].classList.contains("is-open")).toBe(true);
+    expect(shellToggle.getAttribute("aria-expanded")).toBe("true");
+    expect(shellContent.hidden).toBe(false);
+
+    castrolToggle.click();
+    expect(brandPanels[0].classList.contains("is-open")).toBe(false);
+    expect(brandPanels[1].classList.contains("is-open")).toBe(true);
+    expect(shellToggle.getAttribute("aria-expanded")).toBe("false");
+    expect(castrolToggle.getAttribute("aria-expanded")).toBe("true");
+    expect(shellContent.hidden).toBe(true);
+    expect(castrolContent.hidden).toBe(false);
+  });
+
   test("clicking a question toggles active class", () => {
     initFaqAccordion();
     const firstQuestion = document.querySelectorAll(".faq-question")[0];
@@ -456,4 +495,5 @@ describe("initFaqAccordion", () => {
     expect(items[0].classList.contains("active")).toBe(false);
     expect(items[1].classList.contains("active")).toBe(true);
   });
+
 });
