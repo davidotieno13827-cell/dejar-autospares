@@ -152,11 +152,23 @@ async function createAndShowOrder() {
         });
 
         if (!response.ok) {
-            showToast('Could not create order. Please try again.', 'error');
+            let errorMsg = 'Could not create order. Please try again.';
+            try {
+                const errData = await response.json();
+                if (errData.error) errorMsg = errData.error;
+            } catch (_) { /* non-JSON error response */ }
+            showToast(errorMsg, 'error');
             return;
         }
 
-        const order = await response.json();
+        let order;
+        try {
+            order = await response.json();
+        } catch (parseError) {
+            console.error('Failed to parse order response as JSON:', parseError);
+            showToast('Received an unexpected response from the server. Please try again.', 'error');
+            return;
+        }
         showSimplePaymentModal(order);
     } catch (error) {
         console.error('Order creation error:', error);
@@ -258,19 +270,21 @@ function submitReview(event) {
 
             if (!data.requires_approval) {
                 const reviewsGrid = document.querySelector('.reviews-grid');
-                const reviewCard = document.createElement('div');
-                reviewCard.className = 'review-card';
-                reviewCard.innerHTML = `
-                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <p>"${text}"</p>
-                    <h4>- ${name}</h4>
-                `;
-
-                reviewsGrid.appendChild(reviewCard);
+                if (reviewsGrid) {
+                    const reviewCard = document.createElement('div');
+                    reviewCard.className = 'review-card';
+                    reviewCard.innerHTML = `
+                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p>"${text}"</p>
+                        <h4>- ${name}</h4>
+                    `;
+                    reviewsGrid.appendChild(reviewCard);
+                }
             }
 
             showToast(`Thanks for your review, ${name}!`, 'success');
-            document.getElementById("review-form").reset();
+            const reviewForm = document.getElementById("review-form");
+            if (reviewForm) reviewForm.reset();
         })
         .catch(error => {
             console.error('Review submission error:', error);
@@ -295,7 +309,8 @@ function submitContactForm(event) {
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, '_blank', 'noopener,noreferrer');
 
     showToast(`Thanks ${name}! Your message is opening in WhatsApp.`, 'success');
-    document.getElementById('contact-form').reset();
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) contactForm.reset();
 }
 
 // Global visual handlers
@@ -663,12 +678,14 @@ function initFaqAccordion() {
     faqItems.forEach(item => {
         const button = item.querySelector('.faq-question');
         const answer = item.querySelector('.faq-answer');
+        if (!button || !answer) return;
 
         button.addEventListener('click', () => {
             const isActive = item.classList.contains('active');
             faqItems.forEach(other => {
                 other.classList.remove('active');
-                other.querySelector('.faq-answer').style.maxHeight = null;
+                const otherAnswer = other.querySelector('.faq-answer');
+                if (otherAnswer) otherAnswer.style.maxHeight = null;
             });
 
             if (!isActive) {
@@ -722,7 +739,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', function (event) {
         const nav = document.getElementById('site-nav');
         const menuButton = document.querySelector('.mobile-menu-toggle');
-        if (nav && nav.classList.contains('open') && !nav.contains(event.target) && !menuButton.contains(event.target)) {
+        if (nav && nav.classList.contains('open') && !nav.contains(event.target) && menuButton && !menuButton.contains(event.target)) {
             closeMobileNav();
         }
     });
