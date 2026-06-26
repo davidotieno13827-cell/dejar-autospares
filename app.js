@@ -116,6 +116,186 @@ function getToastIcon(type) {
     document.head.appendChild(style);
 })();
 
+const INVENTORY_PRODUCTS = [
+    { name: 'Honda Ultra LTD Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Toyota SP 5W-30 Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Unbranded/Generic Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Toyota 5W-30 Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Honda Ultra Mild Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Toyota SP 0W-20 Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Honda Ultra Leo Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Nissan SN Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Subaru Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Mercedes Benz Lubricant', volume: '5L', category: 'Engine Oil', price: 0 },
+    { name: 'Toyota Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Synthetic Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Toyota 20W-50 Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Toyota 15W-40 Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Toyota CF-4 10W-30 Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Idemitsu 10W-40 Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Yamalube Motor Oil', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Shell Helix HX3 15W-40', volume: '5L', category: 'Engine Oil', price: 0 },
+    { name: 'Cryx Excelia Petrol', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Unbranded Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Castrol Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Castrol Magnatec', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Castrol Lubricant', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Mobil Special Motor Oil', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Synthetic 5W-30 Motor Oil', volume: '5L', category: 'Engine Oil', price: 0 },
+    { name: 'Motor Oil', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Lexus Motor Oil Fully Synthetic', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Nissan Motor Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Motul Specific Motor Oil', volume: '5L', category: 'Engine Oil', price: 0 },
+    { name: 'Castrol Lubricant', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Castrol Edge', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Castrol Lubricants', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Castrol Lubricants', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Shell Helix HX5 13W-40', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Total Lubricants', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Total Quartz 5W-50', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Total Quartz 5W-30', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Total Lubricants', volume: '5L', category: 'Engine Oil', price: 0 },
+    { name: 'Total Quartz Lubricants', volume: '5L', category: 'Engine Oil', price: 0 },
+    { name: 'Total Quartz 0W-20', volume: '5L', category: 'Engine Oil', price: 0 },
+    { name: 'Total Quartz 10W-40', volume: '5L', category: 'Engine Oil', price: 0 },
+    { name: 'Total Quartz 5W-40', volume: '5L', category: 'Engine Oil', price: 0 },
+    { name: 'Castrol Magnatec', volume: '5L', category: 'Engine Oil', price: 0 },
+    { name: 'Castrol GTX', volume: '5L', category: 'Engine Oil', price: 0 },
+    { name: 'Synthetic Motor Oil', volume: '5L', category: 'Engine Oil', price: 0 },
+    { name: 'TP Premium Full Synthetic Pro 5W-30', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Nissan Motor Oil', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Synthetic Motor Oil', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Yamalube', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Castrol GTX', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Castrol Magnatec Gold', volume: '5L', category: 'Engine Oil', price: 0 },
+    { name: 'Castrol GTX', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Shell Helix HX3', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Mobil 1', volume: '5L', category: 'Engine Oil', price: 0 },
+    { name: 'Total Lubricants', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Total Quartz Lubricants', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Total Quartz 10W-30', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Mobil 1', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Toyota 0W-20 Motor Oil', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Toyota SP 5W-30 Motor Oil', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Toyota 10W-30 Motor Oil', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Engine Oil', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Mercedes Benz Lubricant', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Toyota Motor Oil', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Liqui Moly', volume: '1L', category: 'Engine Oil', price: 0 },
+    { name: 'Toyota Lubricant', volume: '4L', category: 'Engine Oil', price: 0 },
+    { name: 'Honda ATF DW-1', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Mitsubishi ATF SP III', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'ATF Fluid', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Ecstar CVT Fluid Green 2', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Mercon V Automatic Transmission Fluid', volume: '1L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Mercon LV Automatic Transmission Fluid', volume: '5L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota AT Fluid WS', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Honda ATF-Z1', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota WS AT Fluid', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota FE CVT Fluid', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Aisin CFEx', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Nissan CVT Fluid NS-2', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Nissan CVT Fluid NS-3', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota ATF Type T-IV', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota AT Fluid T-IV', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Honda HMMF Multi Matic Fluid', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota TC CVT Fluid', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota CVT Fluid FE', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota Automatic Transmission Fluid Type T-IV', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Mitsubishi Motors ATF SP III', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota CVT Fluid TC', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Honda HCF-2 Transmission Fluid', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Subaru CVT Oil Lineartronic', volume: '4L', category: 'Transmission Fluid', price: 0 },
+    { name: 'ATF Fluid', volume: '1L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota ATF WS', volume: '1L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota AT Fluid T-IV', volume: '1L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota Genuine ATF', volume: '1L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota Automatic Transmission Fluid Type T-IV', volume: '1L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota CVT Fluid TC', volume: '1L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota CVT Fluid FE', volume: '1L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Toyota AT Fluid WS', volume: '1L', category: 'Transmission Fluid', price: 0 },
+    { name: 'Heldo Lubricant', volume: '1L', category: 'Specialty Fluids', price: 0 },
+    { name: 'Unbranded Lubricant', volume: '1.5L', category: 'Specialty Fluids', price: 0 },
+    { name: 'Total Rubia 15W-40', volume: '5L', category: 'Specialty Fluids', price: 0 },
+    { name: 'Unbranded Lubricants', volume: '1L', category: 'Specialty Fluids', price: 0 },
+    { name: 'Ecstar', volume: '0.5L', category: 'Specialty Fluids', price: 0 },
+    { name: 'Lubricant', volume: '1L', category: 'Specialty Fluids', price: 0 },
+    { name: 'Lubricant', volume: '1L', category: 'Specialty Fluids', price: 0 },
+    { name: 'Lubricant', volume: '1L', category: 'Specialty Fluids', price: 0 },
+    { name: 'Unbranded Lubricants', volume: '5L', category: 'Specialty Fluids', price: 0 },
+    { name: 'Unbranded Lubricants', volume: '0.5L', category: 'Specialty Fluids', price: 0 },
+];
+
+const INVENTORY_CATEGORY_ORDER = ['Engine Oil', 'Transmission Fluid', 'Specialty Fluids'];
+
+function renderInventory() {
+    const inventoryContainer = document.getElementById('inventory-sections');
+    if (!inventoryContainer) return;
+    inventoryContainer.innerHTML = '';
+
+    INVENTORY_CATEGORY_ORDER.forEach((category) => {
+        const products = INVENTORY_PRODUCTS.filter((product) => product.category === category);
+        if (!products.length) return;
+
+        const categorySection = document.createElement('div');
+        categorySection.className = 'inventory-category';
+
+        const heading = document.createElement('h3');
+        heading.className = 'inventory-heading';
+        heading.textContent = category;
+        categorySection.appendChild(heading);
+
+        const grid = document.createElement('div');
+        grid.className = 'oil-grid inventory-grid';
+        grid.dataset.category = category.toLowerCase();
+
+        products.forEach((product) => {
+            const card = document.createElement('article');
+            card.className = 'oil-card';
+            card.dataset.category = product.category.toLowerCase();
+
+            const body = document.createElement('div');
+            body.className = 'oil-card-body';
+
+            const header = document.createElement('div');
+            header.className = 'oil-header';
+
+            const brandLabel = document.createElement('span');
+            brandLabel.className = 'oil-type';
+            brandLabel.textContent = product.name.split(' ')[0];
+
+            const priceLabel = document.createElement('span');
+            priceLabel.className = 'oil-price';
+            priceLabel.textContent = product.price > 0 ? `KSh ${product.price.toLocaleString()}` : 'Price on request';
+
+            header.appendChild(brandLabel);
+            header.appendChild(priceLabel);
+
+            const title = document.createElement('h3');
+            title.textContent = product.name;
+
+            const description = document.createElement('p');
+            description.textContent = product.volume ? `${product.volume} volume available. Contact us for exact pricing and bulk discounts.` : 'Contact us for volume, pricing and availability.';
+
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'quick-order-small-btn';
+            button.textContent = 'Quick Order';
+            button.addEventListener('click', () => openQuickOrder(product.name, product.price));
+
+            body.appendChild(header);
+            body.appendChild(title);
+            body.appendChild(description);
+            body.appendChild(button);
+            card.appendChild(body);
+            grid.appendChild(card);
+        });
+
+        categorySection.appendChild(grid);
+        inventoryContainer.appendChild(categorySection);
+    });
+}
+
 // ====================================================================
 // QUICK ORDER & PAYMENT FUNCTIONS
 // ====================================================================
@@ -167,27 +347,36 @@ async function createAndShowOrder() {
 function showSimplePaymentModal(order) {
     const modal = document.getElementById('quick-order-modal');
     if (!modal) {
+        const fallbackMessage = `Ordering: ${order.product_name} for Ksh ${order.amount_ksh}`;
+        alert(fallbackMessage);
         showToast(`Pay Ksh ${Number(order.amount_ksh).toLocaleString()} to Paybill ${order.paybill} Account ${order.account}. Send your transaction ID on WhatsApp.`, 'info');
         return;
     }
 
+    const nameField = document.getElementById('modal-item-name');
+    const priceField = document.getElementById('modal-item-price');
     const productField = document.getElementById('display-product');
     const amountField = document.getElementById('display-amount');
     const paybillField = document.getElementById('display-paybill');
     const accountField = document.getElementById('display-account');
     const whatsappField = document.getElementById('display-whatsapp');
+    const phoneInput = document.getElementById('checkout-phone');
 
+    if (nameField) nameField.textContent = order.product_name;
+    if (priceField) priceField.textContent = String(order.amount_ksh).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     if (productField) productField.textContent = order.product_name;
     if (amountField) amountField.textContent = `Ksh ${Number(order.amount_ksh).toLocaleString()}`;
     if (paybillField) paybillField.textContent = order.paybill;
     if (accountField) accountField.textContent = order.account;
     if (whatsappField) whatsappField.textContent = order.whatsapp || '+254 721 419 479';
+    if (phoneInput) phoneInput.value = '';
 
+    modal.style.display = 'flex';
     modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');
 }
 
-function closePaymentModal() {
+function closeQuickOrder() {
     const modal = document.getElementById('quick-order-modal');
     if (!modal) {
         return;
@@ -195,6 +384,77 @@ function closePaymentModal() {
 
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
+    modal.style.display = 'none';
+}
+
+async function processPayment(event) {
+    if (event) event.preventDefault();
+
+    const priceField = document.getElementById('modal-item-price');
+    const phoneInput = document.getElementById('checkout-phone');
+    const rawAmount = priceField?.innerText || '0';
+    const amount = parseFloat(rawAmount.replace(/,/g, ''));
+    const phone = phoneInput?.value.trim() || '';
+
+    if (!amount || Number.isNaN(amount)) {
+        alert('Unable to read the order amount. Please reopen the checkout and try again.');
+        return;
+    }
+
+    const normalizedPhone = normalizeMpesaPhone(phone);
+    if (!normalizedPhone) {
+        alert('Please enter a valid M-Pesa phone number (e.g., 0712345678)');
+        return;
+    }
+
+    const paybill = document.getElementById('display-paybill')?.innerText || '542542';
+    const account = document.getElementById('display-account')?.innerText || '131141';
+
+    const payload = {
+        phone: normalizedPhone,
+        amount: amount,
+        paybill: paybill,
+        account: account,
+        product_name: document.getElementById('display-product')?.innerText || ''
+    };
+
+    const submitButton = document.querySelector('.btn-mpesa-pay');
+    if (submitButton) submitButton.disabled = true;
+
+    try {
+        const response = await fetch('/api/pay', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+            alert(`M-Pesa Failed: ${data.CustomerMessage || data.error || 'Unable to complete payment'}`);
+            return;
+        }
+        alert('Payment request sent successfully! Please check your handset for the M-Pesa PIN prompt.');
+    } catch (error) {
+        alert('Could not connect to the payment server. Make sure app.py is running on port 5000.');
+    } finally {
+        if (submitButton) submitButton.disabled = false;
+    }
+}
+
+function normalizeMpesaPhone(phone) {
+    const cleaned = phone.replace(/\D/g, '');
+    if (/^0\d{9}$/.test(cleaned)) {
+        return '254' + cleaned.slice(1);
+    }
+    if (/^254\d{9}$/.test(cleaned)) {
+        return cleaned;
+    }
+    if (/^\+254\d{9}$/.test(phone)) {
+        return cleaned;
+    }
+    return null;
 }
 
 function sendToWhatsApp() {
@@ -234,11 +494,35 @@ function submitReview(event) {
     const text = document.getElementById("review-text").value.trim();
 
     if (!name || !text) {
-        showToast("Please add both your name and your review before submitting.", 'warning');
+        alert("Please add both your name and your review before submitting.");
         return;
     }
 
-    fetch('/api/reviews', {
+    const addReviewCard = () => {
+        const reviewsGrid = document.querySelector('.reviews-grid');
+        const reviewCard = document.createElement('div');
+        reviewCard.className = 'review-card';
+        reviewCard.innerHTML = `
+            <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+            <p>"${text}"</p>
+            <h4>- ${name}</h4>
+        `;
+
+        reviewsGrid.appendChild(reviewCard);
+
+        const emptyNotice = document.getElementById('reviews-empty');
+        if (emptyNotice) {
+            emptyNotice.remove();
+        }
+    };
+
+    const handleSuccess = () => {
+        addReviewCard();
+        alert(`Thanks for your review, ${name}!`);
+        document.getElementById("review-form").reset();
+    };
+
+    const reviewRequest = fetch('/api/reviews', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -248,7 +532,14 @@ function submitReview(event) {
             comment: text,
             rating: 5
         })
-    })
+    });
+
+    if (!reviewRequest || typeof reviewRequest.then !== 'function') {
+        handleSuccess();
+        return;
+    }
+
+    reviewRequest
         .then(async response => {
             const data = await response.json().catch(() => ({}));
 
@@ -257,50 +548,42 @@ function submitReview(event) {
             }
 
             if (!data.requires_approval) {
-                const reviewsGrid = document.querySelector('.reviews-grid');
-                const reviewCard = document.createElement('div');
-                reviewCard.className = 'review-card';
-                reviewCard.innerHTML = `
-                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <p>"${text}"</p>
-                    <h4>- ${name}</h4>
-                `;
-
-                reviewsGrid.appendChild(reviewCard);
+                addReviewCard();
             }
 
-            showToast(`Thanks for your review, ${name}!`, 'success');
+            alert(`Thanks for your review, ${name}!`);
             document.getElementById("review-form").reset();
         })
         .catch(error => {
             console.error('Review submission error:', error);
-            showToast(error.message || 'Unable to submit review right now.', 'error');
+            alert(error.message || 'Unable to submit review right now.');
         });
 }
 
 function submitContactForm(event) {
     if (event) event.preventDefault();
     const name = document.getElementById('contact-name').value.trim();
+    const email = document.getElementById('contact-email').value.trim();
     const phone = document.getElementById('contact-phone').value.trim();
     const message = document.getElementById('contact-message').value.trim();
 
-    if (!name || !phone || !message) {
-        showToast('Please complete all fields in the contact form.', 'warning');
+    if (!name || !email || !phone || !message) {
+        alert('Please complete the contact form before sending.');
         return;
     }
 
     const whatsappNumber = '254721419479';
-    const whatsappMessage = `Hello Dejar Auto Supplies,\n\nName: ${name}\nPhone: ${phone}\nMessage: ${message}`;
+    const whatsappMessage = `Hello Dejar Auto Supplies,\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`;
 
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, '_blank', 'noopener,noreferrer');
 
-    showToast(`Thanks ${name}! Your message is opening in WhatsApp.`, 'success');
+    alert(`Thanks ${name}! Your message is opening in WhatsApp.`);
     document.getElementById('contact-form').reset();
 }
 
 // Global visual handlers
 function addToCart(name, price) {
-    showToast(`Added ${name} for Ksh ${price}. Use WhatsApp or quick checkout to order.`, 'info');
+    alert(`Added ${name} for Ksh ${price}. For fast orders, use WhatsApp or quick checkout.`);
 }
 
 function toggleCart() {
@@ -468,26 +751,32 @@ function getSearchableProductCards() {
 function getCardSearchText(card) {
     const title = card?.querySelector('h3')?.innerText.toLowerCase() || '';
     const details = Array.from(card?.querySelectorAll('p') || []).map((paragraph) => paragraph.innerText.toLowerCase()).join(' ');
-    const category = card?.querySelector('.badge, .oil-type')?.innerText.toLowerCase() || '';
+    const category = (card?.dataset?.category || card?.querySelector('.badge, .oil-type')?.innerText || '').toLowerCase();
     const compatibility = card?.querySelector('.compatibility, .oil-fit')?.innerText.toLowerCase() || '';
 
     return `${title} ${details} ${category} ${compatibility}`.trim();
 }
 
 function filterProducts(filter = currentCategory === null ? 'none' : currentCategory) {
+    const normalizedFilter = typeof filter === 'string' ? filter.replace(/-/g, ' ').trim() : filter;
     const searchInput = document.getElementById('product-search');
     const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
     const catalogCards = Array.from(document.querySelectorAll('#catalog-grid .product-card'));
     const oilCards = Array.from(document.querySelectorAll('.oil-grid .oil-card'));
     const slides = document.querySelectorAll('.product-carousel .carousel-slide');
     const buttons = document.querySelectorAll('.filter-btn');
+    const categorySelect = document.getElementById('catalog-category-select');
     const countLabel = document.getElementById('search-count');
     const noResults = document.getElementById('no-results');
     const catalogGrid = document.getElementById('catalog-grid');
 
     buttons.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.filter === filter);
+        btn.classList.toggle('active', btn.dataset.filter === normalizedFilter);
     });
+
+    if (categorySelect) {
+        categorySelect.value = normalizedFilter;
+    }
 
     let visibleCount = 0;
     let firstVisibleIndex = -1;
@@ -498,11 +787,11 @@ function filterProducts(filter = currentCategory === null ? 'none' : currentCate
             let visibleCardCount = 0;
 
             slideCards.forEach((card) => {
-                const category = card?.querySelector('.badge')?.innerText.toLowerCase() || '';
+                const category = (card?.querySelector('.badge')?.innerText.toLowerCase() || '').replace(/-/g, ' ').trim();
                 const title = card?.querySelector('h3')?.innerText.toLowerCase() || '';
                 const details = card?.querySelector('.compatibility')?.innerText.toLowerCase() || '';
 
-                const matchesFilter = filter === 'all' ? true : filter === 'none' ? false : category.includes(filter);
+                const matchesFilter = normalizedFilter === 'all' ? true : normalizedFilter === 'none' ? false : category.includes(normalizedFilter);
                 const matchesSearch = !query || title.includes(query) || details.includes(query) || category.includes(query);
                 const visible = matchesFilter && matchesSearch;
 
@@ -522,7 +811,7 @@ function filterProducts(filter = currentCategory === null ? 'none' : currentCate
         oilCards.forEach((card, index) => {
             const searchText = getCardSearchText(card);
 
-            const matchesFilter = filter === 'all' ? true : filter === 'none' ? false : searchText.includes(filter);
+            const matchesFilter = normalizedFilter === 'all' ? true : normalizedFilter === 'none' ? false : searchText.includes(normalizedFilter);
             const matchesSearch = !query || searchText.includes(query);
             const visible = matchesFilter && matchesSearch;
 
@@ -538,6 +827,29 @@ function filterProducts(filter = currentCategory === null ? 'none' : currentCate
         catalogGrid.classList.toggle('hidden', visibleCount === 0);
     }
 
+    if (countLabel) {
+        countLabel.textContent = visibleCount > 0 ? `${visibleCount} product${visibleCount === 1 ? '' : 's'} found.` : 'No matching products found.';
+    }
+
+    if (noResults) {
+        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        noResults.textContent = visibleCount === 0 ? 'Try another search term or category.' : '';
+    }
+
+    const brandPanels = document.querySelectorAll('.brand-panel');
+    brandPanels.forEach((panel) => {
+        const content = panel.querySelector('.brand-content');
+        const toggle = panel.querySelector('.brand-toggle');
+        if (!content) return;
+
+        const visibleCardInPanel = Array.from(content.querySelectorAll('.oil-card')).some((card) => card.style.display !== 'none');
+        panel.classList.toggle('is-open', visibleCardInPanel);
+        if (toggle) {
+            toggle.setAttribute('aria-expanded', String(visibleCardInPanel));
+        }
+        content.hidden = !visibleCardInPanel;
+    });
+
     if (visibleCount > 0 && slides[firstVisibleIndex]) {
         slides[firstVisibleIndex].classList.add('active');
     }
@@ -551,16 +863,16 @@ function filterProducts(filter = currentCategory === null ? 'none' : currentCate
     }
 
     if (countLabel) {
-        if (filter === 'none') {
-            countLabel.innerText = 'Choose a category to view the best lubricant grades.';
+        if (normalizedFilter === 'none') {
+            countLabel.innerText = 'Choose a category to view our best auto supplies.';
         } else if (visibleCount === 0) {
-            countLabel.innerText = 'No matching oils found. Try another search or category.';
+            countLabel.innerText = 'No matching products found. Try another search or category.';
         } else {
             countLabel.innerText = `${visibleCount} product${visibleCount === 1 ? '' : 's'} available`;
         }
     }
     if (noResults) {
-        noResults.innerText = filter === 'none' ? 'Choose a category to view our best lubricant grades.' : 'No matching oils found. Try another search or category.';
+        noResults.innerText = normalizedFilter === 'none' ? 'Choose a category to view our best auto supplies.' : 'No matching products found. Try another search or category.';
         noResults.style.display = visibleCount === 0 ? 'block' : 'none';
     }
 
@@ -701,6 +1013,7 @@ function updateActiveNavLink() {
 // INITIALIZATION
 // ====================================================================
 
+renderInventory();
 window.__carouselControllers = initSectionCarousels();
 filterProducts('all');
 
@@ -716,6 +1029,19 @@ window.addEventListener('DOMContentLoaded', () => {
         });
         searchInput.addEventListener('search', () => {
             filterProducts();
+        });
+    }
+
+    document.querySelectorAll('.filter-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            activateCategory(btn.dataset.filter || 'all');
+        });
+    });
+
+    const categorySelect = document.getElementById('catalog-category-select');
+    if (categorySelect) {
+        categorySelect.addEventListener('change', () => {
+            activateCategory(categorySelect.value || 'all');
         });
     }
 
