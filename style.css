@@ -1623,6 +1623,20 @@ section::before {
     cursor: pointer;
 }
 
+.review-feedback {
+    margin-top: 12px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.review-feedback.review-success {
+    color: var(--safaricom-green);
+}
+
+.review-feedback.review-error {
+    color: #b21d33;
+}
+
 .faq-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

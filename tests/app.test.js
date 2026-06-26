@@ -429,14 +429,11 @@ describe("filterProducts", () => {
   test("shows zero-results message for non-existent category", () => {
     filterProducts("nonexistent");
     const countLabel = document.getElementById("search-count");
-    expect(countLabel.innerText).toContain("No matching oils");
-  });
-
-  test("filters by search input text", () => {
+    expect(countLabel.innerText).toContain("No matching products");
     document.getElementById("product-search").value = "toyota";
     filterProducts("all");
-    const countLabel = document.getElementById("search-count");
-    expect(countLabel.innerText).toContain("1 product");
+    const countLabelAfterSearch = document.getElementById("search-count");
+    expect(countLabelAfterSearch.innerText).toContain("1 product");
   });
 
   test("'none' filter shows category selection message", () => {

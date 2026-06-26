@@ -498,31 +498,33 @@ function submitReview(event) {
         return;
     }
 
-    const addReviewCard = () => {
-        const reviewsGrid = document.querySelector('.reviews-grid');
-        const reviewCard = document.createElement('div');
-        reviewCard.className = 'review-card';
-        reviewCard.innerHTML = `
-            <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-            <p>"${text}"</p>
-            <h4>- ${name}</h4>
-        `;
+    const reviewsGrid = document.querySelector('.reviews-grid');
+    const reviewCard = document.createElement('div');
+    reviewCard.className = 'review-card';
+    reviewCard.innerHTML = `
+        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p>"${text}"</p>
+        <h4>- ${name}</h4>
+    `;
 
-        reviewsGrid.appendChild(reviewCard);
+    reviewsGrid.appendChild(reviewCard);
+    reviewCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-        const emptyNotice = document.getElementById('reviews-empty');
-        if (emptyNotice) {
-            emptyNotice.remove();
-        }
-    };
+    const emptyNotice = document.getElementById('reviews-empty');
+    if (emptyNotice) {
+        emptyNotice.remove();
+    }
 
-    const handleSuccess = () => {
-        addReviewCard();
-        alert(`Thanks for your review, ${name}!`);
-        document.getElementById("review-form").reset();
-    };
+    const reviewFeedback = document.getElementById('review-feedback');
+    if (reviewFeedback) {
+        reviewFeedback.textContent = 'Thanks! Your review has been submitted successfully and is now visible.';
+        reviewFeedback.classList.remove('review-error');
+        reviewFeedback.classList.add('review-success');
+    }
 
-    const reviewRequest = fetch('/api/reviews', {
+    document.getElementById("review-form").reset();
+
+    fetch('/api/reviews', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -532,31 +534,36 @@ function submitReview(event) {
             comment: text,
             rating: 5
         })
-    });
-
-    if (!reviewRequest || typeof reviewRequest.then !== 'function') {
-        handleSuccess();
-        return;
-    }
-
-    reviewRequest
+    })
         .then(async response => {
             const data = await response.json().catch(() => ({}));
-
             if (!response.ok) {
                 throw new Error(data.error || 'Unable to submit review');
             }
 
-            if (!data.requires_approval) {
-                addReviewCard();
+            if (data.requires_approval) {
+                if (reviewFeedback) {
+                    reviewFeedback.textContent = 'Thanks! Your review was submitted and is pending approval.';
+                }
             }
-
-            alert(`Thanks for your review, ${name}!`);
-            document.getElementById("review-form").reset();
         })
         .catch(error => {
             console.error('Review submission error:', error);
-            alert(error.message || 'Unable to submit review right now.');
+            if (reviewFeedback) {
+                reviewFeedback.textContent = 'Your review is visible locally, but server submission failed. Please try again later.';
+                reviewFeedback.classList.remove('review-success');
+                reviewFeedback.classList.add('review-error');
+            } else {
+                showToast('Review added locally. Server submission failed.', 'warning');
+            }
+        })
+        .finally(() => {
+            if (reviewFeedback) {
+                setTimeout(() => {
+                    reviewFeedback.textContent = '';
+                    reviewFeedback.classList.remove('review-success', 'review-error');
+                }, 7000);
+            }
         });
 }
 

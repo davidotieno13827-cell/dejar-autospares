@@ -115,22 +115,7 @@
             <article class="feature-card">
                 <i class="fa-solid fa-credit-card"></i>
                 <h3>Easy Payments</h3>
-                <p>Lipa Na M-Pesa, Paybill 542542, Account 131141, or request an instant STK push from checkout.</p>
-            </article>
-        </section>
-
-        <section class="stats-section" aria-label="Business stats">
-            <article class="stats-card">
-                <span class="stats-value">12+</span>
-                <p>Years of trusted auto supply service in Kenya.</p>
-            </article>
-            <article class="stats-card">
-                <span class="stats-value">1,500+</span>
-                <p>Drivers, mechanics and fleet owners served.</p>
-            </article>
-            <article class="stats-card">
-                <span class="stats-value">98%</span>
-                <p>Customer satisfaction with oil quality and service.</p>
+                <p>Lipa Na M-Pesa via Paybill 542542, Account 131141.</p>
             </article>
         </section>
 
@@ -213,6 +198,7 @@
                         required></textarea>
                     <button type="submit" class="btn-primary-style">Submit Review</button>
                 </form>
+                <div id="review-feedback" class="review-feedback" aria-live="polite"></div>
             </div>
         </section>
 
@@ -262,7 +248,7 @@
                     <h3 id="quick-order-title">Complete your payment</h3>
                 </div>
                 <button class="btn-cancel" type="button" onclick="closeQuickOrder()"
-                    aria-label="Close payment modal">Ã—</button>
+                    aria-label="Close payment modal">x</button>
             </div>
 
             <div class="modal-payment-summary">
@@ -286,18 +272,6 @@
                     <p class="modal-label">WhatsApp</p>
                     <p class="modal-detail" id="display-whatsapp"></p>
                 </div>
-                <div>
-                    <p class="modal-label">M-Pesa Phone</p>
-                    <input id="checkout-phone" class="modal-input" type="tel" placeholder="0712345678" />
-                </div>
-                <p class="modal-note">After payment, send your transaction ID on WhatsApp so we can confirm your order.
-                </p>
-            </div>
-
-            <div class="modal-actions">
-                <button class="btn-primary-style btn-mpesa-pay" type="button" onclick="processPayment(event)">Pay with
-                    M-Pesa</button>
-                <button class="btn-cancel" type="button" onclick="sendToWhatsApp()">Chat on WhatsApp</button>
             </div>
         </div>
     </div>

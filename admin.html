@@ -57,7 +57,7 @@
             <div class="dashboard-box">
                 <h3><i class="fa-solid fa-boxes-stack"></i> Add New Stock Item</h3>
                 <form id="stock-form" onsubmit="addNewStock(event)">
-                    <label>Lubricant Product Name</label>
+                    <label>Product Name</label>
                     <input type="text" id="stock-name" placeholder="e.g., Castrol EDGE 5W-40 Fully Synthetic Engine Oil"
                         required>
 
@@ -558,7 +558,7 @@
             }
 
             const partName = document.getElementById("stock-name").value;
-            showToast('"' + partName + '" successfully published to the lubricant catalog!', 'success');
+            showToast('"' + partName + '" successfully published to the product catalog!', 'success');
             document.getElementById("stock-form").reset();
         }
 
