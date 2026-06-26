@@ -764,15 +764,10 @@ function filterProducts(filter = currentCategory === null ? 'none' : currentCate
     const catalogCards = Array.from(document.querySelectorAll('#catalog-grid .product-card'));
     const oilCards = Array.from(document.querySelectorAll('.oil-grid .oil-card'));
     const slides = document.querySelectorAll('.product-carousel .carousel-slide');
-    const buttons = document.querySelectorAll('.filter-btn');
     const categorySelect = document.getElementById('catalog-category-select');
     const countLabel = document.getElementById('search-count');
     const noResults = document.getElementById('no-results');
     const catalogGrid = document.getElementById('catalog-grid');
-
-    buttons.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.filter === normalizedFilter);
-    });
 
     if (categorySelect) {
         categorySelect.value = normalizedFilter;
@@ -1015,10 +1010,10 @@ function updateActiveNavLink() {
 
 renderInventory();
 window.__carouselControllers = initSectionCarousels();
-filterProducts('all');
+filterProducts('none');
 
 window.addEventListener('DOMContentLoaded', () => {
-    activateCategory('all');
+    activateCategory('none');
     initTestimonialCarousel();
     initFaqAccordion();
 
@@ -1031,12 +1026,6 @@ window.addEventListener('DOMContentLoaded', () => {
             filterProducts();
         });
     }
-
-    document.querySelectorAll('.filter-btn').forEach((btn) => {
-        btn.addEventListener('click', () => {
-            activateCategory(btn.dataset.filter || 'all');
-        });
-    });
 
     const categorySelect = document.getElementById('catalog-category-select');
     if (categorySelect) {
