@@ -184,6 +184,15 @@ def serve_index_page():
     return send_from_directory(app.root_path, 'index.html')
 
 
+@app.route('/search', methods=['GET'])
+@app.route('/search/<path:query>', methods=['GET'])
+def serve_search_page(query=None):
+    index_path = os.path.join(app.root_path, 'index.html')
+    if not os.path.exists(index_path):
+        return jsonify({'error': 'Index page not found'}), 404
+    return send_from_directory(app.root_path, 'index.html')
+
+
 @app.route('/<path:filename>', methods=['GET'])
 def serve_static_file(filename):
     file_path = os.path.join(app.root_path, filename)

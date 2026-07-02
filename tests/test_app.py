@@ -25,6 +25,15 @@ def client():
         yield client
 
 
+class TestSearchRouting:
+    """Tests for the search entry route."""
+
+    def test_search_route_returns_index_page(self, client):
+        response = client.get("/search?q=oil")
+        assert response.status_code == 200
+        assert b"Dejar Zion Auto Supplies" in response.data
+
+
 class TestHealthEndpoint:
     """Tests for the /health endpoint."""
 

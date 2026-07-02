@@ -26,10 +26,14 @@
             <small>Auto Supplies</small>
         </div>
 
-        <div class="nav-search">
-            <input id="product-search" type="search" placeholder="Search products, grades or vehicles"
-                aria-label="Search products, grades or vehicles">
-        </div>
+        <form class="nav-search" id="product-search-form" action="/search" method="get"
+            onsubmit="handleProductSearchSubmit(event)">
+            <input id="product-search" type="search" name="q" placeholder="Search products, grades or vehicles"
+                aria-label="Search products, grades or vehicles" autocomplete="off">
+            <button type="submit" class="search-submit-btn" aria-label="Search products">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
 
         <nav id="site-nav" aria-label="Primary">
             <ul>

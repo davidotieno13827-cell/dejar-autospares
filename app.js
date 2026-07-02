@@ -769,10 +769,29 @@ function getCardSearchText(card) {
     return `${title} ${details} ${category} ${compatibility}`.trim();
 }
 
+function handleProductSearchSubmit(event) {
+    if (event) event.preventDefault();
+
+    const searchInput = document.getElementById('product-search');
+    const query = searchInput ? searchInput.value.trim() : '';
+
+    if (!query) {
+        filterProducts('none');
+        window.location.assign('/');
+        return;
+    }
+
+    filterProducts();
+    window.location.assign(`/search?q=${encodeURIComponent(query)}`);
+}
+
 function filterProducts(filter = currentCategory === null ? 'none' : currentCategory) {
-    const normalizedFilter = typeof filter === 'string' ? filter.replace(/-/g, ' ').trim() : filter;
     const searchInput = document.getElementById('product-search');
     const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const rawFilter = typeof filter === 'string' ? filter.replace(/-/g, ' ').trim() : filter;
+    const normalizedFilter = (rawFilter === 'none' || rawFilter === '' || rawFilter === null || rawFilter === undefined) && query
+        ? 'all'
+        : rawFilter;
     const catalogCards = Array.from(document.querySelectorAll('#catalog-grid .product-card'));
     const oilCards = Array.from(document.querySelectorAll('.oil-grid .oil-card'));
     const slides = document.querySelectorAll('.product-carousel .carousel-slide');
@@ -1040,12 +1059,22 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const searchInput = document.getElementById('product-search');
     if (searchInput) {
+        const params = new URLSearchParams(window.location.search);
+        const initialQuery = params.get('q') || '';
+        if (initialQuery) {
+            searchInput.value = initialQuery;
+        }
+
         searchInput.addEventListener('input', () => {
             filterProducts();
         });
         searchInput.addEventListener('search', () => {
             filterProducts();
         });
+
+        if (initialQuery) {
+            filterProducts();
+        }
     }
 
     const categorySelect = document.getElementById('catalog-category-select');
