@@ -741,6 +741,11 @@ function resetCatalogSelection() {
     filterProducts('none');
 }
 
+function hideAllCatalogProducts() {
+    currentCategory = 'none';
+    filterProducts('none');
+}
+
 function getSearchableProductCards() {
     const catalogCards = Array.from(document.querySelectorAll('#catalog-grid .product-card'));
     if (catalogCards.length > 0) {
@@ -830,12 +835,21 @@ function filterProducts(filter = currentCategory === null ? 'none' : currentCate
     }
 
     if (countLabel) {
-        countLabel.textContent = visibleCount > 0 ? `${visibleCount} product${visibleCount === 1 ? '' : 's'} found.` : 'No matching products found.';
+        countLabel.textContent = visibleCount > 0
+            ? `${visibleCount} product${visibleCount === 1 ? '' : 's'} found.`
+            : (normalizedFilter === 'none'
+                ? 'Choose a category to view our best auto supplies.'
+                : 'No matching products found. Try another search or category.');
     }
 
     if (noResults) {
-        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
-        noResults.textContent = visibleCount === 0 ? 'Try another search term or category.' : '';
+        if (normalizedFilter === 'none') {
+            noResults.style.display = 'none';
+            noResults.textContent = '';
+        } else {
+            noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            noResults.textContent = visibleCount === 0 ? 'Try another search term or category.' : '';
+        }
     }
 
     const brandPanels = document.querySelectorAll('.brand-panel');
@@ -1038,6 +1052,13 @@ window.addEventListener('DOMContentLoaded', () => {
     if (categorySelect) {
         categorySelect.addEventListener('change', () => {
             activateCategory(categorySelect.value || 'all');
+        });
+    }
+
+    const hideAllBtn = document.getElementById('hide-all-btn');
+    if (hideAllBtn) {
+        hideAllBtn.addEventListener('click', () => {
+            hideAllCatalogProducts();
         });
     }
 

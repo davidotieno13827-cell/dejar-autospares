@@ -65,21 +65,21 @@
                         <div>
                             <label class="muted-label">Vehicle Make</label>
                             <select id="stock-make">
-                                <option value="toyota">Toyota</option>
-                                <option value="nissan">Nissan</option>
-                                <option value="mazda">Mazda</option>
-                                <option value="isuzu">Isuzu</option>
-                                <option value="honda">Honda</option>
-                                <option value="mitsubishi">Mitsubishi</option>
+                                <option value="Toyota">Toyota</option>
+                                <option value="Nissan">Nissan</option>
+                                <option value="Mazda">Mazda</option>
+                                <option value="Isuzu">Isuzu</option>
+                                <option value="Honda">Honda</option>
+                                <option value="Mitsubishi">Mitsubishi</option>
                             </select>
                         </div>
                         <div>
                             <label class="muted-label">Oil Category</label>
                             <select id="stock-cat">
-                                <option value="engine">Engine Oil</option>
-                                <option value="transmission">Transmission Fluid</option>
-                                <option value="gear">Gear Oil</option>
-                                <option value="brake">Brake Fluid</option>
+                                <option value="Engine Oil">Engine Oil</option>
+                                <option value="Transmission Fluid">Transmission Fluid</option>
+                                <option value="Gear Oil">Gear Oil</option>
+                                <option value="Brake Fluid">Brake Fluid</option>
                             </select>
                         </div>
                     </div>
@@ -293,7 +293,7 @@
         }
 
         // Handle successful authentication
-        function handleCredentialResponse(response) {
+        async function handleCredentialResponse(response) {
             try {
                 // Decode JWT token to get user info
                 const base64Url = response.credential.split('.')[1];
@@ -303,6 +303,17 @@
                 }).join(''));
 
                 currentUser = JSON.parse(jsonPayload);
+
+                if (!currentUser || !currentUser.email) {
+                    throw new Error('Unable to determine admin email');
+                }
+
+                const authorized = await verifyAdminAccess();
+                if (!authorized) {
+                    showToast('Admin access denied for this account.', 'error');
+                    handleLogout();
+                    return;
+                }
 
                 // Update UI
                 document.getElementById('admin-user-name').textContent = currentUser.name || currentUser.email;
@@ -320,6 +331,19 @@
             } catch (error) {
                 console.error('Authentication error:', error);
                 showToast('Authentication failed. Please try again.', 'error');
+            }
+        }
+
+        async function verifyAdminAccess() {
+            try {
+                const response = await fetch('/api/admin/authorize', {
+                    headers: adminRequestHeaders()
+                });
+
+                return response.ok;
+            } catch (error) {
+                console.error('Admin authorization error:', error);
+                return false;
             }
         }
 
@@ -550,16 +574,53 @@
             }
         }
 
-        function addNewStock(e) {
+        async function addNewStock(e) {
             e.preventDefault();
             if (!currentUser) {
                 showToast('You must be logged in to perform this action', 'error');
                 return;
             }
 
-            const partName = document.getElementById("stock-name").value;
-            showToast('"' + partName + '" successfully published to the product catalog!', 'success');
-            document.getElementById("stock-form").reset();
+            const partName = document.getElementById("stock-name").value.trim();
+            const category = document.getElementById("stock-cat").value.trim();
+            const vehicleMake = document.getElementById("stock-make").value.trim();
+            const description = document.getElementById("stock-desc")?.value.trim() || '';
+            const price = parseFloat(document.getElementById("stock-price").value);
+            const quantity = parseInt(document.getElementById("stock-qty").value, 10);
+
+            if (!partName || !category || Number.isNaN(price)) {
+                showToast('Please complete the product details before submitting', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/products', {
+                    method: 'POST',
+                    headers: adminRequestHeaders(),
+                    body: JSON.stringify({
+                        name: partName,
+                        category: category,
+                        vehicle_make: vehicleMake,
+                        description: description,
+                        price_ksh: price,
+                        quantity_in_stock: quantity,
+                        image_url: ''
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    showToast(error.error || 'Unable to publish product', 'error');
+                    return;
+                }
+
+                const product = await response.json();
+                showToast('"' + product.name + '" successfully published to the product catalog!', 'success');
+                document.getElementById("stock-form").reset();
+            } catch (error) {
+                console.error('Add stock error:', error);
+                showToast('Unable to connect to the server', 'error');
+            }
         }
 
         function generateInvoice() {

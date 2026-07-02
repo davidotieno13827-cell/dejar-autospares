@@ -3,7 +3,7 @@ import datetime
 import smtplib
 from email.message import EmailMessage
 from functools import wraps
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory, render_template_string
 from flask_cors import CORS
 from dotenv import load_dotenv
 
@@ -49,6 +49,7 @@ BUSINESS_EMAIL = os.getenv('BUSINESS_EMAIL', SMTP_USERNAME or NOTIFICATION_EMAIL
 
 DEBUG_MODE = os.getenv('FLASK_DEBUG', '0') == '1'
 AUTHORIZED_ADMINS = os.getenv('AUTHORIZED_ADMIN_EMAILS', '').split(',')
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '').strip()
 
 # =========================================================================
 # ETIMS / THIRD-PARTY INTEGRATION HELPERS
@@ -120,33 +121,38 @@ def send_order_notification_email(order, subject, body, customer_email=None, sen
 # AUTHENTICATION & AUTHORIZATION
 # =========================================================================
 
+def is_authorized_admin(email):
+    if not email:
+        return False
+    normalized_email = email.strip().lower()
+    return any(normalized_email == admin.strip().lower() for admin in AUTHORIZED_ADMINS if admin.strip())
+
+
 def require_admin(f):
     """Decorator to protect admin endpoints"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        # Get authorization header
         auth_header = request.headers.get('Authorization', '')
-        
         if not auth_header.startswith('Bearer '):
             return jsonify({'error': 'Unauthorized - missing token'}), 401
-        
-        # In production, validate the JWT token from Google
-        # For now, we'll accept any valid format
-        token = auth_header.split(' ')[1]
-        
-        # Verify token is from authorized admin
-        try:
-            # Decode JWT (in production, verify signature with Google's public key)
-            # This is a simplified version
-            admin_email = request.headers.get('X-Admin-Email', '')
-            if admin_email not in AUTHORIZED_ADMINS:
-                return jsonify({'error': 'Unauthorized - not an admin'}), 403
-        except Exception as e:
-            return jsonify({'error': 'Invalid token'}), 401
-        
+
+        admin_email = request.headers.get('X-Admin-Email', '').strip()
+        if not is_authorized_admin(admin_email):
+            return jsonify({'error': 'Unauthorized - not an admin'}), 403
+
         return f(*args, **kwargs)
-    
+
     return decorated_function
+
+
+@app.route('/api/admin/authorize', methods=['GET'])
+@require_admin
+def authorize_admin():
+    admin_email = request.headers.get('X-Admin-Email', '').strip()
+    return jsonify({
+        'authorized': True,
+        'email': admin_email
+    }), 200
 
 
 # =========================================================================
@@ -168,6 +174,38 @@ def health_check():
         "payment_method": "paybill",
         "database": db_status
     }), 200
+
+
+@app.route('/', methods=['GET'])
+def serve_index_page():
+    index_path = os.path.join(app.root_path, 'index.html')
+    if not os.path.exists(index_path):
+        return jsonify({'error': 'Index page not found'}), 404
+    return send_from_directory(app.root_path, 'index.html')
+
+
+@app.route('/<path:filename>', methods=['GET'])
+def serve_static_file(filename):
+    file_path = os.path.join(app.root_path, filename)
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        return send_from_directory(app.root_path, filename)
+    return jsonify({'error': 'File not found'}), 404
+
+
+@app.route('/admin', methods=['GET'])
+def serve_admin_page():
+    if not GOOGLE_CLIENT_ID:
+        return jsonify({'error': 'Server misconfiguration: GOOGLE_CLIENT_ID missing'}), 500
+
+    admin_html_path = os.path.join(app.root_path, 'admin.html')
+    if not os.path.exists(admin_html_path):
+        return jsonify({'error': 'Admin page not found'}), 404
+
+    with open(admin_html_path, 'r', encoding='utf-8') as f:
+        html_content = f.read()
+
+    html_content = html_content.replace('{{ GOOGLE_CLIENT_ID }}', GOOGLE_CLIENT_ID)
+    return render_template_string(html_content)
 
 
 @app.route("/api/config", methods=["GET"])
@@ -192,6 +230,51 @@ def get_products():
         return jsonify([p.to_dict() for p in products]), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/products', methods=['POST'])
+@require_admin
+def create_product():
+    """Create a new product via admin console"""
+    try:
+        data = request.json or {}
+        name = data.get('name', '').strip()
+        category = data.get('category', '').strip()
+        vehicle_make = data.get('vehicle_make', '').strip()
+        description = data.get('description', '').strip()
+        price_ksh = data.get('price_ksh')
+        quantity_in_stock = data.get('quantity_in_stock', 0)
+        image_url = data.get('image_url', '').strip()
+
+        if not name or not category or price_ksh is None:
+            return jsonify({'error': 'Name, category, and price are required'}), 400
+
+        try:
+            price_ksh = float(price_ksh)
+        except (ValueError, TypeError):
+            return jsonify({'error': 'Price must be a number'}), 400
+
+        try:
+            quantity_in_stock = int(quantity_in_stock)
+        except (ValueError, TypeError):
+            quantity_in_stock = 0
+
+        product = Product(
+            name=name,
+            category=category,
+            vehicle_make=vehicle_make or None,
+            description=description or None,
+            price_ksh=price_ksh,
+            quantity_in_stock=quantity_in_stock,
+            image_url=image_url or None,
+            is_active=True
+        )
+        db.session.add(product)
+        db.session.commit()
+
+        return jsonify(product.to_dict()), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route("/api/reviews", methods=["GET"])
