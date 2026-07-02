@@ -343,7 +343,7 @@ def create_order():
 
         email_subject = f"New quick order created: {order.order_number}"
         email_body = f"""
-A new quick order was created on {BUSINESS_EMAIL or 'Dejar Auto Supplies'}.
+A new quick order was created on {BUSINESS_EMAIL or 'Dejar Zion Auto Supplies'}. 
 Order Number: {order.order_number}
 Product: {order.product_name}
 Amount: Ksh {order.amount_ksh:.2f}

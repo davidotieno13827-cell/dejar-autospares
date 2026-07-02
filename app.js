@@ -462,7 +462,7 @@ function sendToWhatsApp() {
         return;
     }
 
-    const message = `Hello Dejar Auto Supplies, I want to order ${pendingPayment.product} for Ksh ${Number(pendingPayment.price).toLocaleString()}. My payment details are Paybill ${pendingPayment.paybill} and Account ${pendingPayment.account}.`;
+    const message = `Hello Dejar Zion Auto Supplies, I want to order ${pendingPayment.product} for Ksh ${Number(pendingPayment.price).toLocaleString()}. My payment details are Paybill ${pendingPayment.paybill} and Account ${pendingPayment.account}.`;
     window.open(`https://wa.me/${pendingPayment.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
 }
 
@@ -580,7 +580,7 @@ function submitContactForm(event) {
     }
 
     const whatsappNumber = '254721419479';
-    const whatsappMessage = `Hello Dejar Auto Supplies,\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`;
+    const whatsappMessage = `Hello Dejar Zion Auto Supplies,\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`;
 
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, '_blank', 'noopener,noreferrer');
 
@@ -594,7 +594,7 @@ function addToCart(name, price) {
 }
 
 function toggleCart() {
-    window.open('https://wa.me/254721419479?text=Hello%20Dejar%20Auto%20Supplies,%20I%20would%20like%20help%20ordering%20lubricants.', '_blank');
+    window.open('https://wa.me/254721419479?text=Hello%20Dejar%20Zion%20Auto%20Supplies,%20I%20would%20like%20help%20ordering%20lubricants.', '_blank');
 }
 
 // ====================================================================
