@@ -1,5 +1,6 @@
 """Unit tests for app.py Flask backend."""
 
+import importlib
 import os
 import json
 from unittest.mock import patch, MagicMock
@@ -23,6 +24,19 @@ def client():
     flask_app.app.config["TESTING"] = True
     with flask_app.app.test_client() as client:
         yield client
+
+
+class TestEmailDefaults:
+    """Tests for default notification and business email settings."""
+
+    def test_default_notification_and_business_emails_use_new_address(self):
+        os.environ.pop("NOTIFICATION_EMAIL", None)
+        os.environ.pop("BUSINESS_EMAIL", None)
+
+        reloaded_app = importlib.reload(flask_app)
+
+        assert reloaded_app.NOTIFICATION_EMAIL == "dejarzion454@gmail.com"
+        assert reloaded_app.BUSINESS_EMAIL == "dejarzion454@gmail.com"
 
 
 class TestSearchRouting:

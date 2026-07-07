@@ -6,6 +6,7 @@ from functools import wraps
 from flask import Flask, request, jsonify, send_from_directory, render_template_string
 from flask_cors import CORS
 from dotenv import load_dotenv
+import requests
 
 # Import database models
 from database import db, init_db, Product, Order, Review, BusinessConfig, AdminUser, AuditLog, get_business_config
@@ -44,8 +45,8 @@ SMTP_SERVER = os.getenv('SMTP_SERVER', '').strip()
 SMTP_PORT = int(os.getenv('SMTP_PORT', 587))
 SMTP_USERNAME = os.getenv('SMTP_USERNAME', '').strip()
 SMTP_PASSWORD = os.getenv('SMTP_PASSWORD', '').strip()
-NOTIFICATION_EMAIL = os.getenv('NOTIFICATION_EMAIL', '').strip()
-BUSINESS_EMAIL = os.getenv('BUSINESS_EMAIL', SMTP_USERNAME or NOTIFICATION_EMAIL).strip()
+NOTIFICATION_EMAIL = os.getenv('NOTIFICATION_EMAIL', 'dejarzion454@gmail.com').strip()
+BUSINESS_EMAIL = os.getenv('BUSINESS_EMAIL', NOTIFICATION_EMAIL or SMTP_USERNAME).strip()
 
 DEBUG_MODE = os.getenv('FLASK_DEBUG', '0') == '1'
 AUTHORIZED_ADMINS = os.getenv('AUTHORIZED_ADMIN_EMAILS', '').split(',')
