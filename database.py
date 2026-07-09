@@ -194,21 +194,57 @@ class AuditLog(db.Model):
 
 
 def init_db(app):
-    """Initialize database with Flask app"""
+    """Initialize database with Flask app.
+
+    This function is defensive for serverless environments (like Vercel).
+    - It avoids running `create_all()` on non-SQLite databases (managed DBs should
+      be migrated separately).
+    - It catches and logs initialization errors so the web process does not crash
+      during import. This prevents `FUNCTION_INVOCATION_FAILED` when the runtime
+      cannot write to disk or when DB access is restricted.
+    """
     db.init_app(app)
-    with app.app_context():
-        db.create_all()
-        
-        # Ensure default business config exists
-        config = BusinessConfig.query.first()
-        if not config:
-            config = BusinessConfig(
-                tax_rate=16.0,
-                business_shortcode='542542',
-                business_account='131141'
-            )
-            db.session.add(config)
-            db.session.commit()
+    try:
+        with app.app_context():
+            uri = app.config.get('SQLALCHEMY_DATABASE_URI', '') or ''
+            # Only auto-create tables for local SQLite development.
+            if uri.startswith('sqlite:'):
+                try:
+                    db.create_all()
+                except Exception:
+                    app.logger.exception('Failed to create SQLite database tables during init.')
+            else:
+                app.logger.info('Not running create_all() for non-sqlite DATABASE_URL')
+
+            # Try to ensure a default BusinessConfig exists, but don't raise if it fails.
+            try:
+                config = None
+                try:
+                    config = BusinessConfig.query.first()
+                except Exception:
+                    app.logger.debug('BusinessConfig query failed during init (tables may be missing).')
+
+                if config is None:
+                    # Only attempt to create a default config when DB operations succeed
+                    try:
+                        config = BusinessConfig(
+                            tax_rate=16.0,
+                            business_shortcode='542542',
+                            business_account='131141'
+                        )
+                        db.session.add(config)
+                        db.session.commit()
+                    except Exception:
+                        app.logger.exception('Failed to create default BusinessConfig during init. Skipping.')
+            except Exception:
+                app.logger.exception('Error while ensuring BusinessConfig during init.')
+    except Exception:
+        # Log and swallow any unexpected errors during DB init to avoid crashing the process.
+        try:
+            app.logger.exception('Unexpected error during database initialization.')
+        except Exception:
+            # If logger is not available for some reason, fail silently.
+            pass
 
 
 def get_business_config():
