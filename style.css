@@ -1011,6 +1011,18 @@ section::before {
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.contact-section a {
+    color: #ff9f1c;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.contact-section a:hover {
+    color: #ffc14a;
+    text-decoration: underline;
+}
+
 .contact-form {
     background: #fff;
     padding: 22px;
